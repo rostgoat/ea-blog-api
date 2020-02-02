@@ -15,7 +15,7 @@ export class UserController {
    */
   @Post()
   create(@Body() data: UserDTO) {
-    return this.userService.add(data);
+    // return this.userService.add(data);
   }
 
   /**
@@ -25,7 +25,7 @@ export class UserController {
    */
   @Put(":id")
   update(@Param("id") user_id: string, @Body() body: Partial<UserDTO>) {
-    return this.userService.edit(user_id, body);
+    // return this.userService.edit(user_id, body);
   }
 
   /**
@@ -34,7 +34,7 @@ export class UserController {
    */
   @Delete(":id")
   delete(@Param("id") user_id: string) {
-    return this.userService.delete(user_id);
+    // return this.userService.delete(user_id);
   }
 
   /**
@@ -42,7 +42,7 @@ export class UserController {
    */
   @Get()
   find() {
-    return this.userService.getAll();
+    // return this.userService.getAll();
   }
 
   /**
@@ -51,6 +51,6 @@ export class UserController {
    */
   @Get(":id")
   findOne(@Param("id") user_id: string) {
-    return this.userService.getOne(user_id);
+    // return this.userService.getOne(user_id);
   }
 }
