@@ -1,8 +1,8 @@
-require("dotenv").config();
+require('dotenv').config();
 
 module.exports = {
-  name: "default",
-  type: "postgres",
+  name: 'default',
+  type: 'postgres',
   host: process.env.DATABASE_HOST,
   port: 5432,
   username: process.env.DATABASE_USERNAME,
@@ -11,5 +11,5 @@ module.exports = {
   synchronize: true,
   dropSchema: false,
   logging: true,
-  entities: ["/src/**/*.entity.ts", "dist/**/*.entity.js"]
+  entities: ['/src/**/*.entity.ts', 'dist/**/*.entity.js'],
 };
