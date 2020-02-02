@@ -10,7 +10,5 @@ import { PostModule } from './post/post.module';
  */
 @Module({
   imports: [TypeOrmModule.forRoot(), UserModule, CommentModule, PostModule],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
