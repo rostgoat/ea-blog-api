@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { PostEntity } from 'src/post/post.entity';
 /**
  * User Entity
  */
@@ -6,4 +7,9 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid') user_id: string;
   @Column('text') name: string;
+  @OneToMany(
+    type => PostEntity,
+    post => post.user,
+  )
+  posts: PostEntity[];
 }
