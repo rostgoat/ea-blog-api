@@ -1,4 +1,7 @@
 /**
  * User data transfer object expected from controller
  */
-export interface UserDTO {}
+export interface UserDTO {
+  user_id: string;
+  name: string;
+}
