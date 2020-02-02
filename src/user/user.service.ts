@@ -19,16 +19,10 @@ export class UserService {
    * Create a new user
    * @param data Object
    */
-  async add(data: UserDTO) {
-    // extract args
-    const { user_id, name } = data;
-
+  async add(data: UserDTO): Promise<UserEntity> {
     // create object with new user props
-    const newUser = await this.userRepository.create({
-      user_id,
-      name,
-    });
-
+    const newUser = await this.userRepository.create(data);
+    console.log('newUser', newUser);
     // save db changes
     await this.userRepository.save(newUser);
 

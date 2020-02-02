@@ -10,5 +10,6 @@ import { PostModule } from './post/post.module';
  */
 @Module({
   imports: [TypeOrmModule.forRoot(), UserModule, CommentModule, PostModule],
+  exports: [UserModule, CommentModule, PostModule],
 })
 export class AppModule {}
