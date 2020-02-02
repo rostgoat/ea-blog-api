@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import * as faker from 'faker';
 
+/**
+ * User Model Unit Test
+ */
 describe('UserService', () => {
   let userService: UserService;
   let repo: Repository<UserEntity>;

@@ -6,9 +6,11 @@ import {
   Delete,
   Body,
   Param,
+  Response,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
+import { UserEntity } from './user.entity';
 
 /**
  * User Controller
@@ -22,16 +24,20 @@ export class UserController {
    * @param data Object
    */
   @Post()
-  create(@Body() data: UserDTO) {
-    return this.userService.add(data);
+  async create(@Body() data: UserDTO) {
+    try {
+      return this.userService.add(data);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
    * Get all users
    */
   @Get()
-  find() {
-    // return this.userService.getAll();
+  async find(@Response() res: any) {
+    return this.userService.findAll();
   }
 
   /**
@@ -39,7 +45,7 @@ export class UserController {
    * @param user_id String
    */
   @Get(':id')
-  findOne(@Param('id') user_id: string) {
+  async findOne(@Param('id') user_id: string) {
     // return this.userService.getOne(user_id);
   }
 }
