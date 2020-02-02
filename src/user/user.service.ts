@@ -4,6 +4,9 @@ import { Repository } from 'typeorm';
 
 import { UserEntity } from './user.entity';
 import { UserDTO } from './user.dto';
+import { PostService } from 'src/post/post.service';
+import { PostDTO } from 'src/post/post.dto';
+import { PostEntity } from 'src/post/post.entity';
 
 /**
  * User Model Class
@@ -13,6 +16,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    private postService: PostService,
   ) {}
 
   /**
@@ -28,5 +32,10 @@ export class UserService {
 
   async findAll(): Promise<UserEntity[]> {
     return await this.userRepository.find();
+  }
+
+  async addPost(data: PostDTO): Promise<PostEntity> {
+    const newPost = await this.postService.add(data);
+    return newPost;
   }
 }

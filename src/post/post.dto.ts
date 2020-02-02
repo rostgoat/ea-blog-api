@@ -5,4 +5,5 @@ export interface PostDTO {
   post_id: string;
   title: string;
   content: string;
+  user_id: string;
 }
