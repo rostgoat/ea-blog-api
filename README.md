@@ -2,4 +2,4 @@
 
 ## Schema
 
-![Diagram](http://jgraph.github.io/ea-blog-api/ea_blog_schema.png)
+![Diagram](http://jgraph.github.io/ea-blog-api/schema/ea_blog_schema.png)
