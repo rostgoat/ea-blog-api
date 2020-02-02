@@ -12,6 +12,6 @@ import { UserEntity } from './user.entity';
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService, UserController],
+  exports: [UserService],
 })
 export class UserModule {}
