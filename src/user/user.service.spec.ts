@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
+import * as faker from 'faker';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -26,13 +27,28 @@ describe('UserService', () => {
     repo = module.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
   });
 
-  it('should be able to add a user', async () => {
+  it('should be able to find a user', async () => {
+    const newUser: UserEntity = {
+      user_id: `${faker.random.uuid()}`,
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    };
+
+    jest.spyOn(repo, 'create').mockReturnValueOnce(newUser);
+    expect(await userService.add(newUser)).toEqual(newUser);
+
+    // const createdUser = await userService.add(newUser);
+    // console.log('createdUser', createdUser);
+    // expect(userService).toBeDefined();
+  });
+
+  it('should be able to find and return all users', async () => {
     const newUser: UserEntity = {
       user_id: 'f3bea6de-fb24-4441-b75b-d7642ca573d7',
       name: 'Test User',
     };
-    jest.spyOn(repo, 'create').mockResolvedValueOnce([newUser]);
-    expect(await userService.add(newUser)).toEqual([newUser]);
+    jest.spyOn(repo, 'find').mockResolvedValueOnce([newUser]);
+    const users = await userService.findAll();
+    expect(users).toEqual([newUser]);
 
     // const createdUser = await userService.add(newUser);
     // console.log('createdUser', createdUser);
