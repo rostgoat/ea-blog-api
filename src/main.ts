@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { Logger } from "@nestjs/common";
 import "dotenv/config";
+import "reflect-metadata";
 
 // local dev port
 const port = process.env.PORT || 3000;
