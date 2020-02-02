@@ -21,12 +21,7 @@ export class UserService {
    */
   async add(data: UserDTO): Promise<UserEntity> {
     // create object with new user props
-    const newUser = await this.userRepository.create(data);
-    // save db changes
-    // await this.userRepository.save(newUser);
-
-    // return new user
-    return newUser;
+    return await this.userRepository.create(data);
   }
 
   async findAll(): Promise<UserEntity[]> {

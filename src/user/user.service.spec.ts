@@ -35,24 +35,28 @@ describe('UserService', () => {
 
     jest.spyOn(repo, 'create').mockReturnValueOnce(newUser);
     expect(await userService.add(newUser)).toEqual(newUser);
-
-    // const createdUser = await userService.add(newUser);
-    // console.log('createdUser', createdUser);
-    // expect(userService).toBeDefined();
   });
 
   it('should be able to find and return all users', async () => {
-    const newUser: UserEntity = {
-      user_id: 'f3bea6de-fb24-4441-b75b-d7642ca573d7',
-      name: 'Test User',
+    const newUser1: UserEntity = {
+      user_id: `${faker.random.uuid()}`,
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     };
-    jest.spyOn(repo, 'find').mockResolvedValueOnce([newUser]);
-    const users = await userService.findAll();
-    expect(users).toEqual([newUser]);
 
-    // const createdUser = await userService.add(newUser);
-    // console.log('createdUser', createdUser);
-    // expect(userService).toBeDefined();
+    const newUser2: UserEntity = {
+      user_id: `${faker.random.uuid()}`,
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    };
+
+    const newUsers = [];
+    newUsers.push(newUser1);
+    newUsers.push(newUser2);
+
+    jest.spyOn(repo, 'find').mockResolvedValueOnce(newUsers);
+    const foundUsers = await userService.findAll();
+
+    expect(foundUsers).toEqual(newUsers);
+    expect(foundUsers.length).toEqual(newUsers.length);
   });
 
   afterEach(() => {
