@@ -59,12 +59,12 @@ export class CommentController {
   }
 
   /**
-   * Get all comments
+   * Get all comments related to a post
    */
   @Get()
-  async find(@Response() res: any) {
+  async findAllByPost(@Param('id') post_id: string, @Response() res: any) {
     try {
-      return this.commentService.findAll();
+      return this.commentService.findAllByPostID(post_id);
     } catch (error) {
       throw new Error(error);
     }
