@@ -17,7 +17,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:build-image": "docker build -t ea-blog:latest .",
+    "docker:start": "docker run -it ea-blog",
+    "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog"
   },
   "dependencies": {
     "@nestjs/common": "^6.10.14",
@@ -31,7 +34,6 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",
-    "sqlite3": "^4.1.1",
     "typeorm": "^0.2.22"
   },
   "devDependencies": {
@@ -54,6 +56,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.0",
     "tsconfig-paths": "^3.9.0",
+    "sqlite3": "^4.1.1",
     "typescript": "^3.7.4"
   },
   "jest": {
