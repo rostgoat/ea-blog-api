@@ -10,6 +10,9 @@ export class UserEntity {
   @OneToMany(
     type => PostEntity,
     post => post.user,
+    {
+      cascade: true,
+    },
   )
   posts: PostEntity[];
 }
