@@ -1,7 +1,6 @@
 import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Promise } from 'bluebird';
 
 import { PostEntity } from './post.entity';
 import { PostDTO } from './post.dto';
@@ -23,6 +22,9 @@ export class PostService {
   async add(data: PostDTO): Promise<PostEntity> {
     // create object with new post props
     const newPost = await this.postRepository.create(data);
+    // grab related user and assign to user object of post
+    newPost.user = await this.userService.findOne(data.user_id);
+    // save changes
     await this.postRepository.save(newPost);
     // return new post
     return newPost;
@@ -58,24 +60,12 @@ export class PostService {
    * Find post
    * @param data Object
    */
-  async findOne(data: PostDTO): Promise<PostEntity> {
-    let query;
-
-    if (data.user_id) {
-      query = {
-        where: {
-          user_id: data.user_id,
-          post_id: data.post_id,
-        },
-      };
-    }
-    query = {
+  async findOne(post_id: string): Promise<PostEntity> {
+    return await this.postRepository.findOne({
+      relations: ['comments'],
       where: {
-        post_id: data.post_id,
+        post_id,
       },
-    };
-
-    const foundPost = await this.postRepository.findOne(query);
-    return foundPost;
+    });
   }
 }
