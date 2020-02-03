@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -16,6 +16,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    @Inject(forwardRef(() => PostService))
     private postService: PostService,
   ) {}
 
@@ -30,12 +31,38 @@ export class UserService {
     return newUser;
   }
 
+  /**
+   * Update an existing user
+   * @param data Object
+   */
+  async edit(user_id: string, data: Partial<UserDTO>): Promise<UserEntity> {
+    await this.userRepository.update({ user_id }, data);
+    return await this.userRepository.findOne({ user_id });
+  }
+
+  /**
+   * Return all users
+   */
   async findAll(): Promise<UserEntity[]> {
     return await this.userRepository.find();
   }
 
-  async addPost(data: PostDTO): Promise<PostEntity> {
-    const newPost = await this.postService.add(data);
-    return newPost;
+  /**
+   * Return all users
+   */
+  async findOne(user_id: string): Promise<UserEntity> {
+    return await this.userRepository.findOne({
+      relations: ['posts'],
+      where: { user_id },
+    });
+  }
+
+  /**
+   * Get a post by user_id
+   * @param data Object
+   */
+  async getPostByUserId(data: PostDTO): Promise<PostEntity> {
+    const foundPost = await this.postService.findOne(data);
+    return foundPost;
   }
 }

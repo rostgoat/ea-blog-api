@@ -11,6 +11,7 @@ import {
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
 import { UserEntity } from './user.entity';
+import { PostDTO } from 'src/post/post.dto';
 
 /**
  * User Controller
@@ -37,7 +38,11 @@ export class UserController {
    */
   @Get()
   async find(@Response() res: any) {
-    return this.userService.findAll();
+    try {
+      return this.userService.findAll();
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
@@ -46,6 +51,20 @@ export class UserController {
    */
   @Get(':id')
   async findOne(@Param('id') user_id: string) {
-    // return this.userService.getOne(user_id);
+    return this.userService.findOne(user_id);
+  }
+
+  /**
+   * Get a specific post based on user id
+   * @param user_id String
+   */
+  @Get(':post')
+  async findByPost(@Body() data: PostDTO) {
+    try {
+      console.log('data', data);
+      return this.userService.getPostByUserId(data);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

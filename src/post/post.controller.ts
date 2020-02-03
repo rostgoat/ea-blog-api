@@ -16,7 +16,7 @@ import { PostEntity } from './post.entity';
 /**
  * Post Controller
  */
-@Controller('post')
+@Controller('posts')
 export class PostController {
   constructor(private postService: PostService) {}
 
@@ -38,7 +38,11 @@ export class PostController {
    */
   @Get()
   async find(@Response() res: any) {
-    return this.postService.findAll();
+    try {
+      return this.postService.findAll();
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
@@ -46,7 +50,11 @@ export class PostController {
    * @param post_id String
    */
   @Get(':id')
-  async findOne(@Param('id') post_id: string) {
-    // return this.postService.getOne(post_id);
+  async findOne(@Body() data: PostDTO) {
+    try {
+      return this.postService.findOne(data);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
