@@ -5,6 +5,7 @@ import { PostService } from './post.service';
 import { Repository } from 'typeorm';
 import { PostEntity } from './post.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { CommentService } from '../comment/comment.service';
 
 class UserServiceMock extends UserService {}
 class PostServiceMock extends PostService {}
@@ -22,8 +23,8 @@ describe('Post Controller', () => {
       controllers: [PostController],
       providers: [
         {
-          provide: PostService,
-          useClass: PostServiceMock,
+          provide: UserService,
+          useClass: UserServiceMock,
         },
         {
           provide: PostService,
@@ -38,8 +39,8 @@ describe('Post Controller', () => {
     }).compile();
 
     postService = module.get<PostService>(PostService);
-    repo = module.get<Repository<PostEntity>>(getRepositoryToken(PostEntity));
     postController = module.get<PostController>(PostController);
+    repo = module.get<Repository<PostEntity>>(getRepositoryToken(PostEntity));
   });
 
   it('should be defined', () => {
