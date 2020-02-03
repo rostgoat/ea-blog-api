@@ -22,7 +22,7 @@ export class CommentService {
     const newComment = await this.commentRepository.create(data);
     // grab related post and assign to comment object of post
     newComment.post = await this.postService.findOne(data.post_id);
-    console.log('newComment', newComment);
+    // save changes
     await this.commentRepository.save(newComment);
     // return new comment
     return newComment;
