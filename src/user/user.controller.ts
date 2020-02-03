@@ -11,7 +11,7 @@ import {
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
 import { UserEntity } from './user.entity';
-import { PostDTO } from 'src/post/post.dto';
+import { PostDTO } from '../post/post.dto';
 
 /**
  * User Controller
