@@ -7,6 +7,7 @@ import * as faker from 'faker';
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
 import { HttpStatus } from '@nestjs/common';
+import { PostService } from '../post/post.service';
 
 // Class that mocks the behavior of UserService
 class UserServiceMock extends UserService {
@@ -18,6 +19,7 @@ class UserServiceMock extends UserService {
     return [];
   }
 }
+class PostServiceMock extends PostService {}
 
 /**
  * User Controller Unit Test
@@ -35,11 +37,13 @@ describe('User Controller', () => {
           provide: UserService,
           useClass: UserServiceMock,
         },
+        {
+          provide: PostService,
+          useValue: PostServiceMock,
+        },
         UserService,
         {
-          // how you provide the injection token in a test instance
           provide: getRepositoryToken(UserEntity),
-          // as a class value, Repository needs no generics
           useClass: Repository,
         },
       ],
@@ -54,6 +58,7 @@ describe('User Controller', () => {
     const newUser: UserEntity = {
       user_id: `${faker.random.uuid()}`,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      posts: [],
     };
 
     const result: UserEntity[] = [newUser];
