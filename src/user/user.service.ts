@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 
 import { UserEntity } from './user.entity';
 import { UserDTO } from './user.dto';
-import { PostService } from 'src/post/post.service';
+import { PostService } from '../post/post.service';
 
 /**
  * User Model Class
@@ -23,7 +23,7 @@ export class UserService {
    * Create a new user
    * @param data Object
    */
-  async add(data: UserDTO): Promise<UserEntity> {
+  async add(data: Partial<UserDTO>): Promise<UserEntity> {
     // create object with new user props
     const newUser = await this.userRepository.create(data);
     await this.userRepository.save(newUser);
