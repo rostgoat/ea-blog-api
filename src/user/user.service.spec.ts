@@ -51,12 +51,14 @@ describe('UserService', () => {
       user_id: `${faker.random.uuid()}`,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       posts: [],
+      comments: [],
     };
 
     const newUser2: UserEntity = {
       user_id: `${faker.random.uuid()}`,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       posts: [],
+      comments: [],
     };
 
     const newUsers = [];
