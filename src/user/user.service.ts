@@ -48,21 +48,12 @@ export class UserService {
   }
 
   /**
-   * Return all users
+   * Return one user
    */
   async findOne(user_id: string): Promise<UserEntity> {
     return await this.userRepository.findOne({
       relations: ['posts'],
       where: { user_id },
     });
-  }
-
-  /**
-   * Get a post by user_id
-   * @param data Object
-   */
-  async getPostByUserId(data: PostDTO): Promise<PostEntity> {
-    const foundPost = await this.postService.findOne(data);
-    return foundPost;
   }
 }

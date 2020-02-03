@@ -11,7 +11,7 @@ export class UserEntity {
     type => PostEntity,
     post => post.user,
     {
-      cascade: true,
+      eager: true,
     },
   )
   posts: PostEntity[];
