@@ -1,10 +1,12 @@
 import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Promise } from 'bluebird';
 
 import { PostEntity } from './post.entity';
 import { PostDTO } from './post.dto';
 import { UserService } from 'src/user/user.service';
+import { CommentService } from 'src/comment/comment.service';
 
 @Injectable()
 export class PostService {
@@ -13,6 +15,8 @@ export class PostService {
     private postRepository: Repository<PostEntity>,
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+    @Inject(forwardRef(() => CommentService))
+    private readonly commentService: CommentService,
   ) {}
 
   /**
@@ -45,15 +49,26 @@ export class PostService {
    * @param data Object
    */
   async delete(post_id: string) {
+    // get all comments related to post
+    const comments = await this.commentService.findAllByPostID(post_id);
+
+    // remove all comments related to post
+    await Promise.each(comments, async comment => {
+      await this.commentService.delete(comment.comment_id);
+    });
+
+    // delete post
     await this.postRepository.delete(post_id);
     return { deleted: true };
   }
 
   /**
-   * Find all posts
+   * Find all posts related to post
    */
-  async findAll(): Promise<PostEntity[]> {
-    return await this.postRepository.find();
+  async findAllByPostID(post_id: string): Promise<PostEntity[]> {
+    return await this.postRepository.find({
+      where: { post_id },
+    });
   }
 
   /**

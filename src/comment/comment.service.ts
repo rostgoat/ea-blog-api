@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -10,6 +10,7 @@ export class CommentService {
   constructor(
     @InjectRepository(CommentEntity)
     private commentRepository: Repository<CommentEntity>,
+    @Inject(forwardRef(() => PostService))
     private readonly postService: PostService,
   ) {}
 
@@ -48,10 +49,12 @@ export class CommentService {
   }
 
   /**
-   * Find all comments
+   * Find all comments related to post
    */
-  async findAll(): Promise<CommentEntity[]> {
-    return await this.commentRepository.find();
+  async findAllByPostID(post_id: string): Promise<CommentEntity[]> {
+    return await this.commentRepository.find({
+      where: { post_id },
+    });
   }
 
   /**
