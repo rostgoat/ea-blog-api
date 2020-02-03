@@ -4,11 +4,13 @@ import { Repository } from 'typeorm';
 
 import { CommentEntity } from './comment.entity';
 import { CommentDTO } from './comment.dto';
+import { PostService } from 'src/post/post.service';
 @Injectable()
 export class CommentService {
   constructor(
     @InjectRepository(CommentEntity)
     private commentRepository: Repository<CommentEntity>,
+    private readonly postService: PostService,
   ) {}
 
   /**
@@ -18,6 +20,9 @@ export class CommentService {
   async add(data: CommentDTO): Promise<CommentEntity> {
     // create object with new comment props
     const newComment = await this.commentRepository.create(data);
+    // grab related post and assign to comment object of post
+    newComment.post = await this.postService.findOne(data.post_id);
+    console.log('newComment', newComment);
     await this.commentRepository.save(newComment);
     // return new comment
     return newComment;

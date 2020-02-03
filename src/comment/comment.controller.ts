@@ -12,7 +12,7 @@ import {
 import { CommentService } from './comment.service';
 import { CommentDTO } from './comment.dto';
 
-@Controller('comment')
+@Controller('comments')
 export class CommentController {
   constructor(private commentService: CommentService) {}
 
@@ -75,7 +75,7 @@ export class CommentController {
    * @param comment_id String
    */
   @Get(':id')
-  async findOne(@Param(':id') comment_id: string) {
+  async findOne(@Param('id') comment_id: string) {
     try {
       return this.commentService.findOne(comment_id);
     } catch (error) {

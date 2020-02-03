@@ -60,24 +60,13 @@ export class PostService {
    * Find post
    * @param data Object
    */
-  async findOne(data: PostDTO): Promise<PostEntity> {
-    let query;
-
-    if (data.user_id) {
-      query = {
-        where: {
-          user_id: data.user_id,
-          post_id: data.post_id,
-        },
-      };
-    }
-    query = {
+  async findOne(post_id: string): Promise<PostEntity> {
+    console.log('post_id', post_id);
+    return await this.postRepository.findOne({
+      relations: ['comments'],
       where: {
-        post_id: data.post_id,
+        post_id,
       },
-    };
-
-    const foundPost = await this.postRepository.findOne(query);
-    return foundPost;
+    });
   }
 }

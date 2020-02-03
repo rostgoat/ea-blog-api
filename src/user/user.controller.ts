@@ -53,18 +53,4 @@ export class UserController {
   async findOne(@Param('id') user_id: string) {
     return this.userService.findOne(user_id);
   }
-
-  /**
-   * Get a specific post based on user id
-   * @param user_id String
-   */
-  @Get(':post')
-  async findByPost(@Body() data: PostDTO) {
-    try {
-      console.log('data', data);
-      return this.userService.getPostByUserId(data);
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
 }

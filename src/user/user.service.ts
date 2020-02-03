@@ -56,13 +56,4 @@ export class UserService {
       where: { user_id },
     });
   }
-
-  /**
-   * Get a post by user_id
-   * @param data Object
-   */
-  async getPostByUserId(data: PostDTO): Promise<PostEntity> {
-    const foundPost = await this.postService.findOne(data);
-    return foundPost;
-  }
 }
