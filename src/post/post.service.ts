@@ -29,10 +29,20 @@ export class PostService {
   }
 
   /**
+   * Update a post related to a user
+   * @param post_id String
+   * @param data Object
+   */
+  async edit(post_id: string, data: Partial<PostDTO>) {
+    await this.postRepository.update({ post_id }, data);
+    return await this.postRepository.findOne({ post_id });
+  }
+
+  /**
    * Remove a post related to a user
    * @param data Object
    */
-  async removePost(post_id: string) {
+  async delete(post_id: string) {
     await this.postRepository.delete(post_id);
     return { deleted: true };
   }
