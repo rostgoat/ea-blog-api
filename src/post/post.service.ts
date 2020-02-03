@@ -5,8 +5,8 @@ import { Promise } from 'bluebird';
 
 import { PostEntity } from './post.entity';
 import { PostDTO } from './post.dto';
-import { UserService } from 'src/user/user.service';
-import { CommentService } from 'src/comment/comment.service';
+import { UserService } from '../user/user.service';
+import { CommentService } from '../comment/comment.service';
 
 @Injectable()
 export class PostService {

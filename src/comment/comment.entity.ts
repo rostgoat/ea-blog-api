@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { PostEntity } from 'src/post/post.entity';
+import { PostEntity } from '../post/post.entity';
 /**
  * Comments Entity
  */
