@@ -63,10 +63,12 @@ export class PostService {
   }
 
   /**
-   * Find all posts
+   * Find all posts related to post
    */
-  async findAll(): Promise<PostEntity[]> {
-    return await this.postRepository.find();
+  async findAllByPostID(post_id: string): Promise<PostEntity[]> {
+    return await this.postRepository.find({
+      where: { post_id },
+    });
   }
 
   /**
