@@ -59,12 +59,12 @@ export class PostController {
   }
 
   /**
-   * Get all posts
+   * Get all posts related to a user
    */
   @Get()
-  async find(@Response() res: any) {
+  async findAllByPost(@Param('id') user_id: string, @Response() res: any) {
     try {
-      return this.postService.findAll();
+      return this.postService.findAllByPostID(user_id);
     } catch (error) {
       throw new Error(error);
     }

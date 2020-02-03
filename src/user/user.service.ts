@@ -1,12 +1,11 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Promise } from 'bluebird';
 import { Repository } from 'typeorm';
 
 import { UserEntity } from './user.entity';
 import { UserDTO } from './user.dto';
 import { PostService } from 'src/post/post.service';
-import { PostDTO } from 'src/post/post.dto';
-import { PostEntity } from 'src/post/post.entity';
 
 /**
  * User Model Class
@@ -55,5 +54,23 @@ export class UserService {
       relations: ['posts'],
       where: { user_id },
     });
+  }
+
+  /**
+   * Remove a user related to a user
+   * @param data Object
+   */
+  async delete(user_id: string) {
+    // get all posts related to user
+    const posts = await this.postService.findAllByPostID(user_id);
+
+    // remove all posts related to user
+    await Promise.each(posts, async post => {
+      await this.postService.delete(post.post_id);
+    });
+
+    // delete user
+    await this.userRepository.delete(user_id);
+    return { deleted: true };
   }
 }
