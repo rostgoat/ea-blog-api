@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CommentEntity } from './comment.entity';
 import { CommentDTO } from './comment.dto';
 import { PostService } from '../post/post.service';
+import { UserService } from '../user/user.service';
 @Injectable()
 export class CommentService {
   constructor(
@@ -12,6 +13,8 @@ export class CommentService {
     private commentRepository: Repository<CommentEntity>,
     @Inject(forwardRef(() => PostService))
     private readonly postService: PostService,
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -23,6 +26,8 @@ export class CommentService {
     const newComment = await this.commentRepository.create(data);
     // grab related post and assign to comment object of post
     newComment.post = await this.postService.findOne(data.post_id);
+    // grab related user and assign to comment object of post
+    newComment.user = await this.userService.findOne(data.user_id);
     // save changes
     await this.commentRepository.save(newComment);
     // return new comment

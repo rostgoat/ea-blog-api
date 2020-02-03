@@ -59,6 +59,7 @@ describe('User Controller', () => {
       user_id: `${faker.random.uuid()}`,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       posts: [],
+      comments: [],
     };
 
     const result: UserEntity[] = [newUser];
