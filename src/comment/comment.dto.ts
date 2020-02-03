@@ -4,4 +4,5 @@
 export interface CommentDTO {
   comment_id: string;
   title: string;
+  post_id: string;
 }

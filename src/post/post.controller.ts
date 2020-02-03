@@ -76,9 +76,10 @@ export class PostController {
    * @param post_id String
    */
   @Get(':id')
-  async findOne(@Body() data: PostDTO) {
+  async findOne(@Param('id') post_id: string) {
     try {
-      return this.postService.findOne(data);
+      console.log('post_id', post_id);
+      return this.postService.findOne(post_id);
     } catch (error) {
       throw new Error(error);
     }
