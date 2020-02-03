@@ -3,10 +3,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  ManyToMany,
   ManyToOne,
 } from 'typeorm';
 import { UserEntity } from 'src/user/user.entity';
+import { CommentEntity } from 'src/comment/comment.entity';
 /**
  * Post Entity
  */
@@ -18,6 +18,17 @@ export class PostEntity {
   @ManyToOne(
     type => UserEntity,
     user => user.posts,
+    {
+      cascade: true,
+    },
   )
   user: UserEntity;
+  @OneToMany(
+    type => CommentEntity,
+    comment => comment.post,
+    {
+      cascade: true,
+    },
+  )
+  comments: CommentEntity[];
 }

@@ -48,7 +48,7 @@ export class UserService {
   }
 
   /**
-   * Return all users
+   * Return one user
    */
   async findOne(user_id: string): Promise<UserEntity> {
     return await this.userRepository.findOne({
