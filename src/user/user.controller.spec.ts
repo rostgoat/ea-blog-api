@@ -43,9 +43,7 @@ describe('User Controller', () => {
         },
         UserService,
         {
-          // how you provide the injection token in a test instance
           provide: getRepositoryToken(UserEntity),
-          // as a class value, Repository needs no generics
           useClass: Repository,
         },
       ],
