@@ -53,4 +53,17 @@ export class UserController {
   async findOne(@Param('id') user_id: string) {
     return this.userService.findOne(user_id);
   }
+
+  /**
+   * Remove a user
+   * @param data Object
+   */
+  @Delete(':id')
+  async delete(@Param('id') user_id: string) {
+    try {
+      return this.userService.delete(user_id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
