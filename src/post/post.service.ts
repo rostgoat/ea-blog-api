@@ -61,7 +61,6 @@ export class PostService {
    * @param data Object
    */
   async findOne(post_id: string): Promise<PostEntity> {
-    console.log('post_id', post_id);
     return await this.postRepository.findOne({
       relations: ['comments'],
       where: {

@@ -11,7 +11,6 @@ import {
 
 import { PostService } from './post.service';
 import { PostDTO } from './post.dto';
-import { PostEntity } from './post.entity';
 
 /**
  * Post Controller
@@ -78,7 +77,6 @@ export class PostController {
   @Get(':id')
   async findOne(@Param('id') post_id: string) {
     try {
-      console.log('post_id', post_id);
       return this.postService.findOne(post_id);
     } catch (error) {
       throw new Error(error);
