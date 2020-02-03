@@ -21,9 +21,7 @@ describe('UserService', () => {
       providers: [
         UserService,
         {
-          // how you provide the injection token in a test instance
           provide: getRepositoryToken(UserEntity),
-          // as a class value, Repository needs no generics
           useClass: Repository,
         },
         {
@@ -34,7 +32,6 @@ describe('UserService', () => {
     }).compile();
 
     userService = module.get<UserService>(UserService);
-    // Save the instance of the repository and set the correct generics
     repo = module.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
   });
 
