@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UserController } from './user.controller';
@@ -10,7 +10,10 @@ import { PostModule } from 'src/post/post.module';
  * User Module
  */
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), PostModule],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity]),
+    forwardRef(() => PostModule),
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
