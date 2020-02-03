@@ -32,13 +32,13 @@
 
 `npm run test`
 
-### Requests
+## Requests
 
-## POST - User
+### POST - User
 
 `http://localhost:3000/users`
 
-# Req
+#### Req
 
 ```
 {
@@ -46,7 +46,7 @@
 }
 ```
 
-# Res
+#### Res
 
 ```
 {
@@ -55,11 +55,11 @@
 }
 ```
 
-## POST - Blog Post
+### POST - Blog Post
 
 `localhost:3000/posts`
 
-# Req
+#### Req
 
 ```
 {
@@ -69,7 +69,7 @@
 }
 ```
 
-# Res
+#### Res
 
 ```
 {
@@ -84,11 +84,11 @@
 }
 ```
 
-## POST - Comment
+### POST - Comment
 
 `localhost:3000/comments`
 
-# Req
+#### Req
 
 ```
 {
@@ -98,7 +98,7 @@
 }
 ```
 
-# Res
+#### Res
 
 ```
 {
@@ -124,13 +124,13 @@
 }
 ```
 
-## GET - User
+### GET - User
 
-# Req
+#### Req
 
 `http://localhost:3000/users/1ce4e257-6a9b-4a0b-b089-9b9b4584d477`
 
-# Res
+#### Res
 
 ```
 {
@@ -152,9 +152,9 @@
 }
 ```
 
-## PUT - Blog Post
+### PUT - Blog Post
 
-# Req
+#### Req
 
 `http://localhost:3000/posts/9612b961-fa6c-45c5-86e3-5af16d38c079`
 
@@ -165,7 +165,7 @@
 }
 ```
 
-# Res
+#### Res
 
 ```
 {
@@ -175,13 +175,13 @@
 }
 ```
 
-## DELETE - User
+### DELETE - User
 
-# Req
+#### Req
 
 `http://localhost:3000/users/cc854de6-688f-4a03-9ad7-cb4c849f0c23`
 
-# Res
+#### Res
 
 ```
 {
