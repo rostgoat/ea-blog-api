@@ -7,6 +7,13 @@ const DESCRIPTION = 'The EA Blog API';
 const VERSION = '1.0.0';
 
 // User API methods
+export const commonOptions = new DocumentBuilder()
+  .setTitle('All API Methods')
+  .setDescription(DESCRIPTION)
+  .setVersion(VERSION)
+  .build();
+
+// User API methods
 export const usersOptions = new DocumentBuilder()
   .setTitle('Users')
   .setDescription(DESCRIPTION)

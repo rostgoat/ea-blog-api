@@ -9,6 +9,7 @@ import {
   usersOptions,
   postsOptions,
   commentsOptions,
+  commonOptions,
 } from './config/swagger/swagger';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
@@ -21,6 +22,9 @@ const port = process.env.PORT || 3000;
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // connecting user docs to swagger
+  const commonDocument = SwaggerModule.createDocument(app, commonOptions);
 
   // connecting user docs to swagger
   const userDocument = SwaggerModule.createDocument(app, usersOptions, {
@@ -38,6 +42,7 @@ async function bootstrap() {
   });
 
   // defining docs routes
+  SwaggerModule.setup('api', app, commonDocument);
   SwaggerModule.setup('api/users', app, userDocument);
   SwaggerModule.setup('api/posts', app, postDocument);
   SwaggerModule.setup('api/comments', app, commentDocument);
