@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common';
 import 'dotenv/config';
 import 'reflect-metadata';
 import { UserModule } from './user/user.module';
+import { usersOptions } from './swagger/swagger';
 
 // local dev port
 const port = process.env.PORT || 3000;
@@ -14,13 +15,6 @@ const port = process.env.PORT || 3000;
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  // Swagger docs options for all API methods
-  const usersOptions = new DocumentBuilder()
-    .setTitle('Users')
-    .setDescription('The EA Blog API')
-    .setVersion('1.0')
-    .build();
 
   // connecting swagger to the app
   const document = SwaggerModule.createDocument(app, usersOptions, {
