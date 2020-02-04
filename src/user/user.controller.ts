@@ -43,13 +43,13 @@ export class UserController {
   /**
    * Get all users
    */
+  @Get()
   @ApiCreatedResponse({
     status: 201,
     description: 'All users have been successfully retreived.',
     type: [UserDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @Get()
   async find(@Response() res: any) {
     try {
       return this.userService.findAll();
@@ -62,13 +62,13 @@ export class UserController {
    * Get a specific user
    * @param user_id String
    */
+  @Get(':id')
   @ApiCreatedResponse({
     status: 201,
     description: 'A user has been successfully retreived.',
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @Get(':id')
   async findOne(@Param('id') user_id: string) {
     return this.userService.findOne(user_id);
   }
@@ -77,13 +77,13 @@ export class UserController {
    * Remove a user
    * @param data Object
    */
+  @Delete(':id')
   @ApiCreatedResponse({
     status: 201,
     description: 'A user has been successfully deleted.',
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @Delete(':id')
   async delete(@Param('id') user_id: string) {
     try {
       return this.userService.delete(user_id);
