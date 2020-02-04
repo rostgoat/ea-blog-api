@@ -5,7 +5,11 @@ import { Logger } from '@nestjs/common';
 import 'dotenv/config';
 import 'reflect-metadata';
 import { UserModule } from './user/user.module';
-import { usersOptions, postsOptions, commentsOptions } from './swagger/swagger';
+import {
+  usersOptions,
+  postsOptions,
+  commentsOptions,
+} from './config/swagger/swagger';
 
 // local dev port
 const port = process.env.PORT || 3000;
