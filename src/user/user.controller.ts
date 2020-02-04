@@ -8,14 +8,15 @@ import {
   Param,
   Response,
 } from '@nestjs/common';
+import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger';
+
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
-import { UserEntity } from './user.entity';
-import { PostDTO } from '../post/post.dto';
 
 /**
  * User Controller
  */
+@ApiTags('users')
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -25,6 +26,12 @@ export class UserController {
    * @param data Object
    */
   @Post()
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'The user has been successfully created.',
+    type: UserDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() data: UserDTO) {
     try {
       return this.userService.add(data);
@@ -36,6 +43,12 @@ export class UserController {
   /**
    * Get all users
    */
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'All users have been successfully retreived.',
+    type: [UserDTO],
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get()
   async find(@Response() res: any) {
     try {
@@ -49,6 +62,12 @@ export class UserController {
    * Get a specific user
    * @param user_id String
    */
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'A user has been successfully retreived.',
+    type: UserDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get(':id')
   async findOne(@Param('id') user_id: string) {
     return this.userService.findOne(user_id);
@@ -58,6 +77,12 @@ export class UserController {
    * Remove a user
    * @param data Object
    */
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'A user has been successfully deleted.',
+    type: UserDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':id')
   async delete(@Param('id') user_id: string) {
     try {
