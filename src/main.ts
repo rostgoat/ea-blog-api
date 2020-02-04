@@ -10,6 +10,8 @@ import {
   postsOptions,
   commentsOptions,
 } from './config/swagger/swagger';
+import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 
 // local dev port
 const port = process.env.PORT || 3000;
@@ -27,12 +29,12 @@ async function bootstrap() {
 
   // connecting blog posts docs to swagger
   const postDocument = SwaggerModule.createDocument(app, postsOptions, {
-    include: [UserModule],
+    include: [PostModule],
   });
 
   // connecting comments docs to swagger
   const commentDocument = SwaggerModule.createDocument(app, commentsOptions, {
-    include: [UserModule],
+    include: [CommentModule],
   });
 
   // defining docs routes
