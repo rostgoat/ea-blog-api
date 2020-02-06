@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { UserEntity } from './user.entity';
+import { User } from './user.entity';
 import { PostModule } from '../post/post.module';
 
 /**
@@ -11,10 +11,7 @@ import { PostModule } from '../post/post.module';
  */
 @Global()
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UserEntity]),
-    forwardRef(() => PostModule),
-  ],
+  imports: [TypeOrmModule.forFeature([User]), forwardRef(() => PostModule)],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

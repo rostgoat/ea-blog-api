@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostService } from './post.service';
 import { Repository } from 'typeorm';
-import { PostEntity } from './post.entity';
+import { Post } from './post.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as faker from 'faker';
 import { UserService } from '../user/user.service';
@@ -12,14 +12,14 @@ class CommentServiceMock extends CommentService {}
 
 describe('PostService', () => {
   let service: PostService;
-  let repo: Repository<PostEntity>;
+  let repo: Repository<Post>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PostService,
         {
-          provide: getRepositoryToken(PostEntity),
+          provide: getRepositoryToken(Post),
           useClass: Repository,
         },
         {
@@ -34,7 +34,7 @@ describe('PostService', () => {
     }).compile();
 
     service = module.get<PostService>(PostService);
-    repo = module.get<Repository<PostEntity>>(getRepositoryToken(PostEntity));
+    repo = module.get<Repository<Post>>(getRepositoryToken(Post));
   });
 
   it('should be defined', () => {

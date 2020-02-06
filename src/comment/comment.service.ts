@@ -2,15 +2,15 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CommentEntity } from './comment.entity';
+import { Comment } from './comment.entity';
 import { CommentDTO } from './comment.dto';
 import { PostService } from '../post/post.service';
 import { UserService } from '../user/user.service';
 @Injectable()
 export class CommentService {
   constructor(
-    @InjectRepository(CommentEntity)
-    private commentRepository: Repository<CommentEntity>,
+    @InjectRepository(Comment)
+    private commentRepository: Repository<Comment>,
     @Inject(forwardRef(() => PostService))
     private readonly postService: PostService,
     @Inject(forwardRef(() => UserService))
@@ -21,7 +21,7 @@ export class CommentService {
    * Create a new comment
    * @param data Object
    */
-  async add(data: CommentDTO): Promise<CommentEntity> {
+  async add(data: CommentDTO): Promise<Comment> {
     // create object with new comment props
     const newComment = await this.commentRepository.create(data);
     // grab related post and assign to comment object of post
@@ -56,7 +56,7 @@ export class CommentService {
   /**
    * Find all comments related to post
    */
-  async findAllByPostID(post_id: string): Promise<CommentEntity[]> {
+  async findAllByPostID(post_id: string): Promise<Comment[]> {
     return await this.commentRepository.find({
       where: { post_id },
     });
@@ -66,7 +66,7 @@ export class CommentService {
    * Find comment
    * @param comment_id String
    */
-  async findOne(comment_id: string): Promise<CommentEntity> {
+  async findOne(comment_id: string): Promise<Comment> {
     const foundComment = await this.commentRepository.findOne({
       where: {
         comment_id: comment_id,
