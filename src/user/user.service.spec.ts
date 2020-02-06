@@ -5,10 +5,9 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as faker from 'faker';
 import { PostService } from '../post/post.service';
-import { Post } from '../post/post.entity';
 
 const testUserUID = `${faker.random.uuid()}`;
-const testUserName = `${faker.name()}`;
+const testUserName = `${faker.name.firstName()} ${faker.name.lastName()}`;
 
 const testUser = new User(testUserUID, testUserName);
 
@@ -43,22 +42,13 @@ describe('UserService', () => {
     repo = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
-  it('should be able to create a user', async () => {
-    // const newUser: User = {
-    //   user_id: `${faker.random.uuid()}`,
-    //   name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-    //   posts: [],
-    //   comments: [],
-    // };
+  it('should be able to create a user', () => {
     expect(
       userService.add({
         user_id: testUserUID,
         name: testUserName,
       }),
     ).resolves.toEqual(testUser);
-
-    // jest.spyOn(repo, 'create').mockReturnValueOnce(newUser);
-    // expect(await userService.add(newUser)).toEqual(newUser);
   });
 
   // it('should be able to find and return all users', async () => {
