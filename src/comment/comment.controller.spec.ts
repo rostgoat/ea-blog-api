@@ -3,9 +3,9 @@ import { CommentController } from './comment.controller';
 import { UserService } from '../user/user.service';
 import { PostService } from '../post/post.service';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { User } from '../user/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { CommentEntity } from './comment.entity';
+import { Comment } from './comment.entity';
 import { CommentService } from './comment.service';
 
 class UserServiceMock extends UserService {}
@@ -15,7 +15,7 @@ class CommentServiceMock extends CommentService {}
 describe('Comment Controller', () => {
   let commentController: CommentController;
   let commentService: CommentService;
-  let repo: Repository<CommentEntity>;
+  let repo: Repository<Comment>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -35,16 +35,14 @@ describe('Comment Controller', () => {
         },
         CommentService,
         {
-          provide: getRepositoryToken(UserEntity),
+          provide: getRepositoryToken(User),
           useClass: Repository,
         },
       ],
     }).compile();
 
     commentService = module.get<CommentService>(CommentService);
-    repo = module.get<Repository<CommentEntity>>(
-      getRepositoryToken(CommentEntity),
-    );
+    repo = module.get<Repository<Comment>>(getRepositoryToken(Comment));
     commentController = module.get<CommentController>(CommentController);
   });
 

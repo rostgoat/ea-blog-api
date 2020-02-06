@@ -3,14 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
-import { PostEntity } from './post.entity';
+import { Post } from './post.entity';
 import { UserModule } from '../user/user.module';
 import { CommentModule } from '../comment/comment.module';
 
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PostEntity]),
+    TypeOrmModule.forFeature([Post]),
     forwardRef(() => UserModule),
     forwardRef(() => CommentModule),
   ],

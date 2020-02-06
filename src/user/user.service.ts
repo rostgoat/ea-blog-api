@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
 import { Repository } from 'typeorm';
 
-import { UserEntity } from './user.entity';
+import { User } from './user.entity';
 import { UserDTO } from './user.dto';
 import { PostService } from '../post/post.service';
 
@@ -13,8 +13,8 @@ import { PostService } from '../post/post.service';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     @Inject(forwardRef(() => PostService))
     private postService: PostService,
   ) {}
@@ -23,7 +23,7 @@ export class UserService {
    * Create a new user
    * @param data Object
    */
-  async add(data: Partial<UserDTO>): Promise<UserEntity> {
+  async add(data: Partial<UserDTO>): Promise<User> {
     // create object with new user props
     const newUser = await this.userRepository.create(data);
     await this.userRepository.save(newUser);
@@ -34,7 +34,7 @@ export class UserService {
    * Update an existing user
    * @param data Object
    */
-  async edit(user_id: string, data: Partial<UserDTO>): Promise<UserEntity> {
+  async edit(user_id: string, data: Partial<UserDTO>): Promise<User> {
     await this.userRepository.update({ user_id }, data);
     return await this.userRepository.findOne({ user_id });
   }
@@ -42,14 +42,14 @@ export class UserService {
   /**
    * Return all users
    */
-  async findAll(): Promise<UserEntity[]> {
+  async findAll(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
   /**
    * Return one user
    */
-  async findOne(user_id: string): Promise<UserEntity> {
+  async findOne(user_id: string): Promise<User> {
     return await this.userRepository.findOne({
       relations: ['posts', 'comments'],
       where: { user_id },
