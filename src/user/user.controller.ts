@@ -41,6 +41,25 @@ export class UserController {
   }
 
   /**
+   * Update user
+   * @param data Object
+   */
+  @Put(':id')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'The user has been successfully updated.',
+    type: UserDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async update(@Param('id') user_id: string, @Body() data: UserDTO) {
+    try {
+      return this.userService.edit(user_id, data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Get all users
    */
   @Get()

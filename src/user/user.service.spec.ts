@@ -6,11 +6,20 @@ import { User } from './user.entity';
 import * as faker from 'faker';
 import { PostService } from '../post/post.service';
 
-const testUserUID = `${faker.random.uuid()}`;
-const testUserName = `${faker.name.firstName()} ${faker.name.lastName()}`;
+// test data for user
+const testUserName1 = `${faker.name.firstName()} ${faker.name.lastName()}`;
 
-const testUser = new User(testUserUID, testUserName);
+const testUserName2 = `${faker.name.firstName()} ${faker.name.lastName()}`;
 
+// user test object
+const testUser = new User(testUserName1);
+const testUser2 = new User(testUserName2);
+
+// users test array
+const testUsers = [testUser, testUser2];
+
+// mock of Post Service class
+// required as these two models are related
 class PostServiceMock extends PostService {}
 /**
  * User Model Unit Test
@@ -18,17 +27,20 @@ class PostServiceMock extends PostService {}
 describe('UserService', () => {
   let userService: UserService;
 
-  let repo: Repository<User>;
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserService,
         {
           provide: getRepositoryToken(User),
+          // mocks of all the methods from the User Service
           useValue: {
             save: jest.fn(),
             create: jest.fn().mockReturnValue(testUser),
+            find: jest.fn().mockResolvedValue(testUsers),
+            findOne: jest.fn().mockResolvedValue(testUser),
+            update: jest.fn().mockResolvedValue(testUser),
+            delete: jest.fn().mockResolvedValue(true),
           },
         },
         {
@@ -39,43 +51,43 @@ describe('UserService', () => {
     }).compile();
 
     userService = module.get<UserService>(UserService);
-    repo = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
-  it('should be able to create a user', () => {
-    expect(
-      userService.add({
-        user_id: testUserUID,
-        name: testUserName,
-      }),
-    ).resolves.toEqual(testUser);
+  it('should be able to create a user', async () => {
+    const newUser = await userService.add({
+      name: testUserName1,
+    });
+    expect(newUser).toEqual(testUser);
   });
 
-  // it('should be able to find and return all users', async () => {
-  //   const newUser1: User = {
-  //     user_id: `${faker.random.uuid()}`,
-  //     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-  //     posts: [],
-  //     comments: [],
-  //   };
+  it('should be able to find and return all users', async () => {
+    const foundUsers = await userService.findAll();
+    expect(foundUsers).toEqual(testUsers);
+    expect(foundUsers.length).toEqual(testUsers.length);
+  });
 
-  //   const newUser2: User = {
-  //     user_id: `${faker.random.uuid()}`,
-  //     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-  //     posts: [],
-  //     comments: [],
-  //   };
+  it('should be able to find and return a user', async () => {
+    const newUser = await userService.add({
+      name: testUserName1,
+    });
 
-  //   const newUsers = [];
-  //   newUsers.push(newUser1);
-  //   newUsers.push(newUser2);
+    const foundUser = await userService.findOne(newUser.user_id);
+    expect(foundUser).toEqual(testUser);
+  });
 
-  //   jest.spyOn(repo, 'find').mockResolvedValueOnce(newUsers);
-  //   const foundUsers = await userService.findAll();
+  it('should be able to update a user', async () => {
+    const newUser = await userService.add({
+      name: testUserName1,
+    });
 
-  //   expect(foundUsers).toEqual(newUsers);
-  //   expect(foundUsers.length).toEqual(newUsers.length);
-  // });
+    const updatedUserName = `${faker.name.firstName()} ${faker.name.firstName()}`;
+    const updatedUser = await userService.edit(newUser.user_id, {
+      name: updatedUserName,
+    });
+    console.log('updatedUser', updatedUser);
+    console.log('newUser', newUser);
+    expect(updatedUser).not.toBe(testUser);
+  });
 
   afterEach(() => {
     jest.resetAllMocks();

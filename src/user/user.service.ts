@@ -2,7 +2,7 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
 import { Repository } from 'typeorm';
-
+import uuid4 from 'uuid4';
 import { User } from './user.entity';
 import { UserDTO } from './user.dto';
 import { PostService } from '../post/post.service';
