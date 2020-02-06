@@ -22,10 +22,7 @@ export class User {
   )
   comments: Comment[];
 
-  constructor(user_id: string, name: string);
-  constructor(user_id: string, name?: string);
-  constructor(user_id?: string, name?: string) {
-    this.user_id = user_id || '';
+  constructor(name?: string) {
     this.name = name || '';
   }
 }
