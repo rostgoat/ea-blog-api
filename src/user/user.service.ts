@@ -36,7 +36,7 @@ export class UserService {
    */
   async edit(user_id: string, data: Partial<UserDTO>): Promise<User> {
     await this.userRepository.update({ user_id }, data);
-    return await this.userRepository.findOne({ user_id });
+    return this.userRepository.findOne({ user_id });
   }
 
   /**
@@ -61,13 +61,13 @@ export class UserService {
    * @param data Object
    */
   async delete(user_id: string) {
-    // get all posts related to user
-    const posts = await this.postService.findAllByPostID(user_id);
+    // // get all posts related to user
+    // const posts = await this.postService.findAllByPostID(user_id);
 
-    // remove all posts related to user
-    await Promise.each(posts, async post => {
-      await this.postService.delete(post.post_id);
-    });
+    // // remove all posts related to user
+    // await Promise.each(posts, async post => {
+    //   await this.postService.delete(post.post_id);
+    // });
 
     // delete user
     await this.userRepository.delete(user_id);

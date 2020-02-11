@@ -22,6 +22,7 @@ export class User {
   )
   comments: Comment[];
 
+  constructor(name?: string, posts?: []);
   constructor(name?: string) {
     this.name = name || '';
   }
