@@ -9,6 +9,11 @@ import { UserDTO } from './user.dto';
 import { HttpStatus } from '@nestjs/common';
 import { PostService } from '../post/post.service';
 
+// test data for user
+const testUserName1 = `${faker.name.firstName()} ${faker.name.lastName()}`;
+
+// user test object
+const testUser = new User(testUserName1);
 // Class that mocks the behavior of UserService
 class UserServiceMock extends UserService {
   async add(data): Promise<User> {
@@ -17,6 +22,10 @@ class UserServiceMock extends UserService {
 
   async findAll(): Promise<User[]> {
     return [];
+  }
+
+  async findOne(data): Promise<User> {
+    return data;
   }
 }
 class PostServiceMock extends PostService {}
@@ -46,12 +55,31 @@ describe('User Controller', () => {
           provide: getRepositoryToken(User),
           useClass: Repository,
         },
+        {
+          provide: UserService,
+          useValue: {
+            findOne: jest.fn(() => true),
+            findAll: jest.fn(() => true),
+          },
+        },
       ],
     }).compile();
 
     userService = module.get<UserService>(UserService);
     userController = module.get<UserController>(UserController);
     repo = module.get<Repository<User>>(getRepositoryToken(User));
+  });
+
+  it('should be able to return a user', async () => {
+    const newUser: User = {
+      user_id: `${faker.random.uuid()}`,
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      posts: [],
+      comments: [],
+    };
+
+    userController.findOne(newUser.user_id);
+    expect(userService.findOne).toHaveBeenCalledWith(newUser.user_id);
   });
 
   it('should be able to return an array of users', async () => {
