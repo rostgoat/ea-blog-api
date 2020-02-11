@@ -31,4 +31,9 @@ export class Post {
     },
   )
   comments: Comment[];
+
+  constructor(title?: string, content?: string) {
+    this.title = title || '';
+    this.content = content || '';
+  }
 }

@@ -18,19 +18,22 @@ const testUser2 = new User(testUserName2);
 // users test array
 const testUsers = [testUser, testUser2];
 
-// mock of Post Service class
-// required as these two models are related
-class PostServiceMock extends PostService {}
 /**
  * User Model Unit Test
  */
 describe('UserService', () => {
   let userService: UserService;
+  let postService: PostService;
+  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserService,
+        {
+          provide: getRepositoryToken(User),
+          useClass: Repository,
+        },
         {
           provide: getRepositoryToken(User),
           // mocks of all the methods from the User Service
@@ -43,14 +46,16 @@ describe('UserService', () => {
             delete: jest.fn().mockResolvedValue(true),
           },
         },
+        PostService,
         {
           provide: PostService,
-          useValue: PostServiceMock,
+          useClass: Repository,
         },
       ],
     }).compile();
-
+    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
     userService = module.get<UserService>(UserService);
+    postService = module.get<PostService>(PostService);
   });
 
   it('should be able to create a user', async () => {
@@ -68,6 +73,7 @@ describe('UserService', () => {
 
   it('should be able to find and return a user', async () => {
     const newUser = await userService.add({
+      user_id: 'uid',
       name: testUserName1,
     });
 
@@ -84,9 +90,17 @@ describe('UserService', () => {
     const updatedUser = await userService.edit(newUser.user_id, {
       name: updatedUserName,
     });
-    console.log('updatedUser', updatedUser);
-    console.log('newUser', newUser);
-    expect(updatedUser).not.toBe(testUser);
+
+    jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(updatedUser);
+  });
+
+  it('should be able to delete a user', async () => {
+    const newUser = await userService.add({
+      name: testUserName1,
+    });
+
+    const deletedUser = await userService.delete(newUser.user_id);
+    expect(deletedUser).not.toBe({ deleted: true });
   });
 
   afterEach(() => {
