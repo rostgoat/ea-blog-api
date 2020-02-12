@@ -1,21 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { PostEntity } from '../post/post.entity';
-import { UserEntity } from '../user/user.entity';
+import { Post } from '../post/post.entity';
+import { User } from '../user/user.entity';
 /**
  * Comments Entity
  */
 @Entity('comments')
-export class CommentEntity {
+export class Comment {
   @PrimaryGeneratedColumn('uuid') comment_id: string;
   @Column('text') content: string;
   @ManyToOne(
-    type => PostEntity,
+    type => Post,
     post => post.comments,
   )
-  post: PostEntity;
+  post: Post;
   @ManyToOne(
-    type => UserEntity,
+    type => User,
     user => user.comments,
   )
-  user: UserEntity;
+  user: User;
 }

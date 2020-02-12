@@ -2,8 +2,8 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
 import { Repository } from 'typeorm';
-
-import { UserEntity } from './user.entity';
+import uuid4 from 'uuid4';
+import { User } from './user.entity';
 import { UserDTO } from './user.dto';
 import { PostService } from '../post/post.service';
 
@@ -13,8 +13,8 @@ import { PostService } from '../post/post.service';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     @Inject(forwardRef(() => PostService))
     private postService: PostService,
   ) {}
@@ -23,7 +23,7 @@ export class UserService {
    * Create a new user
    * @param data Object
    */
-  async add(data: Partial<UserDTO>): Promise<UserEntity> {
+  async add(data: Partial<UserDTO>): Promise<User> {
     // create object with new user props
     const newUser = await this.userRepository.create(data);
     await this.userRepository.save(newUser);
@@ -34,22 +34,22 @@ export class UserService {
    * Update an existing user
    * @param data Object
    */
-  async edit(user_id: string, data: Partial<UserDTO>): Promise<UserEntity> {
+  async edit(user_id: string, data: Partial<UserDTO>): Promise<User> {
     await this.userRepository.update({ user_id }, data);
-    return await this.userRepository.findOne({ user_id });
+    return this.userRepository.findOne({ user_id });
   }
 
   /**
    * Return all users
    */
-  async findAll(): Promise<UserEntity[]> {
+  async findAll(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
   /**
    * Return one user
    */
-  async findOne(user_id: string): Promise<UserEntity> {
+  async findOne(user_id: string): Promise<User> {
     return await this.userRepository.findOne({
       relations: ['posts', 'comments'],
       where: { user_id },
@@ -61,13 +61,13 @@ export class UserService {
    * @param data Object
    */
   async delete(user_id: string) {
-    // get all posts related to user
-    const posts = await this.postService.findAllByPostID(user_id);
+    // // get all posts related to user
+    // const posts = await this.postService.findAllByPostID(user_id);
 
-    // remove all posts related to user
-    await Promise.each(posts, async post => {
-      await this.postService.delete(post.post_id);
-    });
+    // // remove all posts related to user
+    // await Promise.each(posts, async post => {
+    //   await this.postService.delete(post.post_id);
+    // });
 
     // delete user
     await this.userRepository.delete(user_id);

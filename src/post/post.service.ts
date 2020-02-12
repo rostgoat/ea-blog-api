@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Promise } from 'bluebird';
 
-import { PostEntity } from './post.entity';
+import { Post } from './post.entity';
 import { PostDTO } from './post.dto';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
@@ -11,8 +11,8 @@ import { CommentService } from '../comment/comment.service';
 @Injectable()
 export class PostService {
   constructor(
-    @InjectRepository(PostEntity)
-    private postRepository: Repository<PostEntity>,
+    @InjectRepository(Post)
+    private postRepository: Repository<Post>,
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
     @Inject(forwardRef(() => CommentService))
@@ -23,7 +23,7 @@ export class PostService {
    * Create a new post
    * @param data Object
    */
-  async add(data: PostDTO): Promise<PostEntity> {
+  async add(data: Partial<PostDTO>): Promise<Post> {
     // create object with new post props
     const newPost = await this.postRepository.create(data);
     // grab related user and assign to user object of post
@@ -65,7 +65,7 @@ export class PostService {
   /**
    * Find all posts related to post
    */
-  async findAllByPostID(post_id: string): Promise<PostEntity[]> {
+  async findAllByPostID(post_id: string): Promise<Post[]> {
     return await this.postRepository.find({
       where: { post_id },
     });
@@ -75,7 +75,7 @@ export class PostService {
    * Find post
    * @param data Object
    */
-  async findOne(post_id: string): Promise<PostEntity> {
+  async findOne(post_id: string): Promise<Post> {
     return await this.postRepository.findOne({
       relations: ['comments'],
       where: {

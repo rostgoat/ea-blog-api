@@ -1,24 +1,29 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { PostEntity } from '../post/post.entity';
-import { CommentEntity } from '../comment/comment.entity';
+import { Post } from '../post/post.entity';
+import { Comment } from '../comment/comment.entity';
 /**
  * User Entity
  */
 @Entity('users')
-export class UserEntity {
+export class User {
   @PrimaryGeneratedColumn('uuid') user_id: string;
   @Column('text') name: string;
   @OneToMany(
-    type => PostEntity,
+    type => Post,
     post => post.user,
     {
       eager: true,
     },
   )
-  posts: PostEntity[];
+  posts: Post[];
   @OneToMany(
-    type => CommentEntity,
+    type => Comment,
     comment => comment.user,
   )
-  comments: CommentEntity[];
+  comments: Comment[];
+
+  constructor(name?: string, posts?: []);
+  constructor(name?: string) {
+    this.name = name || '';
+  }
 }
