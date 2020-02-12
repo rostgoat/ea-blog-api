@@ -6,9 +6,11 @@ import {
   Delete,
   Body,
   Param,
-  Response,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { Response } from 'express';
 
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
@@ -64,14 +66,17 @@ export class UserController {
    */
   @Get()
   @ApiCreatedResponse({
-    status: 201,
+    status: 200,
     description: 'All users have been successfully retreived.',
     type: [UserDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async find(@Response() res: any) {
+  async find(@Res() res: Response) {
     try {
-      return this.userService.findAll();
+      const users = await this.userService.findAll();
+      if (res.status(HttpStatus.OK)) {
+        return users;
+      }
     } catch (error) {
       throw new Error(error);
     }

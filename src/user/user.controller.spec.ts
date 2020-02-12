@@ -5,30 +5,13 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as faker from 'faker';
 import { UserService } from './user.service';
-import { UserDTO } from './user.dto';
 import { HttpStatus } from '@nestjs/common';
-import { PostService } from '../post/post.service';
 
 // test data for user
 const testUserName1 = `${faker.name.firstName()} ${faker.name.lastName()}`;
 
 // user test object
 const testUser = new User(testUserName1);
-// Class that mocks the behavior of UserService
-class UserServiceMock extends UserService {
-  async add(data): Promise<User> {
-    return data;
-  }
-
-  async findAll(): Promise<User[]> {
-    return [];
-  }
-
-  async findOne(data): Promise<User> {
-    return data;
-  }
-}
-class PostServiceMock extends PostService {}
 
 /**
  * User Controller Unit Test
@@ -36,20 +19,11 @@ class PostServiceMock extends PostService {}
 describe('User Controller', () => {
   let userController: UserController;
   let userService: UserService;
-  let repo: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
       providers: [
-        {
-          provide: UserService,
-          useClass: UserServiceMock,
-        },
-        {
-          provide: PostService,
-          useValue: PostServiceMock,
-        },
         UserService,
         {
           provide: getRepositoryToken(User),
@@ -67,7 +41,6 @@ describe('User Controller', () => {
 
     userService = module.get<UserService>(UserService);
     userController = module.get<UserController>(UserController);
-    repo = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   it('should be able to return a user', async () => {
@@ -102,5 +75,10 @@ describe('User Controller', () => {
     };
 
     expect(await userController.find(response)).toBe(result);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    jest.resetAllMocks();
   });
 });
