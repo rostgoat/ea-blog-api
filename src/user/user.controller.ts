@@ -34,7 +34,7 @@ export class UserController {
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() data: UserDTO) {
+  async create(@Body() data: Partial<UserDTO>) {
     try {
       return this.userService.add(data);
     } catch (error) {
@@ -53,7 +53,7 @@ export class UserController {
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async update(@Param('id') user_id: string, @Body() data: UserDTO) {
+  async update(@Param('id') user_id: string, @Body() data: Partial<UserDTO>) {
     try {
       return this.userService.edit(user_id, data);
     } catch (error) {
@@ -71,12 +71,9 @@ export class UserController {
     type: [UserDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async find(@Res() res: Response) {
+  async find() {
     try {
-      const users = await this.userService.findAll();
-      if (res.status(HttpStatus.OK)) {
-        return users;
-      }
+      return await this.userService.findAll();
     } catch (error) {
       throw new Error(error);
     }

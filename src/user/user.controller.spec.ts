@@ -5,13 +5,14 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as faker from 'faker';
 import { UserService } from './user.service';
-import { HttpStatus } from '@nestjs/common';
 
-// test data for user
-const testUserName1 = `${faker.name.firstName()} ${faker.name.lastName()}`;
-
-// user test object
-const testUser = new User(testUserName1);
+// User test object
+const newUser: User = {
+  user_id: `${faker.random.uuid()}`,
+  name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+  posts: [],
+  comments: [],
+};
 
 /**
  * User Controller Unit Test
@@ -32,6 +33,9 @@ describe('User Controller', () => {
         {
           provide: UserService,
           useValue: {
+            add: jest.fn(() => true),
+            edit: jest.fn(() => true),
+            delete: jest.fn(() => true),
             findOne: jest.fn(() => true),
             findAll: jest.fn(() => true),
           },
@@ -43,38 +47,35 @@ describe('User Controller', () => {
     userController = module.get<UserController>(UserController);
   });
 
-  it('should be able to return a user', async () => {
-    const newUser: User = {
-      user_id: `${faker.random.uuid()}`,
-      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-      posts: [],
-      comments: [],
-    };
+  it('should be able to create a user', async () => {
+    userController.create(newUser);
+    expect(userService.add).toHaveBeenCalledWith(newUser);
+  });
 
+  it('should be able to update a user', async () => {
+    userController.update(newUser.user_id, newUser);
+    expect(userService.edit).toHaveBeenCalledWith(newUser.user_id, newUser);
+  });
+
+  it('should be able to delete a user', async () => {
+    userController.delete(newUser.user_id);
+    expect(userService.delete).toHaveBeenCalledWith(newUser.user_id);
+    expect(await userController.delete(newUser.user_id)).toBe(true);
+  });
+
+  it('should be able to return a user', async () => {
     userController.findOne(newUser.user_id);
     expect(userService.findOne).toHaveBeenCalledWith(newUser.user_id);
   });
 
   it('should be able to return an array of users', async () => {
-    const newUser: User = {
-      user_id: `${faker.random.uuid()}`,
-      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-      posts: [],
-      comments: [],
-    };
-
     const result: User[] = [newUser];
 
     jest
       .spyOn(userService, 'findAll')
       .mockImplementation(async (): Promise<User[]> => Promise.resolve(result));
 
-    const response = {
-      json: (body?: any) => {},
-      status: (code: number) => HttpStatus.OK,
-    };
-
-    expect(await userController.find(response)).toBe(result);
+    expect(await userController.find()).toBe(result);
   });
 
   afterEach(() => {
