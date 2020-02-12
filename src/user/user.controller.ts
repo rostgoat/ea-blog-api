@@ -6,9 +6,11 @@ import {
   Delete,
   Body,
   Param,
-  Response,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { Response } from 'express';
 
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
@@ -32,9 +34,28 @@ export class UserController {
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() data: UserDTO) {
+  async create(@Body() data: Partial<UserDTO>) {
     try {
       return this.userService.add(data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
+   * Update user
+   * @param data Object
+   */
+  @Put(':id')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'The user has been successfully updated.',
+    type: UserDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async update(@Param('id') user_id: string, @Body() data: Partial<UserDTO>) {
+    try {
+      return this.userService.edit(user_id, data);
     } catch (error) {
       throw new Error(error);
     }
@@ -45,14 +66,14 @@ export class UserController {
    */
   @Get()
   @ApiCreatedResponse({
-    status: 201,
+    status: 200,
     description: 'All users have been successfully retreived.',
     type: [UserDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async find(@Response() res: any) {
+  async find() {
     try {
-      return this.userService.findAll();
+      return await this.userService.findAll();
     } catch (error) {
       throw new Error(error);
     }
