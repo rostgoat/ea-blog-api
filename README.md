@@ -14,6 +14,13 @@
 - Node v8.12.0
 - npm 6.8.0
 
+### Postgres setup
+
+1. `create database ea_games_blog`
+2. `\c ea_games_blog`
+3. `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+4. `CREATE EXTENSION "pgcrypto";`
+
 ### Running in local machine
 
 1. `npm install`
