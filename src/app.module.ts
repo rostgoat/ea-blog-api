@@ -12,6 +12,6 @@ import { AppGateway } from './app.gateway';
 @Module({
   imports: [TypeOrmModule.forRoot(), UserModule, CommentModule, PostModule],
   exports: [UserModule, CommentModule, PostModule],
-  providers: [AppGateway],
+  providers: [],
 })
 export class AppModule {}
