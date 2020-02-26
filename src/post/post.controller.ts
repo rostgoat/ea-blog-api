@@ -25,7 +25,7 @@ export class PostController {
    * Create a post
    * @param data Object
    */
-  @Post()
+  @Post('create')
   @ApiCreatedResponse({
     status: 201,
     description: 'The post has been successfully created.',

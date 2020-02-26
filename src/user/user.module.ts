@@ -5,6 +5,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { PostModule } from '../post/post.module';
+import { AppGateway } from 'src/app.gateway';
 
 /**
  * User Module
@@ -13,7 +14,7 @@ import { PostModule } from '../post/post.module';
 @Module({
   imports: [TypeOrmModule.forFeature([User]), forwardRef(() => PostModule)],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, AppGateway],
   exports: [UserService],
 })
 export class UserModule {}
