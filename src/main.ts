@@ -47,6 +47,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/posts', app, postDocument);
   SwaggerModule.setup('api/comments', app, commentDocument);
 
+  app.enableCors();
   await app.listen(port);
   Logger.log(`Server running on port http://localhost:${port}`, 'Bootstrap');
 }
