@@ -6,6 +6,7 @@ import { PostService } from './post.service';
 import { Post } from './post.entity';
 import { UserModule } from '../user/user.module';
 import { CommentModule } from '../comment/comment.module';
+import { AppGateway } from 'src/app.gateway';
 
 @Global()
 @Module({
@@ -15,7 +16,7 @@ import { CommentModule } from '../comment/comment.module';
     forwardRef(() => CommentModule),
   ],
   controllers: [PostController],
-  providers: [PostService],
+  providers: [PostService, AppGateway],
   exports: [PostService],
 })
 export class PostModule {}
