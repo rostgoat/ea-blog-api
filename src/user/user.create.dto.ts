@@ -13,6 +13,13 @@ export class UserCreateDTO {
   user_id: string;
 
   @ApiProperty({
+    description: 'User UID',
+    type: String,
+  })
+  @IsNotEmpty()
+  uid: string;
+  
+  @ApiProperty({
     description: 'User Name',
     type: String,
   })
