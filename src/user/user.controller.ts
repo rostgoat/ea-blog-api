@@ -27,7 +27,7 @@ export class UserController {
    * Create user
    * @param data Object
    */
-  @Post()
+  @Post('/create')
   @ApiCreatedResponse({
     status: 201,
     description: 'The user has been successfully created.',
