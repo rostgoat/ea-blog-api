@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
 /**
- * General User data transfer object expected from controller
- * This DTO omits the password field
+ * Registration User data transfer object expected from controller
+ * This DTO includes the password field
  */
-export class UserDTO {
+export class UserCreateDTO {
   @ApiProperty({
     description: 'User Primary Key',
     type: String,
@@ -16,7 +16,7 @@ export class UserDTO {
     description: 'User Name',
     type: String,
   })
-  @IsNotEmpty()
+  @IsNotEmpty() 
   name: string;
 
   @ApiProperty({
@@ -24,8 +24,15 @@ export class UserDTO {
     type: String,
   })
   @IsEmail() 
-  @IsNotEmpty()
+  @IsNotEmpty() 
   email: string;
+
+  @ApiProperty({
+    description: 'User Password',
+    type: String,
+  })
+  @IsNotEmpty() 
+  password: string;
 
   @ApiProperty({
     description: 'Blog Post Foreign Key',
