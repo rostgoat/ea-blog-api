@@ -3,7 +3,15 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 /**
  * Login User data transfer object expected from controller
  */
-export class UserCreateDTO {
+export class UserLoginDTO {
+
+  @ApiProperty({
+    description: 'User UID',
+    type: String,
+  })
+  @IsNotEmpty()
+  uid: string;
+  
   @ApiProperty({
     description: 'User Email',
     type: String,

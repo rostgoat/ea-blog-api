@@ -14,6 +14,7 @@ import { Response } from 'express';
 
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
+import { UserCreateDTO } from './user.create.dto';
 
 /**
  * User Controller
@@ -31,10 +32,10 @@ export class UserController {
   @ApiCreatedResponse({
     status: 201,
     description: 'The user has been successfully created.',
-    type: UserDTO,
+    type: UserCreateDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() data: Partial<UserDTO>) {
+  async create(@Body() data: UserCreateDTO) {
     try {
       return this.userService.add(data);
     } catch (error) {
