@@ -5,10 +5,11 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { AuthService, RegistrationStatus } from './auth.service';
+import { AuthService } from './auth.service';
 import { UserCreateDTO } from 'src/user/user.create.dto';
 import { UserLoginDTO } from 'src/user/user.login.dto';
 import { LoginStatus } from './interfaces/login-status.interface';
+import { RegistrationStatus } from './interfaces/registration-status.interface';
 
 @Controller('auth')
 export class AuthController {

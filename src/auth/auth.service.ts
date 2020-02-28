@@ -38,9 +38,14 @@ export class AuthService {
   }
 
   private _createToken({ username }: UserDTO): any {
+    const expiresIn = process.env.EXPIRESIN;
+    
     const user: Partial<JwtPayload> = { username };
     const accessToken = this.jwtService.sign(user);
-    return { expiresIn: process.env.EXPIRESIN, accessToken };
+    return {
+      expiresIn,
+      accessToken,
+    };;
   }
 
   async validateUser(payload: JwtPayload): Promise<UserDTO> {
