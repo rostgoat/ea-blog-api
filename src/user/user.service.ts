@@ -33,10 +33,10 @@ export class UserService {
    * @param data Object
    */
   async add(userDto: UserCreateDTO): Promise<UserDTO> {
-    const { name, password, email } = userDto;
+    const { name, password, username } = userDto;
     // check if the user exists in the db
     const userInDb = await this.userRepository.findOne({
-      where: { email },
+      where: { username },
     });
     if (userInDb) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
@@ -44,7 +44,7 @@ export class UserService {
     const user: User = await this.userRepository.create({
       name,
       password,
-      email,
+      username,
     });
     await this.userRepository.save(user);
     return toUserDto(user);
@@ -96,11 +96,11 @@ export class UserService {
 
   /**
    * Find user by login credentials
-   * @param email String
+   * @param username String
    * @param password String
    */
-  async findByLogin({ email, password }: UserLoginDTO): Promise<UserDTO> {
-    const user = await this.userRepository.findOne({ where: { email } });
+  async findByLogin({ username, password }: UserLoginDTO): Promise<UserDTO> {
+    const user = await this.userRepository.findOne({ where: { username } });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
     }
@@ -112,7 +112,7 @@ export class UserService {
     return toUserDto(user);
   }
 
-  async findByPayload({ email }: UserLoginDTO): Promise<UserDTO> {
-    return await this.userRepository.findOne({ where: { email } });
+  async findByPayload({ username }: UserLoginDTO): Promise<UserDTO> {
+    return await this.userRepository.findOne({ where: { username } });
   }
 }
