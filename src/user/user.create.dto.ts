@@ -30,9 +30,8 @@ export class UserCreateDTO {
     description: 'User Email',
     type: String,
   })
-  @IsEmail() 
   @IsNotEmpty() 
-  email: string;
+  username: string;
 
   @ApiProperty({
     description: 'User Password',

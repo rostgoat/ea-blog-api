@@ -8,21 +8,17 @@ import {
 import { Post } from '../post/post.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
-const bcrypt = require('bcrypt');
+import * as bcrypt from 'bcrypt'
+
 /**
  * User Entity
  */
 @Entity('users')
 export class User {
-  @BeforeInsert() async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
-    this.uid = uuid();
-  }
-
   @PrimaryGeneratedColumn('uuid') user_id: string;
   @Column({ type: 'varchar', nullable: false, unique: true }) uid: string;
   @Column({ type: 'varchar', nullable: false }) name: string;
-  @Column({ type: 'varchar', nullable: false, unique: true }) email: string;
+  @Column({ type: 'varchar', nullable: false, unique: true }) username: string;
   @Column({ type: 'varchar', nullable: false }) password: string;
 
   @OneToMany(
@@ -42,5 +38,10 @@ export class User {
   constructor(name?: string, posts?: []);
   constructor(name?: string) {
     this.name = name || '';
+  }
+
+  @BeforeInsert() async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+    this.uid = uuid();
   }
 }

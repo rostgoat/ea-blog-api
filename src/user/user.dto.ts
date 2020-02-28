@@ -30,9 +30,8 @@ export class UserDTO {
     description: 'User Email',
     type: String,
   })
-  @IsEmail() 
   @IsNotEmpty()
-  email: string;
+  username: string;
 
   @ApiProperty({
     description: 'Blog Post Foreign Key',

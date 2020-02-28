@@ -16,9 +16,8 @@ export class UserLoginDTO {
     description: 'User Email',
     type: String,
   })
-  @IsEmail() 
   @IsNotEmpty() 
-  email: string;
+  username: string;
 
   @ApiProperty({
     description: 'User Password',
