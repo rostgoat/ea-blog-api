@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
-import 'dotenv/config';
 import 'reflect-metadata';
 import { UserModule } from './user/user.module';
 import {
@@ -15,7 +14,7 @@ import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
 
 // local dev port
-const port = process.env.PORT || 3000;
+const port = process.env.EA_API_PORT;
 
 /**
  * API entry point
