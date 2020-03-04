@@ -33,7 +33,7 @@ export class UserService {
    * @param data Object
    */
   async add(userDto: UserCreateDTO): Promise<UserDTO> {
-    const { name, password, username } = userDto;
+    const { name, password, username, email } = userDto;
     // check if the user exists in the db
     const userInDb = await this.userRepository.findOne({
       where: { username },
@@ -45,6 +45,7 @@ export class UserService {
       name,
       password,
       username,
+      email
     });
     await this.userRepository.save(user);
     return toUserDto(user);

@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "docker:build-image": "docker build -t ea-blog:latest .",
     "docker:start": "docker run -it ea-blog",
-    "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog"
+    "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog",
+    "drop-db:local": "psql postgres \"drop database ea_games_blog; create database ea_games_blog; \\c ea_games_blog; CREATE EXTENSION \"pgcrypto\";\""
   },
   "dependencies": {
     "@nestjs/common": "^6.10.14",

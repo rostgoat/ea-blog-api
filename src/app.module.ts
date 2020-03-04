@@ -11,7 +11,14 @@ import { AuthModule } from './auth/auth.module';
  * Root Module
  */
 @Module({
-  imports: [TypeOrmModule.forRoot(), ConfigModule.forRoot({isGlobal: true}), UserModule, CommentModule, PostModule, AuthModule],
+  imports: [
+    TypeOrmModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
+    UserModule,
+    CommentModule,
+    PostModule,
+    AuthModule,
+  ],
   exports: [UserModule, CommentModule, PostModule],
   providers: [],
 })
