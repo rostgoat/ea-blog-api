@@ -5,14 +5,12 @@ import { AuthService } from './auth.service';
 import { UserDTO } from 'src/user/user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    
   constructor(private readonly authService: AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.SECRETKEY,
+      secretOrKey: process.env.EA_SECRETKEY,
     });
   }
 

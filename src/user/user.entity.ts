@@ -8,7 +8,7 @@ import {
 import { Post } from '../post/post.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 
 /**
  * User Entity
@@ -18,6 +18,7 @@ export class User {
   @PrimaryGeneratedColumn('uuid') user_id: string;
   @Column({ type: 'varchar', nullable: false, unique: true }) uid: string;
   @Column({ type: 'varchar', nullable: false }) name: string;
+  @Column({ type: 'varchar', nullable: false, unique: true }) email: string;
   @Column({ type: 'varchar', nullable: false, unique: true }) username: string;
   @Column({ type: 'varchar', nullable: false }) password: string;
 

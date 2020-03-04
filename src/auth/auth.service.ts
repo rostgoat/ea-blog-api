@@ -18,7 +18,7 @@ export class AuthService {
   async register(userDto: UserCreateDTO): Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
       success: true,
-      message: 'user registered',
+      message: 'User Registered',
     };
     try {
       await this.usersService.add(userDto);
@@ -31,21 +31,23 @@ export class AuthService {
   async login(loginUserDto: UserLoginDTO): Promise<LoginStatus> {
     // find user in db
     const user = await this.usersService.findByLogin(loginUserDto);
-
     // generate and sign token
     const token = this._createToken(user);
-    return { username: user.username, ...token };
+
+    const { name, username } = user;
+    const { expiresIn, accessToken } = token;
+    return { username, name, expiresIn, accessToken };
   }
 
   private _createToken({ username }: UserDTO): any {
-    const expiresIn = process.env.EXPIRESIN;
-    
+    const expiresIn = process.env.EA_EXPIRESIN;
+
     const user: Partial<JwtPayload> = { username };
     const accessToken = this.jwtService.sign(user);
     return {
       expiresIn,
       accessToken,
-    };;
+    };
   }
 
   async validateUser(payload: JwtPayload): Promise<UserDTO> {

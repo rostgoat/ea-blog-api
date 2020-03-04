@@ -3,8 +3,9 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UserModule } from 'src/user/user.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule} from '@nestjs/jwt'
+import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+
 @Module({
   imports: [
     UserModule,
@@ -14,8 +15,8 @@ import { JwtStrategy } from './jwt.strategy';
       session: false,
     }),
     JwtModule.register({
-      secret: process.env.SECRETKEY,
-      signOptions: { expiresIn: process.env.EXPIRESIN },
+      secret: process.env.EA_SECRETKEY,
+      signOptions: { expiresIn: process.env.EA_EXPIRESIN },
     }),
   ],
   controllers: [AuthController],
