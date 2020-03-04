@@ -4,6 +4,7 @@ import {
   forwardRef,
   HttpException,
   HttpStatus,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
@@ -33,7 +34,7 @@ export class UserService {
    * @param data Object
    */
   async add(userDto: UserCreateDTO): Promise<UserDTO> {
-    const { name, password, username } = userDto;
+    const { name, password, username, email } = userDto;
     // check if the user exists in the db
     const userInDb = await this.userRepository.findOne({
       where: { username },
@@ -45,6 +46,7 @@ export class UserService {
       name,
       password,
       username,
+      email
     });
     await this.userRepository.save(user);
     return toUserDto(user);
@@ -107,7 +109,7 @@ export class UserService {
     // compare passwords
     const areEqual = await bcrypt.compare(password, user.password);
     if (!areEqual) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException({message: 'Invalid credentials', error: HttpStatus.UNAUTHORIZED});
     }
     return toUserDto(user);
   }

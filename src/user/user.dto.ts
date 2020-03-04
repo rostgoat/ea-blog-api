@@ -27,11 +27,19 @@ export class UserDTO {
   name: string;
 
   @ApiProperty({
-    description: 'User Email',
+    description: 'Username',
     type: String,
   })
   @IsNotEmpty()
   username: string;
+
+  @ApiProperty({
+    description: 'User Email',
+    type: String,
+  })
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
 
   @ApiProperty({
     description: 'Blog Post Foreign Key',

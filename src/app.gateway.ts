@@ -15,7 +15,7 @@ import { Socket, Server } from 'socket.io';
 @WebSocketGateway()
 export class AppGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  @WebSocketServer() wss;  
+  @WebSocketServer() wss;
   private logger: Logger = new Logger('AppGateway');
 
   afterInit(server: Server) {
@@ -23,9 +23,9 @@ export class AppGateway
   }
 
   @SubscribeMessage('connected')
-  handleConnection(client: Socket, ...args:[]) {
+  handleConnection(client: Socket, ...args: []) {
     this.logger.log(`Client Connected`);
-    return { event: 'connected', data: "Server Connected" };
+    return { event: 'connected', data: 'Server Connected' };
   }
 
   handleDisconnect(client: Socket) {
@@ -34,7 +34,7 @@ export class AppGateway
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: any): WsResponse<string> {
-    this.logger.log(`ping: ${JSON.stringify(payload)}`)
+    this.logger.log(`ping: ${JSON.stringify(payload)}`);
     return { event: 'msgToClient', data: payload };
   }
 }

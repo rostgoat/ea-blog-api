@@ -18,26 +18,34 @@ export class UserCreateDTO {
   })
   @IsNotEmpty()
   uid: string;
-  
+
   @ApiProperty({
     description: 'User Name',
     type: String,
   })
-  @IsNotEmpty() 
+  @IsNotEmpty()
   name: string;
+
+  @ApiProperty({
+    description: 'Username',
+    type: String,
+  })
+  @IsNotEmpty()
+  username: string;
 
   @ApiProperty({
     description: 'User Email',
     type: String,
   })
-  @IsNotEmpty() 
-  username: string;
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
 
   @ApiProperty({
     description: 'User Password',
     type: String,
   })
-  @IsNotEmpty() 
+  @IsNotEmpty()
   password: string;
 
   @ApiProperty({
