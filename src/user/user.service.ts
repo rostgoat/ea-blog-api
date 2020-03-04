@@ -4,6 +4,7 @@ import {
   forwardRef,
   HttpException,
   HttpStatus,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
@@ -108,7 +109,7 @@ export class UserService {
     // compare passwords
     const areEqual = await bcrypt.compare(password, user.password);
     if (!areEqual) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException({message: 'Invalid credentials', error: HttpStatus.UNAUTHORIZED});
     }
     return toUserDto(user);
   }
