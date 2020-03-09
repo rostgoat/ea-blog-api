@@ -4,6 +4,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserCreateDTO } from 'src/user/user.create.dto';
@@ -28,9 +29,8 @@ export class AuthController {
     return result;
   }
 
-  @Post('login') public async login(
-    @Body() loginUserDto: UserLoginDTO,
-  ): Promise<LoginStatus> {
+  @Post('login') 
+  public async login(@Body() loginUserDto: UserLoginDTO): Promise<LoginStatus> {
     return await this.authService.login(loginUserDto);
   }
 }
