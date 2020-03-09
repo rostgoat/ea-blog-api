@@ -103,13 +103,13 @@ export class UserService {
    */
   async findByLogin({ username, password }: UserLoginDTO): Promise<UserDTO> {
     const user = await this.userRepository.findOne({ where: { username } });
-    if (!user) {
+    if (typeof user === 'undefined') {
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
     }
     // compare passwords
     const areEqual = await bcrypt.compare(password, user.password);
     if (!areEqual) {
-      throw new UnauthorizedException({message: 'Invalid credentials', error: HttpStatus.UNAUTHORIZED});
+      throw new UnauthorizedException({message: 'Passwords don\'t match', error: HttpStatus.UNAUTHORIZED});
     }
     return toUserDto(user);
   }
