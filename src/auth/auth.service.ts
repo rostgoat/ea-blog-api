@@ -33,9 +33,9 @@ export class AuthService {
     const user = await this.usersService.findByLogin(loginUserDto);
     // generate and sign token
     const token = this._createToken(user);
-    const { name, username } = user;
+    const { name, username, uid } = user;
     const { expiresIn, accessToken } = token;
-    return { username, name, expiresIn, accessToken };
+    return { username, name, expiresIn, accessToken, uid };
   }
 
   private _createToken({ username }: UserDTO): any {
