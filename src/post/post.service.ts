@@ -1,6 +1,6 @@
 import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, getConnection } from 'typeorm';
+import { Repository, getConnection, getRepository } from 'typeorm';
 import { Promise } from 'bluebird';
 
 import { Post } from './post.entity';
@@ -8,6 +8,7 @@ import { PostDTO } from './post.dto';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
 import { toPostDto } from 'src/shared/mapper';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class PostService {
@@ -82,14 +83,7 @@ export class PostService {
    * Find all posts 
    */
   async findAll(): Promise<Post[]> {
-    try {
-      return await await getConnection()
-      .createQueryBuilder()
-      .select("posts")
-      .from(Post, "posts").getMany();
-    } catch (error) {
-      throw new Error(error)      
-    }
+    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content']});
   }
 
   /**
