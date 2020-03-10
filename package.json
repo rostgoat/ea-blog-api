@@ -20,7 +20,7 @@
     "docker:build-image": "docker build -t ea-blog:latest .",
     "docker:start": "docker run -it ea-blog",
     "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog",
-    "drop-db:local": "psql -h localhost -U rm postgres \"drop database ea_games_blog; create database ea_games_blog; \\c ea_games_blog; CREATE EXTENSION \"pgcrypto\";\""
+    "drop-db:local": "psql -U rm -d postgres -p 5432 -f sql/drop_create_db.sql"
   },
   "dependencies": {
     "@nestjs/common": "^6.10.14",
