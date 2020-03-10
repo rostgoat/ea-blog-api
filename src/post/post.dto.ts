@@ -11,16 +11,34 @@ export class PostDTO {
   post_id: string;
 
   @ApiProperty({
+    description: 'Post UID',
+    type: String,
+  })
+  uid: string;
+
+  @ApiProperty({
     description: 'Title of Post',
     type: String,
   })
   title: string;
 
   @ApiProperty({
+    description: 'Sub Title of Post',
+    type: String,
+  })
+  sub_title: string;
+
+  @ApiProperty({
     description: 'Content of Post',
     type: String,
   })
   content: string;
+
+  @ApiProperty({
+    description: 'User UID',
+    type: String,
+  })
+  user_uid: string;
 
   @ApiProperty({
     description: 'User Foreign Key',
