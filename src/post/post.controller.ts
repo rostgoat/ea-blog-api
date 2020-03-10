@@ -99,14 +99,14 @@ export class PostController {
   /**
    * Get all posts from all users
    */
-  @Get()
+  @Get('find')
   @ApiCreatedResponse({
     status: 201,
     description: 'All posts have been successfully retreived.',
     type: [PostDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findAll(@Response() res: any) {
+  async find() {
     try {
       return this.postService.findAll();
     } catch (error) {
