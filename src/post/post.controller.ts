@@ -97,6 +97,24 @@ export class PostController {
   }
 
   /**
+   * Get all posts from all users
+   */
+  @Get('find')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'All posts have been successfully retreived.',
+    type: [PostDTO],
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async find() {
+    try {
+      return this.postService.findAll();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Get a specific post
    * @param post_id String
    */
