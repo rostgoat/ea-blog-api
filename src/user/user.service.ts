@@ -79,6 +79,16 @@ export class UserService {
   }
 
   /**
+   * Find user by uid
+   */
+  async findOneByUID(user_uid: string): Promise<User> {
+    return await this.userRepository.findOne({
+      relations: ['posts', 'comments'],
+      where: { uid: user_uid },
+    });
+  }
+
+  /**
    * Remove a user related to a user
    * @param data Object
    */

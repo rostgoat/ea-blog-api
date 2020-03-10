@@ -3,4 +3,5 @@ export interface LoginStatus {
   accessToken: any;
   expiresIn: any;
   name: string;
+  uid: string;
 }
