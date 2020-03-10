@@ -1,12 +1,13 @@
 import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getConnection } from 'typeorm';
 import { Promise } from 'bluebird';
 
 import { Post } from './post.entity';
 import { PostDTO } from './post.dto';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
+import { toPostDto } from 'src/shared/mapper';
 
 @Injectable()
 export class PostService {
@@ -20,18 +21,24 @@ export class PostService {
   ) {}
 
   /**
-   * Create a new post
+   * Create a new post and associate user to the post
    * @param data Object
    */
   async add(data: Partial<PostDTO>): Promise<Post> {
     // create object with new post props
     const newPost = await this.postRepository.create(data);
-    // grab related user and assign to user object of post
-    newPost.user = await this.userService.findOne(data.user_id);
+    // grab user by passed uid
+    const user = await this.userService.findOneByUID(data.user_uid);
+    if (user.uid === data.user_uid) {
+      // grab related user and assign to user object of post
+      newPost.user = user;
+    } else {
+      throw new Error("Invalid user!")
+    }
     // save changes
     await this.postRepository.save(newPost);
     // return new post
-    return newPost;
+    return toPostDto(newPost);
   }
 
   /**
@@ -69,6 +76,20 @@ export class PostService {
     return await this.postRepository.find({
       where: { post_id },
     });
+  }
+
+  /**
+   * Find all posts 
+   */
+  async findAll(): Promise<Post[]> {
+    try {
+      return await await getConnection()
+      .createQueryBuilder()
+      .select("posts")
+      .from(Post, "posts").getMany();
+    } catch (error) {
+      throw new Error(error)      
+    }
   }
 
   /**

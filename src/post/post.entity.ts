@@ -18,6 +18,7 @@ export class Post {
   @PrimaryGeneratedColumn('uuid') post_id: string;
   @Column({ type: 'varchar', nullable: false, unique: true }) uid: string;
   @Column('text') title: string;
+  @Column('text') sub_title: string;
   @Column('text') content: string;
   @ManyToOne(
     type => User,
@@ -41,7 +42,7 @@ export class Post {
     this.content = content || '';
   }
 
-  @BeforeInsert() async hashPassword() {
+  @BeforeInsert() async generateUID() {
     this.uid = uuid();
   }
 }
