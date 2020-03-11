@@ -25,9 +25,7 @@ export class CommentService {
     // create object with new comment props
     const newComment = await this.commentRepository.create(data);
     // grab related post and assign to comment object of post
-    newComment.post = await this.postService.findOne(data.post_id);
-    // grab related user and assign to comment object of post
-    newComment.user = await this.userService.findOne(data.user_id);
+    newComment.post = await this.postService.findOne(data.post_uid);
     // save changes
     await this.commentRepository.save(newComment);
     // return new comment
@@ -36,24 +34,25 @@ export class CommentService {
 
   /**
    * Update a comment related to a user
-   * @param comment_id String
+   * @param uid String
    * @param data Object
    */
-  async edit(comment_id: string, data: Partial<CommentDTO>) {
-    await this.commentRepository.update({ comment_id }, data);
-    return await this.commentRepository.findOne({ comment_id });
+  async edit(uid: string, data: Partial<CommentDTO>) {
+    await this.commentRepository.update({ uid }, data);
+    return await this.commentRepository.findOne({ uid });
   }
 
   /**
    * Remove a comment related to a user
-   * @param data Object
+   * @param data String
    */
-  async delete(comment_id: string) {
-    await this.commentRepository.delete(comment_id);
+  async delete(uid: string) {
+    await this.commentRepository.delete(uid);
     return { deleted: true };
   }
 
   /**
+   *  TODO: get rid of this and pass custom where into regular find
    * Find all comments related to post
    */
   async findAllByPostID(post_id: string): Promise<Comment[]> {
@@ -64,12 +63,12 @@ export class CommentService {
 
   /**
    * Find comment
-   * @param comment_id String
+   * @param uid String
    */
-  async findOne(comment_id: string): Promise<Comment> {
+  async findOne(uid: string): Promise<Comment> {
     const foundComment = await this.commentRepository.findOne({
       where: {
-        comment_id: comment_id,
+        uid: uid,
       },
     });
     return foundComment;

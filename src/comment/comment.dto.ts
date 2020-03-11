@@ -11,10 +11,22 @@ export class CommentDTO {
   comment_id: string;
 
   @ApiProperty({
+    description: 'Comment UID',
+    type: String,
+  })
+  uid: string;
+
+  @ApiProperty({
     description: 'Comment Title',
     type: String,
   })
   title: string;
+
+  @ApiProperty({
+    description: 'Post UID',
+    type: String,
+  })
+  post_uid: string;
 
   @ApiProperty({
     description: 'Post Foreign Key',

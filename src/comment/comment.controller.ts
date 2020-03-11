@@ -22,7 +22,7 @@ export class CommentController {
    * Create a comment
    * @param data Object
    */
-  @Post()
+  @Post('/create')
   @ApiCreatedResponse({
     status: 201,
     description: 'The comment has been successfully created.',
@@ -39,9 +39,10 @@ export class CommentController {
 
   /**
    * Edit a comment
+   * @param uid String
    * @param data Object
    */
-  @Put(':id')
+  @Put(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A comment has been successfully updated.',
@@ -49,11 +50,11 @@ export class CommentController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async update(
-    @Param('id') comment_id: string,
+    @Param('uid') uid: string,
     @Body() data: Partial<CommentDTO>,
   ) {
     try {
-      return this.commentService.edit(comment_id, data);
+      return this.commentService.edit(uid, data);
     } catch (error) {
       throw new Error(error);
     }
@@ -61,24 +62,25 @@ export class CommentController {
 
   /**
    * Remove a comment
-   * @param data Object
+   * @param uid String
    */
-  @Delete(':id')
+  @Delete(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A comment has been successfully deleted.',
     type: CommentDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async delete(@Param('id') comment_id: string) {
+  async delete(@Param('uid') uid: string) {
     try {
-      return this.commentService.delete(comment_id);
+      return this.commentService.delete(uid);
     } catch (error) {
       throw new Error(error);
     }
   }
 
   /**
+   * TODO: get rid of this and pass custom where into regular find
    * Get all comments related to a post
    */
   @Get()
@@ -88,7 +90,7 @@ export class CommentController {
     type: [CommentDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findAllByPost(@Param('id') post_id: string, @Response() res: any) {
+  async findAllByPost(@Param('uid') post_id: string, @Response() res: any) {
     try {
       return this.commentService.findAllByPostID(post_id);
     } catch (error) {
@@ -98,18 +100,18 @@ export class CommentController {
 
   /**
    * Get a specific comment
-   * @param comment_id String
+   * @param uid String
    */
-  @Get(':id')
+  @Get(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A comment has been successfully retreived.',
     type: CommentDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findOne(@Param('id') comment_id: string) {
+  async findOne(@Param('uid') uid: string) {
     try {
-      return this.commentService.findOne(comment_id);
+      return this.commentService.findOne(uid);
     } catch (error) {
       throw new Error(error);
     }

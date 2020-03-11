@@ -4,6 +4,7 @@ import {
   Column,
   OneToMany,
   BeforeInsert,
+  JoinColumn,
 } from 'typeorm';
 import { Post } from '../post/post.entity';
 import { Comment } from '../comment/comment.entity';
@@ -29,12 +30,9 @@ export class User {
       eager: true,
     },
   )
+  @JoinColumn({ name: 'post_id'})
   posts: Post[];
-  @OneToMany(
-    type => Comment,
-    comment => comment.user,
-  )
-  comments: Comment[];
+  
 
   constructor(name?: string, posts?: []);
   constructor(name?: string) {
