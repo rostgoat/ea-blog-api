@@ -28,7 +28,7 @@ export class UserController {
    * Create user
    * @param data Object
    */
-  @Post('/create')
+  @Post('create')
   @ApiCreatedResponse({
     status: 201,
     description: 'The user has been successfully created.',
@@ -45,18 +45,19 @@ export class UserController {
 
   /**
    * Update user
+   * @param uid String
    * @param data Object
    */
-  @Put(':id')
+  @Put(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'The user has been successfully updated.',
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async update(@Param('id') user_id: string, @Body() data: Partial<UserDTO>) {
+  async update(@Param('uid') uid: string, @Body() data: Partial<UserDTO>) {
     try {
-      return this.userService.edit(user_id, data);
+      return this.userService.edit(uid, data);
     } catch (error) {
       throw new Error(error);
     }
@@ -65,7 +66,7 @@ export class UserController {
   /**
    * Get all users
    */
-  @Get()
+  @Get('find')
   @ApiCreatedResponse({
     status: 200,
     description: 'All users have been successfully retreived.',
@@ -82,33 +83,33 @@ export class UserController {
 
   /**
    * Get a specific user
-   * @param user_id String
+   * @param uid String
    */
-  @Get(':id')
+  @Get(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A user has been successfully retreived.',
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findOne(@Param('id') user_id: string) {
-    return this.userService.findOne(user_id);
+  async findOne(@Param('uid') uid: string) {
+    return this.userService.findOne(uid);
   }
 
   /**
    * Remove a user
-   * @param data Object
+   * @param uid String
    */
-  @Delete(':id')
+  @Delete(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A user has been successfully deleted.',
     type: UserDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async delete(@Param('id') user_id: string) {
+  async delete(@Param('uid') uid: string) {
     try {
-      return this.userService.delete(user_id);
+      return this.userService.delete(uid);
     } catch (error) {
       throw new Error(error);
     }
