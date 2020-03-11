@@ -11,6 +11,12 @@ export class CommentDTO {
   comment_id: string;
 
   @ApiProperty({
+    description: 'Comment UID',
+    type: String,
+  })
+  uid: string;
+
+  @ApiProperty({
     description: 'Comment Title',
     type: String,
   })
