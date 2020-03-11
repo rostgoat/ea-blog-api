@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BeforeInsert, JoinColumn } from 'typeorm';
 import { Post } from '../post/post.entity';
 import { User } from '../user/user.entity';
 
@@ -16,12 +16,9 @@ export class Comment {
     type => Post,
     post => post.comments,
   )
+  @JoinColumn({ name: 'post_id'})
   post: Post;
-  @ManyToOne(
-    type => User,
-    user => user.comments,
-  )
-  user: User;
+  
 
   @BeforeInsert() async createUID() {
     this.uid = uuid();

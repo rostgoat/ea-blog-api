@@ -25,9 +25,7 @@ export class CommentService {
     // create object with new comment props
     const newComment = await this.commentRepository.create(data);
     // grab related post and assign to comment object of post
-    newComment.post = await this.postService.findOne(data.post_id);
-    // grab related user and assign to comment object of post
-    newComment.user = await this.userService.findOne(data.user_id);
+    newComment.post = await this.postService.findOne(data.post_uid);
     // save changes
     await this.commentRepository.save(newComment);
     // return new comment
