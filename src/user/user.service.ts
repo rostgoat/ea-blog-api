@@ -83,7 +83,7 @@ export class UserService {
    */
   async findOneByUID(uid: string): Promise<User> {
     return await this.userRepository.findOne({
-      relations: ['posts', 'comments'],
+      relations: ['posts'],
       where: { uid: uid },
     });
   }

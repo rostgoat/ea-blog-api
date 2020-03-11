@@ -5,6 +5,7 @@ import {
   OneToMany,
   ManyToOne,
   BeforeInsert,
+  JoinColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
@@ -27,7 +28,9 @@ export class Post {
       cascade: true,
     },
   )
+  @JoinColumn({ name: 'user_id'})
   user: User;
+
   @OneToMany(
     type => Comment,
     comment => comment.post,
@@ -35,6 +38,7 @@ export class Post {
       cascade: true,
     },
   )
+  @JoinColumn({ name: 'comment_id'})
   comments: Comment[];
 
   constructor(title?: string, content?: string) {

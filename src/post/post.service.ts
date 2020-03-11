@@ -30,6 +30,8 @@ export class PostService {
     const newPost = await this.postRepository.create(data);
     // grab user by passed uid
     const user = await this.userService.findOneByUID(data.user_uid);
+
+    console.log('user', user)
     if (user.uid === data.user_uid) {
       // grab related user and assign to user object of post
       newPost.user = user;
