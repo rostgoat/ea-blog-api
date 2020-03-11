@@ -56,9 +56,9 @@ export class UserService {
    * Update an existing user
    * @param data Object
    */
-  async edit(user_id: string, data: Partial<UserDTO>): Promise<User> {
-    await this.userRepository.update({ user_id }, data);
-    return this.userRepository.findOne({ user_id });
+  async edit(uid: string, data: Partial<UserDTO>): Promise<User> {
+    await this.userRepository.update({ uid }, data);
+    return this.userRepository.findOne({ uid });
   }
 
   /**
@@ -71,20 +71,20 @@ export class UserService {
   /**
    * Return one user
    */
-  async findOne(user_id: string): Promise<User> {
+  async findOne(uid: string): Promise<User> {
     return await this.userRepository.findOne({
       relations: ['posts', 'comments'],
-      where: { user_id },
+      where: { uid },
     });
   }
 
   /**
    * Find user by uid
    */
-  async findOneByUID(user_uid: string): Promise<User> {
+  async findOneByUID(uid: string): Promise<User> {
     return await this.userRepository.findOne({
       relations: ['posts', 'comments'],
-      where: { uid: user_uid },
+      where: { uid: uid },
     });
   }
 
@@ -92,9 +92,9 @@ export class UserService {
    * Remove a user related to a user
    * @param data Object
    */
-  async delete(user_id: string) {
+  async delete(uid: string) {
     // // get all posts related to user
-    // const posts = await this.postService.findAllByPostID(user_id);
+    // const posts = await this.postService.findAllByPostID(uid);
 
     // // remove all posts related to user
     // await Promise.each(posts, async post => {
@@ -102,7 +102,7 @@ export class UserService {
     // });
 
     // delete user
-    await this.userRepository.delete(user_id);
+    await this.userRepository.delete(uid);
     return { deleted: true };
   }
 
