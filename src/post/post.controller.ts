@@ -42,18 +42,19 @@ export class PostController {
 
   /**
    * Edit a post
+   * @param uid String
    * @param data Object
    */
-  @Put(':id')
+  @Put(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A post has been successfully updated.',
     type: PostDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async update(@Param('id') post_id: string, @Body() data: Partial<PostDTO>) {
+  async update(@Param('uid') uid: string, @Body() data: Partial<PostDTO>) {
     try {
-      return this.postService.edit(post_id, data);
+      return this.postService.edit(uid, data);
     } catch (error) {
       throw new Error(error);
     }
@@ -61,24 +62,25 @@ export class PostController {
 
   /**
    * Remove a post
-   * @param data Object
+   * @param uid String
    */
-  @Delete(':id')
+  @Delete(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A post has been successfully deleted.',
     type: PostDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async delete(@Param('id') post_id: string) {
+  async delete(@Param('uid') uid: string) {
     try {
-      return this.postService.delete(post_id);
+      return this.postService.delete(uid);
     } catch (error) {
       throw new Error(error);
     }
   }
 
   /**
+   * TODO: get rid of this and add a where arg into regular find
    * Get all posts related to a user
    */
   @Get()
@@ -116,18 +118,18 @@ export class PostController {
 
   /**
    * Get a specific post
-   * @param post_id String
+   * @param uid String
    */
-  @Get(':id')
+  @Get(':uid')
   @ApiCreatedResponse({
     status: 201,
     description: 'A post has been successfully retreived.',
     type: PostDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findOne(@Param('id') post_id: string) {
+  async findOne(@Param('uid') uid: string) {
     try {
-      return this.postService.findOne(post_id);
+      return this.postService.findOne(uid);
     } catch (error) {
       throw new Error(error);
     }

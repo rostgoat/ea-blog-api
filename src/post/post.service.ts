@@ -44,21 +44,21 @@ export class PostService {
 
   /**
    * Update a post related to a user
-   * @param post_id String
+   * @param uid String
    * @param data Object
    */
-  async edit(post_id: string, data: Partial<PostDTO>) {
-    await this.postRepository.update({ post_id }, data);
-    return await this.postRepository.findOne({ post_id });
+  async edit(uid: string, data: Partial<PostDTO>) {
+    await this.postRepository.update({ uid }, data);
+    return await this.postRepository.findOne({ uid });
   }
 
   /**
    * Remove a post related to a user
-   * @param data Object
+   * @param uid String
    */
-  async delete(post_id: string) {
+  async delete(uid: string) {
     // get all comments related to post
-    const comments = await this.commentService.findAllByPostID(post_id);
+    const comments = await this.commentService.findAllByPostID(uid);
 
     // remove all comments related to post
     await Promise.each(comments, async comment => {
@@ -66,16 +66,17 @@ export class PostService {
     });
 
     // delete post
-    await this.postRepository.delete(post_id);
+    await this.postRepository.delete(uid);
     return { deleted: true };
   }
 
   /**
+   * TODO: get rid of this and add a where arg into regular find
    * Find all posts related to post
    */
-  async findAllByPostID(post_id: string): Promise<Post[]> {
+  async findAllByPostID(uid: string): Promise<Post[]> {
     return await this.postRepository.find({
-      where: { post_id },
+      where: { uid },
     });
   }
 
@@ -88,13 +89,13 @@ export class PostService {
 
   /**
    * Find post
-   * @param data Object
+   * @param uid String
    */
-  async findOne(post_id: string): Promise<Post> {
+  async findOne(uid: string): Promise<Post> {
     return await this.postRepository.findOne({
       relations: ['comments'],
       where: {
-        post_id,
+        uid,
       },
     });
   }
