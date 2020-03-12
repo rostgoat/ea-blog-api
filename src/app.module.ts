@@ -6,6 +6,7 @@ import { CommentModule } from './comment/comment.module';
 import { PostModule } from './post/post.module';
 import { AppGateway } from './app.gateway';
 import { AuthModule } from './auth/auth.module';
+import { PhotoModule } from './photo/photo.module';
 
 /**
  * Root Module
@@ -18,6 +19,8 @@ import { AuthModule } from './auth/auth.module';
     CommentModule,
     PostModule,
     AuthModule,
+    PhotoModule,
+    PhotoModule
   ],
   exports: [UserModule, CommentModule, PostModule],
   providers: [],

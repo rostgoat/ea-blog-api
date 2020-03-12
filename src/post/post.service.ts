@@ -26,6 +26,7 @@ export class PostService {
    * @param data Object
    */
   async add(data: Partial<PostDTO>): Promise<Post> {
+    console.log('data', data)
     // create object with new post props
     const newPost = await this.postRepository.create(data);
     // grab user by passed uid
