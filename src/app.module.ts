@@ -7,6 +7,7 @@ import { PostModule } from './post/post.module';
 import { AppGateway } from './app.gateway';
 import { AuthModule } from './auth/auth.module';
 import { PhotoModule } from './photo/photo.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 /**
  * Root Module
@@ -20,7 +21,10 @@ import { PhotoModule } from './photo/photo.module';
     PostModule,
     AuthModule,
     PhotoModule,
-    PhotoModule
+    PhotoModule,
+    MulterModule.register({
+      dest: './uploads'
+    })
   ],
   exports: [UserModule, CommentModule, PostModule],
   providers: [],
