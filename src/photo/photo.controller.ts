@@ -1,10 +1,12 @@
 import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import {FileInterceptor} from '@nestjs/platform-express'
+import { PhotoService } from './photo.service';
 
 @ApiTags('photos')
 @Controller('photos')
 export class PhotoController {
+  constructor(private photoService: PhotoService) {}
 
     /**
    * Create a photo
@@ -20,5 +22,10 @@ export class PhotoController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@UploadedFile() file: any) {
     console.log("Photo controller: ", file)
+    try {
+      return this.photoService.add(file);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
