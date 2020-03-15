@@ -30,4 +30,13 @@ export class PhotoService {
         // return new photo
         return toDTO('photo', newPhoto);
       }
+
+    /**
+     * Find user by uid
+     */
+    async findOneByUID(uid: string): Promise<Photo> {
+      return await this.photoRepository.findOne({
+        where: { uid: uid },
+      });
+    }
 }
