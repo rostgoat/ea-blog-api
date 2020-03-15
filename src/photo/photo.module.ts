@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forFeature([Photo])
   ],
   controllers: [PhotoController],
-  providers: [PhotoService]
+  providers: [PhotoService],
+  exports: [PhotoService]
 })
 export class PhotoModule {}
