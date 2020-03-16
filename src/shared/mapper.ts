@@ -18,8 +18,8 @@ export const toPostDto = (data: Post): Partial<PostDTO> => {
 };
 
 export const toPhotoDto = (data: Photo): Partial<PhotoDTO> => {
-  const { title, buffer, uid } = data;
-  let photoDto: Partial<PhotoDTO> = { title, buffer, uid };
+  const { title, path, uid } = data;
+  let photoDto: Partial<PhotoDTO> = { title, path, uid };
   return photoDto;
 };
 
