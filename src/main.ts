@@ -12,6 +12,7 @@ import {
 } from './config/swagger/swagger';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 // local dev port
 const port = process.env.EA_API_PORT;
@@ -20,7 +21,7 @@ const port = process.env.EA_API_PORT;
  * API entry point
  */
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // connecting user docs to swagger
   const commonDocument = SwaggerModule.createDocument(app, commonOptions);

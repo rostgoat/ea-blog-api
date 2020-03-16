@@ -41,6 +41,12 @@ export class PostDTO {
   user_uid: string;
 
   @ApiProperty({
+    description: 'Post Image uid',
+    type: String,
+  })
+  post_image_uid: string;
+
+  @ApiProperty({
     description: 'User Foreign Key',
     type: String,
   })

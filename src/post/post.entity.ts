@@ -6,10 +6,12 @@ import {
   ManyToOne,
   BeforeInsert,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
+import { Photo } from 'src/photo/photo.entity';
 
 /**
  * Post Entity
@@ -40,6 +42,13 @@ export class Post {
   )
   @JoinColumn({ name: 'comment_id'})
   comments: Comment[];
+
+  @OneToOne(type => Photo, {
+    cascade: true,
+  })
+  @JoinColumn({ name: 'photo_id'})
+  photo: Photo
+
 
   constructor(title?: string, content?: string) {
     this.title = title || '';
