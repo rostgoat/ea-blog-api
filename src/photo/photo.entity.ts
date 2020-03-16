@@ -13,7 +13,7 @@ import {
   export class Photo {
     @PrimaryGeneratedColumn('uuid') photo_id: string;
     @Column({ type: 'varchar', nullable: false, unique: true }) uid: string;
-    @Column({type: "bytea", nullable: false, name: "content"}) buffer: Buffer;
+    @Column({ type: "varchar", nullable: false }) path: string;
     @Column('text') title: string;
   
     @BeforeInsert() async generateUID() {

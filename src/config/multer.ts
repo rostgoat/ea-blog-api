@@ -2,17 +2,25 @@ import { extname } from "path";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { diskStorage } from 'multer'
 import { existsSync, mkdirSync } from "fs";
-import uuid = require("uuid");
 
+/**
+ * Generate unique filename
+ * @param file File
+ */
 export const generateFilename = (file) => {
-    return `${Date.now()}.${extname(file.originalname)}`;
+    return `${Date.now()}${extname(file.originalname)}`;
 }
 
+/**
+ * Multer file system storage destination
+ */
 export const multerConfig = {
-    dest: process.env.UPLOAD_LOCATION,
+    dest: process.env.EA_API_UPLOAD_LOCATION || './uploads',
 };
 
-// Multer upload options
+/**
+ * Multer options for storing file paths in db and checking correct types
+ */
 export const multerOptions = {
     // Check the mimetypes to allow for upload
     fileFilter: (req: any, file: any, cb: any) => {

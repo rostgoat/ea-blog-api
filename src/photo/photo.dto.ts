@@ -17,10 +17,10 @@ export class PhotoDTO {
   uid: string;
 
   @ApiProperty({
-    description: 'Original title of uploaded photo',
+    description: 'Generated filename of uploaded photo',
     type: String,
   })
-  originalname: string;
+  filename: string;
 
   @ApiProperty({
     description: 'Title of Photo',
@@ -29,8 +29,8 @@ export class PhotoDTO {
   title: string;
 
   @ApiProperty({
-    description: 'Byte Array Photo',
-    type: Buffer,
+    description: 'File System Path of Photo',
+    type: String,
   })
-  buffer: Buffer;
+  path: string;
 }

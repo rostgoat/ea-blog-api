@@ -17,13 +17,13 @@ export class PhotoService {
        * @param data Object
        */
       async add(data: Partial<PhotoDTO>) {
-        const { originalname, buffer } = data;
-        const title = originalname;
+        const { filename, path } = data;
+        const title = filename;
 
         // create object with new photo props
         const newPhoto = await this.photoRepository.create({
             title,
-            buffer
+            path
         });
         // save changes
         await this.photoRepository.save(newPhoto);
