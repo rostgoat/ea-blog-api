@@ -42,8 +42,7 @@ export class PostService {
     }
 
     const photo = await this.photoService.findOneByUID(data.post_image_uid);
-
-    if (user.uid === data.post_image_uid) {
+    if (photo.uid === data.post_image_uid) {
       // grab related user and assign to user object of post
       newPost.photo = photo;
     } 
@@ -95,7 +94,7 @@ export class PostService {
    * Find all posts 
    */
   async findAll(): Promise<Post[]> {
-    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content']});
+    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content'], relations: ['photo']});
   }
 
   /**
