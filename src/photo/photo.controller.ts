@@ -22,7 +22,6 @@ export class PhotoController {
   @UseInterceptors(FileInterceptor('post_photo', multerOptions))
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@UploadedFile() file: any) {
-    console.log("Photo controller: ", file)
     try {
       return this.photoService.add(file);
     } catch (error) {

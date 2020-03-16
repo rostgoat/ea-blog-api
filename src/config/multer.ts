@@ -15,13 +15,17 @@ export const generateFilename = (file) => {
  * Multer file system storage destination
  */
 export const multerConfig = {
-    dest: process.env.EA_API_UPLOAD_LOCATION || './uploads',
+    dest: process.env.EA_API_UPLOAD_LOCATION || './.tmp',
 };
 
 /**
  * Multer options for storing file paths in db and checking correct types
  */
 export const multerOptions = {
+    // limit image upload size to 1mb
+    limits: {
+        fileSize: +process.env.EA_API_MAX_UPLOAD_FILE_SIZE || 1000000,
+    },
     // Check the mimetypes to allow for upload
     fileFilter: (req: any, file: any, cb: any) => {
         if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
