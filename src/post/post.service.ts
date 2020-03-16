@@ -9,6 +9,7 @@ import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
 import { toPostDto } from 'src/shared/mapper';
 import { User } from 'src/user/user.entity';
+import { PhotoService } from 'src/photo/photo.service';
 
 @Injectable()
 export class PostService {
@@ -19,6 +20,8 @@ export class PostService {
     private readonly userService: UserService,
     @Inject(forwardRef(() => CommentService))
     private readonly commentService: CommentService,
+    @Inject(forwardRef(() => PhotoService))
+    private readonly photoService: PhotoService,
   ) {}
 
   /**
@@ -31,13 +34,18 @@ export class PostService {
     // grab user by passed uid
     const user = await this.userService.findOneByUID(data.user_uid);
 
-    console.log('user', user)
     if (user.uid === data.user_uid) {
       // grab related user and assign to user object of post
       newPost.user = user;
     } else {
       throw new Error("Invalid user!")
     }
+
+    const photo = await this.photoService.findOneByUID(data.post_image_uid);
+    if (photo.uid === data.post_image_uid) {
+      // grab related user and assign to user object of post
+      newPost.photo = photo;
+    } 
     // save changes
     await this.postRepository.save(newPost);
     // return new post
@@ -86,7 +94,7 @@ export class PostService {
    * Find all posts 
    */
   async findAll(): Promise<Post[]> {
-    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content']});
+    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content'], relations: ['photo']});
   }
 
   /**
