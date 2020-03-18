@@ -12,6 +12,7 @@ import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
 import { Photo } from 'src/photo/photo.entity';
+import { Likes } from 'src/likes/likes.entity';
 
 /**
  * Post Entity
@@ -46,9 +47,12 @@ export class Post {
   @OneToOne(type => Photo, {
     cascade: true,
   })
-  
   @JoinColumn({ name: 'photo_id'})
   photo: Photo
+
+  @OneToOne(type => Likes)
+  @JoinColumn({ name: 'like_id'})
+  like: Likes
 
 
   constructor(title?: string, content?: string) {

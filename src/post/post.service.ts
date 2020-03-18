@@ -94,7 +94,7 @@ export class PostService {
    * Find all posts 
    */
   async findAll(): Promise<Post[]> {
-    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content'], relations: ['photo']});
+    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content'], relations: ['photo', 'like']});
   }
 
   /**
