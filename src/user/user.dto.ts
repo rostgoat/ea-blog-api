@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
 /**
- * General User data transfer object expected from controller
+ * General User data transfer object  
  * This DTO omits the password field
  */
 export class UserDTO {

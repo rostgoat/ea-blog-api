@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
- * Comment data transfer object expected from controller
+ * Comment data transfer object  
  */
 export class CommentDTO {
   @ApiProperty({

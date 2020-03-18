@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
- * Photo data transfer object expected from controller
+ * Photo data transfer object  
  */
 export class PhotoDTO {
   @ApiProperty({
