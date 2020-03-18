@@ -46,6 +46,7 @@ export class Post {
   @OneToOne(type => Photo, {
     cascade: true,
   })
+  
   @JoinColumn({ name: 'photo_id'})
   photo: Photo
 

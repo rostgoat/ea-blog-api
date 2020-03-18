@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
- * Post data transfer object expected from controller
+ * Post data transfer object  
  */
 export class PostDTO {
   @ApiProperty({
