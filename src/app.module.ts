@@ -9,6 +9,7 @@ import { PhotoModule } from './photo/photo.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { LikesModule } from './likes/likes.module';
 /**
  * Root Module
  */
@@ -28,6 +29,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
+    LikesModule,
   ],
   exports: [UserModule, CommentModule, PostModule],
   providers: [],
