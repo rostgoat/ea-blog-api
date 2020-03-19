@@ -12,7 +12,7 @@ import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
 import { Photo } from 'src/photo/photo.entity';
-import { Likes } from 'src/likes/likes.entity';
+import { Like } from 'src/like/like.entity';
 
 /**
  * Post Entity
@@ -50,10 +50,16 @@ export class Post {
   @JoinColumn({ name: 'photo_id'})
   photo: Photo
 
-  @OneToOne(type => Likes)
+  @OneToMany(
+    type => Like,
+    like => like.post,
+    {
+      eager: true,
+    },
+  )
   @JoinColumn({ name: 'like_id'})
-  like: Likes
-
+  likes: Like[];
+  
 
   constructor(title?: string, content?: string) {
     this.title = title || '';

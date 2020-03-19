@@ -4,8 +4,8 @@ import { Post } from 'src/post/post.entity';
 import { PostDTO } from 'src/post/post.dto';
 import { PhotoDTO } from 'src/photo/photo.dto';
 import { Photo } from 'src/photo/photo.entity';
-import { Likes } from 'src/likes/likes.entity';
-import { LikesDTO } from 'src/likes/likes.dto';
+import { Like } from 'src/like/like.entity';
+import { LikeDTO } from 'src/like/like.dto';
 
 export const toUserDto = (data: User): Partial<UserDTO> => {
   const { user_id, name, username, uid, email } = data;
@@ -25,9 +25,9 @@ export const toPhotoDto = (data: Photo): Partial<PhotoDTO> => {
   return photoDto;
 };
 
-export const toLikeDto = (data: Likes): Partial<LikesDTO> => {
-  const { liked_at, post_liked, uid } = data;
-  let photoDto: Partial<LikesDTO> = { liked_at, post_liked, uid };
+export const toLikeDto = (data: Like): Partial<LikeDTO> => {
+  const { post_liked, uid } = data;
+  let photoDto: Partial<LikeDTO> = { post_liked, uid };
   return photoDto;
 };
 
