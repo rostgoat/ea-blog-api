@@ -7,6 +7,7 @@ import { Post } from './post.entity';
 import { UserModule } from '../user/user.module';
 import { CommentModule } from '../comment/comment.module';
 import { AppGateway } from 'src/app.gateway';
+import { LikeModule } from 'src/like/like.module';
 
 @Global()
 @Module({
@@ -14,6 +15,7 @@ import { AppGateway } from 'src/app.gateway';
     TypeOrmModule.forFeature([Post]),
     forwardRef(() => UserModule),
     forwardRef(() => CommentModule),
+    forwardRef(() => LikeModule),
   ],
   controllers: [PostController],
   providers: [PostService, AppGateway],
