@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 /**
- * Login User data transfer object expected from controller
+ * Login User data transfer object  
  */
 export class UserLoginDTO {
   @ApiProperty({

@@ -1,42 +1,42 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
- * Comment data transfer object  
+ * Like data transfer object  
  */
-export class CommentDTO {
+export class LikeDTO {
   @ApiProperty({
     description: 'Primary Key',
     type: String,
   })
-  comment_id: string;
+  like_id: string;
 
   @ApiProperty({
-    description: 'Comment UID',
+    description: 'Like UID',
     type: String,
   })
   uid: string;
 
   @ApiProperty({
-    description: 'Comment Title',
-    type: String,
+    description: 'Like liked at Date',
+    type: Date,
   })
-  title: string;
+  liked_at: Date;
 
   @ApiProperty({
-    description: 'Post UID',
-    type: String,
+    description: 'Flag that determines if the post is liked by a user',
+    type: Boolean,
   })
-  post_uid: string;
+  post_liked: Boolean;
 
   @ApiProperty({
     description: 'Post Foreign Key',
     type: String,
   })
-  post_id: string;
+  post_uid: string;
 
   @ApiProperty({
     description: 'User Foreign Key',
     type: String,
   })
-  user_id: string;
+  user_uid: string;
 }

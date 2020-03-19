@@ -5,11 +5,13 @@ import {
   OneToMany,
   BeforeInsert,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { Post } from '../post/post.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
+import { Like } from 'src/like/like.entity';
 
 /**
  * User Entity
@@ -33,6 +35,15 @@ export class User {
   @JoinColumn({ name: 'post_id'})
   posts: Post[];
   
+  @OneToMany(
+    type => Like,
+    like => like.user,
+    {
+      eager: true,
+    },
+  )
+  @JoinColumn({ name: 'like_id'})
+  likes: Like[]
 
   constructor(name?: string, posts?: []);
   constructor(name?: string) {
