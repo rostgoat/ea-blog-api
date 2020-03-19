@@ -24,6 +24,8 @@ export class Post {
   @Column('text') title: string;
   @Column('text') sub_title: string;
   @Column('text') content: string;
+  @Column({ type: "date" }) created_at: Date;
+
   @ManyToOne(
     type => User,
     user => user.posts,
@@ -68,5 +70,6 @@ export class Post {
 
   @BeforeInsert() async generateUID() {
     this.uid = uuid();
+    this.created_at = new Date();
   }
 }

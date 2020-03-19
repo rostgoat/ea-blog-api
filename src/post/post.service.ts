@@ -32,8 +32,12 @@ export class PostService {
    * @param data Object
    */
   async add(data: Partial<PostDTO>): Promise<Post> {
+    // add new date property
+    data = Object.assign(data, { created_at: Date.now()})
+
     // create object with new post props
     const newPost = await this.postRepository.create(data);
+
     // grab user by passed uid
     const user = await this.userService.findOneByUID(data.user_uid);
 
@@ -103,6 +107,7 @@ export class PostService {
     .addSelect('p.title', 'post_title')
     .addSelect('p.sub_title', 'post_subtitle')
     .addSelect('p.content', 'post_content')
+    .addSelect('p.created_at', 'post_created_at')
     .addSelect('u.name', 'post_author')
     .addSelect('l.uid', 'like_uid')
     .addSelect('l.post_liked', 'post_liked')
