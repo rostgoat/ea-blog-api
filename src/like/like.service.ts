@@ -68,11 +68,10 @@ export class LikeService {
 
       async edit(data: Partial<LikeDTO>): Promise<Like> {
         const { uid, post_liked } = data;
-        console.log('post_liked', post_liked)
+
         // check status of like/dislike
         let updatedLikeStatus = !post_liked;
 
-        console.log('updatedLikeStatus', updatedLikeStatus)
         // update like status in db
         await this.likesRepository.update({ uid }, {post_liked: updatedLikeStatus});
 
@@ -92,13 +91,5 @@ export class LikeService {
           },
         });
       }
-
-      async checkLikedStatus(uid: string): Promise<Boolean> {
-        return await this.likesRepository.findOne({
-          where: {
-            uid,
-            liked_post: true
-          }
-        })
-      }
+      
 }
