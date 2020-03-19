@@ -9,7 +9,7 @@ import { LikeService } from './like.service';
 @ApiTags('posts')
 @Controller('likes')
 export class LikeController {
-    constructor(private likesService: LikeService) {}
+  constructor(private likesService: LikeService) {}
 
   /**
    * Like a post
