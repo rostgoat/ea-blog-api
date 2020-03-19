@@ -58,9 +58,12 @@ export class LikeService {
           
           // save changes
           const {uid} = await this.likesRepository.save(newLike);
-          // return new like
+          
+          // assign like to a post
           post.likes.push(uid)
-        return toLikeDto(newLike);
+          
+          // return new like
+          return toLikeDto(newLike);
       }
 
       /**
@@ -73,5 +76,14 @@ export class LikeService {
             uid,
           },
         });
+      }
+
+      async checkLikedStatus(uid: string): Promise<Boolean> {
+        return await this.likesRepository.findOne({
+          where: {
+            uid,
+            liked_post: true
+          }
+        })
       }
 }

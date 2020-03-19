@@ -107,7 +107,7 @@ export class PostService {
     .addSelect('l.uid', 'like_uid')
     .addSelect('ph.title', 'photo_title')
     .addSelect('ph.path', 'path')
-    .innerJoin('p.likes', 'l')
+    .leftJoin('p.likes', 'l')
     .innerJoin('p.photo', 'ph')
     .innerJoin('p.user', 'u')
     .getRawMany()
