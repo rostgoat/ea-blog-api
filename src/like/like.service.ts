@@ -1,7 +1,7 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { Like } from './like.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { LikeDTO } from './like.dto';
 import { Promise } from 'bluebird';
 import { PostService } from 'src/post/post.service';
@@ -90,6 +90,18 @@ export class LikeService {
             uid,
           },
         });
+      }
+
+      /**
+       * Find and count the number of times a post was liked by all users
+       */
+      async findLikeCount(): Promise<Number> {
+        return await getRepository(Like)
+        .createQueryBuilder('l')
+        .select('DISTINCT(`like_id`)')
+        .innerJoin('l.post', 'p')
+        .where('l.post_liked = true')
+        .getCount()
       }
       
 }
