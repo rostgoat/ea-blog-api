@@ -23,7 +23,7 @@ export class LikeService {
        * Like a post and associate user and post to the like
        * @param data Object
        */
-      async like(data: Partial<LikeDTO>): Promise<Like> {
+      async add(data: Partial<LikeDTO>): Promise<Like> {
         // extract data from request
         const {user_uid, post_uid} = data;
 
@@ -64,6 +64,22 @@ export class LikeService {
           
           // return new like
           return toLikeDto(newLike);
+      }
+
+      async edit(data: Partial<LikeDTO>): Promise<Like> {
+        const { uid, post_liked } = data;
+
+        // check status of like/dislike
+        let updatedLikeStatus = false;
+        updatedLikeStatus = (post_liked) ? false : true;
+
+        // update like status in db
+        await this.likesRepository.update({ uid }, {post_liked: updatedLikeStatus});
+
+        // return status of like
+        const updatedLike = await this.likesRepository.findOne({ uid });
+        console.log('updatedLike', updatedLike)
+        return updatedLike.post_liked;
       }
 
       /**

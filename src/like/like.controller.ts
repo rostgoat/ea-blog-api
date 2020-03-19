@@ -1,4 +1,4 @@
-import { Controller, Body, Post } from '@nestjs/common';
+import { Controller, Body, Post, Put } from '@nestjs/common';
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import { LikeDTO } from './like.dto';
 import { LikeService } from './like.service';
@@ -24,7 +24,26 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() data: LikeDTO) {
     try {
-      return this.likesService.like(data);
+      return this.likesService.add(data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
+   * Unlike a post
+   * @param data Object
+   */
+  @Put('unlike')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'The post has been successfully unliked.',
+    type: LikeDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async update(@Body() data: LikeDTO) {
+    try {
+      return this.likesService.edit(data);
     } catch (error) {
       throw new Error(error);
     }
