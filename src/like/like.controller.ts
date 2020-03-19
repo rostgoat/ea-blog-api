@@ -41,11 +41,31 @@ export class LikeController {
     type: LikeDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async update(@Body() data: LikeDTO) {
+  async unlike(@Body() data: LikeDTO) {
     try {
       return this.likesService.edit(data);
     } catch (error) {
       throw new Error(error);
     }
   }
+
+  /**
+   * Relike a post
+   * @param data Object
+   */
+  @Put('relike')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'The post has been successfully reliked.',
+    type: LikeDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async relike(@Body() data: LikeDTO) {
+    try {
+      return this.likesService.edit(data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
 }
