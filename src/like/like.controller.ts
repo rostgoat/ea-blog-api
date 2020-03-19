@@ -1,15 +1,15 @@
 import { Controller, Body, Post } from '@nestjs/common';
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
-import { LikesDTO } from './likes.dto';
-import { LikesService } from './likes.service';
+import { LikeDTO } from './like.dto';
+import { LikeService } from './like.service';
 
 /**
- * Likes Controller
+ * Like Controller
  */
 @ApiTags('posts')
 @Controller('likes')
-export class LikesController {
-    constructor(private likesService: LikesService) {}
+export class LikeController {
+    constructor(private likesService: LikeService) {}
 
   /**
    * Like a post
@@ -19,10 +19,10 @@ export class LikesController {
   @ApiCreatedResponse({
     status: 201,
     description: 'The post has been successfully liked.',
-    type: LikesDTO,
+    type: LikeDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() data: LikesDTO) {
+  async create(@Body() data: LikeDTO) {
     try {
       return this.likesService.like(data);
     } catch (error) {

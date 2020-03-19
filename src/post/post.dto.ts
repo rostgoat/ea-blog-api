@@ -51,4 +51,16 @@ export class PostDTO {
     type: String,
   })
   user_id: string;
+
+  @ApiProperty({
+    description: 'Like Foreign Key',
+    type: String,
+  })
+  like_id: string;
+
+  @ApiProperty({
+    description: 'Like UID',
+    type: String,
+  })
+  like_uid: string;
 }

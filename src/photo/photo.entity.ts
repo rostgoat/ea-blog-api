@@ -3,8 +3,11 @@ import {
     PrimaryGeneratedColumn,
     Column,
     BeforeInsert,
+    OneToOne,
+    JoinColumn,
   } from 'typeorm';
   import { v4 as uuid } from 'uuid';
+import { Post } from 'src/post/post.entity';
   
   /**
    * Photo Entity
@@ -16,6 +19,12 @@ import {
     @Column({ type: "varchar", nullable: false }) path: string;
     @Column('text') title: string;
   
+    @OneToOne(type => Post, {
+      cascade: true,
+    })
+    @JoinColumn({ name: 'post_id'})
+    post: Post
+
     @BeforeInsert() async generateUID() {
       this.uid = uuid();
     }

@@ -1,6 +1,6 @@
 import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, getConnection, getRepository } from 'typeorm';
+import { Repository, getConnection, getRepository, getManager, createQueryBuilder } from 'typeorm';
 import { Promise } from 'bluebird';
 
 import { Post } from './post.entity';
@@ -10,6 +10,7 @@ import { CommentService } from '../comment/comment.service';
 import { toPostDto } from 'src/shared/mapper';
 import { User } from 'src/user/user.entity';
 import { PhotoService } from 'src/photo/photo.service';
+import { LikeService } from 'src/like/like.service';
 
 @Injectable()
 export class PostService {
@@ -22,6 +23,8 @@ export class PostService {
     private readonly commentService: CommentService,
     @Inject(forwardRef(() => PhotoService))
     private readonly photoService: PhotoService,
+    @Inject(forwardRef(() => LikeService))
+    private readonly likeService: LikeService,
   ) {}
 
   /**
@@ -94,7 +97,20 @@ export class PostService {
    * Find all posts 
    */
   async findAll(): Promise<Post[]> {
-    return await this.postRepository.find({select: ['uid', 'title', 'sub_title', 'content'], relations: ['photo', 'like']});
+    return await getRepository(Post)
+    .createQueryBuilder('p')
+    .select(['p.uid'])
+    .addSelect('p.title', 'post_title')
+    .addSelect('p.sub_title', 'post_subtitle')
+    .addSelect('p.content', 'post_content')
+    .addSelect('u.name', 'post_author')
+    .addSelect('l.uid', 'like_uid')
+    .addSelect('ph.title', 'photo_title')
+    .addSelect('ph.path', 'path')
+    .innerJoin('p.likes', 'l')
+    .innerJoin('p.photo', 'ph')
+    .innerJoin('p.user', 'u')
+    .getRawMany()
   }
 
   /**

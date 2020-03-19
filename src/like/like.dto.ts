@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
- * Likes data transfer object  
+ * Like data transfer object  
  */
-export class LikesDTO {
+export class LikeDTO {
   @ApiProperty({
     description: 'Primary Key',
     type: String,
@@ -11,13 +11,13 @@ export class LikesDTO {
   like_id: string;
 
   @ApiProperty({
-    description: 'Likes UID',
+    description: 'Like UID',
     type: String,
   })
   uid: string;
 
   @ApiProperty({
-    description: 'Likes liked at Date',
+    description: 'Like liked at Date',
     type: Date,
   })
   liked_at: Date;
