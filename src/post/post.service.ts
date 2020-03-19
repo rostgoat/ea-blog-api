@@ -105,6 +105,7 @@ export class PostService {
     .addSelect('p.content', 'post_content')
     .addSelect('u.name', 'post_author')
     .addSelect('l.uid', 'like_uid')
+    .addSelect('l.post_liked', 'post_liked')
     .addSelect('ph.title', 'photo_title')
     .addSelect('ph.path', 'path')
     .leftJoin('p.likes', 'l')

@@ -19,7 +19,7 @@ import { User } from 'src/user/user.entity';
     @PrimaryGeneratedColumn('uuid') like_id: string;
     @Column({ type: 'varchar', nullable: false, unique: true }) uid: string;
     @Column({ type: "date" }) liked_at: Date;
-    @Column({ type: "boolean" }) post_liked: Boolean;
+    @Column({ type: "bool" }) post_liked: Boolean;
   
     @ManyToOne(
       type => Post,
