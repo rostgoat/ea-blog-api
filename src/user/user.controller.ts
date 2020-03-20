@@ -114,4 +114,23 @@ export class UserController {
       throw new Error(error);
     }
   }
+
+   /**
+   * Get a user's post likes count
+   * @param uid String
+   */
+  @Get('likes')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'A user has been successfully retreived.',
+    type: UserDTO,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async findUserLikes() {
+    try {
+      return await this.userService.usersPostLikes();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

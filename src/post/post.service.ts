@@ -11,6 +11,7 @@ import { toPostDto } from 'src/shared/mapper';
 import { User } from 'src/user/user.entity';
 import { PhotoService } from 'src/photo/photo.service';
 import { LikeService } from 'src/like/like.service';
+import { Like } from 'src/like/like.entity';
 
 @Injectable()
 export class PostService {
@@ -101,6 +102,7 @@ export class PostService {
    * Find all posts 
    */
   async findAll(): Promise<Post[]> {
+    
     return await getRepository(Post)
     .createQueryBuilder('p')
     .select(['p.uid'])
