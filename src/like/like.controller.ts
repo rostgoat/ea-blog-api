@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Put, Get } from '@nestjs/common';
+import { Controller, Body, Post, Put, Get, Req } from '@nestjs/common';
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import { LikeDTO } from './like.dto';
 import { LikeService } from './like.service';
@@ -78,9 +78,10 @@ export class LikeController {
     type: [LikeDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findAndCount() {
+  async findAndCount(@Req() req) {
     try {
-      return this.likesService.findLikeCount();
+      const { post_uid } = req.query;
+      return this.likesService.findLikeCount(post_uid);
     } catch (error) {
       throw new Error(error);
     }
