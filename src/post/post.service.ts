@@ -103,7 +103,7 @@ export class PostService {
    */
   async findAll(): Promise<Post[]> {
     
-    return await getRepository(Post)
+    const posts = await getRepository(Post)
     .createQueryBuilder('p')
     .select(['p.uid'])
     .addSelect('p.title', 'post_title')
@@ -119,6 +119,19 @@ export class PostService {
     .innerJoin('p.photo', 'ph')
     .innerJoin('p.user', 'u')
     .getRawMany()
+
+    const likes = await this.likeService.findAllPostLikes();
+    console.log('likes', likes)
+
+    posts.forEach(post => {
+      if (likes[post.p_uid]) {
+        const like = likes[post.p_uid];
+        post = Object.assign(post, {like})
+      }
+    })
+    console.log('after assign findAll', posts)
+
+    return posts;
   }
 
   /**

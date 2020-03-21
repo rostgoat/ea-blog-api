@@ -87,4 +87,22 @@ export class LikeController {
     }
   }
 
+  /**
+   * Get all likes for a post
+   */
+  @Get('post_likes')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'All likes have been successfully retreived.',
+    type: [LikeDTO],
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async findAllPostLikes() {
+    try {
+      return this.likesService.findAllPostLikes();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
 }

@@ -40,7 +40,7 @@ export class LikeService {
     };
 
     // create object with new like props
-    const newLike = await this.likesRepository.create(likeArgs);
+    let newLike = await this.likesRepository.create(likeArgs);
 
     // verify user is valid
     if (user.uid === user_uid) {
@@ -107,5 +107,25 @@ export class LikeService {
       .innerJoin('l.post', 'p')
       .where('l.post_liked = true AND l.post_id = :post_id', { post_id })
       .getCount();
+  }
+
+  async findAllPostLikes(): Promise<Number> {
+
+    const likes = await getRepository(Like)
+      .createQueryBuilder('l')
+      .select(['l.uid'])
+      .addSelect('post.uid', 'post_uid')
+      .addSelect('user.uid', 'user_uid')
+      .innerJoin('l.post', 'post')
+      .innerJoin('l.user', 'user')
+      .where('l.post_liked = true')
+      .getRawMany()
+
+      let out = {};
+      likes.forEach(like => {
+        out[like.post_uid] = like
+      })
+
+      return out;
   }
 }
