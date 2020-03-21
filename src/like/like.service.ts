@@ -114,18 +114,22 @@ export class LikeService {
     const likes = await getRepository(Like)
       .createQueryBuilder('l')
       .select(['l.uid'])
+      .addSelect('l.post_liked', 'post_liked')
       .addSelect('post.uid', 'post_uid')
       .addSelect('user.uid', 'user_uid')
       .innerJoin('l.post', 'post')
       .innerJoin('l.user', 'user')
-      .where('l.post_liked = true')
       .getRawMany()
 
-      let out = {};
+      let out = {}
+
       likes.forEach(like => {
         out[like.post_uid] = like
       })
 
       return out;
   }
+
+    
+
 }
