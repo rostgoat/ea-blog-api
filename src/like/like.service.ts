@@ -38,7 +38,6 @@ export class LikeService {
       post_liked: true,
       liked_at: Date.now(),
     };
-
     // create object with new like props
     let newLike = await this.likesRepository.create(likeArgs);
 

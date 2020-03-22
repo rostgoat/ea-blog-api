@@ -105,7 +105,7 @@ export class PostService {
     
     let posts = await getRepository(Post)
     .createQueryBuilder('p')
-    .select(['p.uid'])
+    .distinctOn(['p.uid'])
     
     .addSelect('p.title', 'post_title')
     .addSelect('p.sub_title', 'post_subtitle')
@@ -127,7 +127,6 @@ export class PostService {
       }
     })
 
-    console.log('posts', posts)
     return posts;
   }
 
