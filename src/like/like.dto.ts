@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from 'src/user/user.entity';
 
 /**
  * Like data transfer object  
@@ -39,4 +40,10 @@ export class LikeDTO {
     type: String,
   })
   user_uid: string;
+
+  @ApiProperty({
+    description: 'User ',
+    type: User,
+  })
+  user: User;
 }
