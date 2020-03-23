@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, Logger } from '@nestjs/common';
 import { Like } from './like.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getRepository } from 'typeorm';
@@ -109,7 +109,6 @@ export class LikeService {
   }
 
   async findAllPostLikes(): Promise<Number> {
-
     const likes = await getRepository(Like)
       .createQueryBuilder('l')
       .select(['l.uid'])

@@ -1,6 +1,12 @@
-import { Injectable, forwardRef, Inject } from '@nestjs/common';
+import { Injectable, forwardRef, Inject, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, getConnection, getRepository, getManager, createQueryBuilder } from 'typeorm';
+import {
+  Repository,
+  getConnection,
+  getRepository,
+  getManager,
+  createQueryBuilder,
+} from 'typeorm';
 import { Promise } from 'bluebird';
 
 import { Post } from './post.entity';
@@ -34,7 +40,7 @@ export class PostService {
    */
   async add(data: Partial<PostDTO>): Promise<Post> {
     // add new date property
-    data = Object.assign(data, { created_at: Date.now()})
+    data = Object.assign(data, { created_at: Date.now() });
 
     // create object with new post props
     const newPost = await this.postRepository.create(data);
@@ -46,14 +52,14 @@ export class PostService {
       // grab related user and assign to user object of post
       newPost.user = user;
     } else {
-      throw new Error("Invalid user!")
+      throw new Error('Invalid user!');
     }
 
     const photo = await this.photoService.findOneByUID(data.post_image_uid);
     if (photo.uid === data.post_image_uid) {
       // grab related user and assign to user object of post
       newPost.photo = photo;
-    } 
+    }
     // save changes
     await this.postRepository.save(newPost);
     // return new post
@@ -99,33 +105,31 @@ export class PostService {
   }
 
   /**
-   * Find all posts 
+   * Find all posts
    */
   async findAll(): Promise<Post[]> {
-    
     let posts = await getRepository(Post)
-    .createQueryBuilder('p')
-    .distinctOn(['p.uid'])
-    
-    .addSelect('p.title', 'post_title')
-    .addSelect('p.sub_title', 'post_subtitle')
-    .addSelect('p.content', 'post_content')
-    .addSelect('p.created_at', 'post_created_at')
-    .addSelect('u.name', 'post_author')
-    .addSelect('ph.title', 'photo_title')
-    .addSelect('ph.path', 'path')
-    .leftJoin('p.likes', 'l')
-    .innerJoin('p.photo', 'ph')
-    .innerJoin('p.user', 'u')
-    .getRawMany()
+      .createQueryBuilder('p')
+      .distinctOn(['p.uid'])
+      .addSelect('p.title', 'post_title')
+      .addSelect('p.sub_title', 'post_subtitle')
+      .addSelect('p.content', 'post_content')
+      .addSelect('p.created_at', 'post_created_at')
+      .addSelect('u.name', 'post_author')
+      .addSelect('ph.title', 'photo_title')
+      .addSelect('ph.path', 'path')
+      .leftJoin('p.likes', 'l')
+      .innerJoin('p.photo', 'ph')
+      .innerJoin('p.user', 'u')
+      .getRawMany();
 
     const likes = await this.likeService.findAllPostLikes();
-    
+
     posts.forEach(post => {
       if (likes[post.p_uid]) {
         post.likes = [likes[post.p_uid]];
       }
-    })
+    });
 
     return posts;
   }
