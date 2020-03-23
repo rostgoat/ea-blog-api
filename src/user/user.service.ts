@@ -5,10 +5,11 @@ import {
   HttpException,
   HttpStatus,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { User } from './user.entity';
 import { UserDTO } from './user.dto';
 import { PostService } from '../post/post.service';
@@ -126,5 +127,14 @@ export class UserService {
 
   async findByPayload({ username }: UserLoginDTO): Promise<UserDTO> {
     return await this.userRepository.findOne({ where: { username } });
+  }
+
+  async usersPostLikes() {
+    return await getRepository(User)
+      .createQueryBuilder('u')
+      .select('DISTINCT(`user_id`)')
+      .innerJoin('u.likes', 'l')
+      .where('l.user_id = u.user_id')
+      .getCount();
   }
 }

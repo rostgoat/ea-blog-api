@@ -26,8 +26,8 @@ export const toPhotoDto = (data: Photo): Partial<PhotoDTO> => {
 };
 
 export const toLikeDto = (data: Like): Partial<LikeDTO> => {
-  const { post_liked, uid } = data;
-  let photoDto: Partial<LikeDTO> = { post_liked, uid };
+  const { post_liked, uid, user } = data;
+  let photoDto: Partial<LikeDTO> = { post_liked, uid, user };
   return photoDto;
 };
 
