@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
@@ -129,7 +130,6 @@ export class UserService {
   }
 
   async usersPostLikes() {
-    console.log('am i ghere')
     return await getRepository(User)
       .createQueryBuilder('u')
       .select('DISTINCT(`user_id`)')
