@@ -5,18 +5,31 @@
   "author": "",
   "license": "MIT",
   "scripts": {
+    "install": "npm run install:client && npm run install:server",
+    "install:client": "cd ../ea-blog-ui && npm install",
+    "install:server": "npm install",
+    
+    "postinstall":"nest build",
     "prebuild": "rimraf dist",
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "build": "npm run build:client",
+    "build:client": "(cd ../ea-blog-ui && npm run build)",
+
+    "start:client": "cd ../ea-blog-ui && npm run serve",
+    "start:server": "npm run start:dev",
+    "start:both": "npm run start:client & npm run start:server",
+    "start": "npm run start:prod",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix",
+    "start:prod": "./node_modules/.bin/ts-node ./src/main.ts",
+    
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    
+    "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    
     "docker:build-image": "docker build -t ea-blog:latest .",
     "docker:start": "docker run -it ea-blog",
     "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog",
