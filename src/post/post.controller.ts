@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   Response,
+  Req,
 } from '@nestjs/common';
 
 import { PostService } from './post.service';
@@ -127,8 +128,9 @@ export class PostController {
     type: PostDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findOne(@Param('uid') uid: string) {
+  async findOne(@Req() req) {
     try {
+      const { uid } = req.query;
       return this.postService.findOne(uid);
     } catch (error) {
       throw new Error(error);

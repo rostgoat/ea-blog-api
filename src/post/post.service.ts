@@ -140,7 +140,8 @@ export class PostService {
    */
   async findOne(uid: string): Promise<Post> {
     return await this.postRepository.findOne({
-      relations: ['comments'],
+      select: ['post_id', 'uid', 'content', 'created_at', 'sub_title', 'title'],
+      relations: ['comments', 'user', 'photo'],
       where: {
         uid,
       },
