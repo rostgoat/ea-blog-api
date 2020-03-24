@@ -1,3 +1,6 @@
+const env = require('dotenv')
+env.config()
+
 module.exports = {
   name: 'default',
   type: process.env.EA_DATABASE_TYPE,

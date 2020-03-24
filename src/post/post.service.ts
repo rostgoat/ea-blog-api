@@ -14,10 +14,8 @@ import { PostDTO } from './post.dto';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
 import { toPostDto } from '../shared/mapper';
-import { User } from '../user/user.entity';
 import { PhotoService } from '../photo/photo.service';
 import { LikeService } from '../like/like.service';
-import { Like } from '../like/like.entity';
 
 @Injectable()
 export class PostService {
