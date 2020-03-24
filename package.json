@@ -13,6 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "prestart:prod": "yarn tsc",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "postinstall":"tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -39,6 +40,13 @@
     "@types/sharp": "^0.24.0",
     "@types/socket.io": "^2.1.4",
     "@types/uuid": "^7.0.0",
+    "@types/bcrypt": "^3.0.0",
+    "@types/jest": "^24.0.25",
+    "@types/node": "^13.7.0",
+    "@types/passport": "^1.0.2",
+    "@types/passport-jwt": "^3.0.3",
+    "@types/passport-local": "^1.0.33",
+    "@types/supertest": "^2.0.8",
     "bcrypt": "^4.0.1",
     "bluebird": "^3.7.2",
     "class-validator": "^0.11.0",
@@ -58,19 +66,13 @@
     "sharp": "^0.25.1",
     "swagger-ui-express": "^4.1.3",
     "typeorm": "^0.2.22",
-    "uuid4": "^1.1.4"
+    "uuid4": "^1.1.4",
+    "typescript": "^3.7.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.13.2",
     "@nestjs/schematics": "^6.8.1",
     "@nestjs/testing": "^6.10.14",
-    "@types/bcrypt": "^3.0.0",
-    "@types/jest": "^24.0.25",
-    "@types/node": "^13.7.0",
-    "@types/passport": "^1.0.2",
-    "@types/passport-jwt": "^3.0.3",
-    "@types/passport-local": "^1.0.33",
-    "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
     "eslint": "^6.7.2",
@@ -84,7 +86,6 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.0",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.4"
   },
   "jest": {
     "moduleFileExtensions": [
