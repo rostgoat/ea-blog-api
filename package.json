@@ -11,6 +11,7 @@
     "start": "node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
+    "prestart:prod": "yarn tsc",
     "build": "tsc -p tsconfig.build.json",
     "prebuild": "rimraf dist",
     "test": "jest",
