@@ -18,7 +18,7 @@ import {join } from 'path';
 
 // local dev port
 const port = process.env.PORT || process.env.EA_API_PORT;
-const CLENT_FILES = join(__dirname, '..', './ea-blog-ui', 'dist');
+const CLENT_FILES = join(__dirname, './public');
 /**
  * API entry point
  */
