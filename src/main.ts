@@ -18,7 +18,7 @@ import {join } from 'path';
 
 // local dev port
 const port = process.env.PORT || process.env.EA_API_PORT;
-const CLENT_FILES = join(__dirname, '..', './ea-blog-ui', 'dist');
+const CLENT_FILES = join(process.cwd(), './public/');
 /**
  * API entry point
  */
@@ -50,6 +50,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/comments', app, commentDocument);
 
   if (process.env.NODE_ENV === 'production') {
+    console.log('this is production')
     app.use(express.static(CLENT_FILES))
   }
   app.enableCors();

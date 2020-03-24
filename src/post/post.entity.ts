@@ -11,8 +11,8 @@ import {
 import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
-import { Photo } from 'src/photo/photo.entity';
-import { Like } from 'src/like/like.entity';
+import { Photo } from '../photo/photo.entity';
+import { Like } from '../like/like.entity';
 
 /**
  * Post Entity

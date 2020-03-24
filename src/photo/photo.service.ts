@@ -3,7 +3,7 @@ import { PhotoDTO } from './photo.dto';
 import { Photo } from './photo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { toPhotoDto, toDTO } from 'src/shared/mapper';
+import { toPhotoDto, toDTO } from '../shared/mapper';
 import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { resolve } from 'path';

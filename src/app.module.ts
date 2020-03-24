@@ -22,7 +22,6 @@ import { LikeModule } from './like/like.module';
     PostModule,
     AuthModule,
     PhotoModule,
-    PhotoModule,
     MulterModule.register({
       dest: './uploads/'
     }),

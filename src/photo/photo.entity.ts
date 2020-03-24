@@ -7,7 +7,7 @@ import {
     JoinColumn,
   } from 'typeorm';
   import { v4 as uuid } from 'uuid';
-import { Post } from 'src/post/post.entity';
+import { Post } from '../post/post.entity';
   
   /**
    * Photo Entity

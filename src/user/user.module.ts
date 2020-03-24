@@ -5,7 +5,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { PostModule } from '../post/post.module';
-import { AppGateway } from 'src/app.gateway';
+import { AppGateway } from '../app.gateway';
 
 /**
  * User Module

@@ -6,8 +6,9 @@ import { PostService } from './post.service';
 import { Post } from './post.entity';
 import { UserModule } from '../user/user.module';
 import { CommentModule } from '../comment/comment.module';
-import { AppGateway } from 'src/app.gateway';
-import { LikeModule } from 'src/like/like.module';
+import { AppGateway } from '../app.gateway';
+import { LikeModule } from '../like/like.module';
+import { PhotoModule } from '../photo/photo.module';
 
 @Global()
 @Module({
@@ -16,6 +17,7 @@ import { LikeModule } from 'src/like/like.module';
     forwardRef(() => UserModule),
     forwardRef(() => CommentModule),
     forwardRef(() => LikeModule),
+    forwardRef(() => PhotoModule),
   ],
   controllers: [PostController],
   providers: [PostService, AppGateway],

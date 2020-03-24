@@ -7,8 +7,8 @@ import {
   Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserCreateDTO } from 'src/user/user.create.dto';
-import { UserLoginDTO } from 'src/user/user.login.dto';
+import { UserCreateDTO } from '../user/user.create.dto';
+import { UserLoginDTO } from '../user/user.login.dto';
 import { LoginStatus } from './interfaces/login-status.interface';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
 
