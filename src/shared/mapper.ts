@@ -1,11 +1,11 @@
 import { UserDTO } from '../user/user.dto';
-import { User } from 'src/user/user.entity';
-import { Post } from 'src/post/post.entity';
-import { PostDTO } from 'src/post/post.dto';
-import { PhotoDTO } from 'src/photo/photo.dto';
-import { Photo } from 'src/photo/photo.entity';
-import { Like } from 'src/like/like.entity';
-import { LikeDTO } from 'src/like/like.dto';
+import { User } from '../user/user.entity';
+import { Post } from '../post/post.entity';
+import { PostDTO } from '../post/post.dto';
+import { PhotoDTO } from '../photo/photo.dto';
+import { Photo } from '../photo/photo.entity';
+import { Like } from '../like/like.entity';
+import { LikeDTO } from '../like/like.dto';
 
 export const toUserDto = (data: User): Partial<UserDTO> => {
   const { user_id, name, username, uid, email } = data;

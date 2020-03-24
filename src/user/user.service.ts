@@ -13,7 +13,7 @@ import { Repository, getRepository } from 'typeorm';
 import { User } from './user.entity';
 import { UserDTO } from './user.dto';
 import { PostService } from '../post/post.service';
-import { toUserDto } from 'src/shared/mapper';
+import { toUserDto } from '../shared/mapper';
 import { UserLoginDTO } from './user.login.dto';
 import { UserCreateDTO } from './user.create.dto';
 const bcrypt = require('bcrypt');

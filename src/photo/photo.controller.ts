@@ -2,7 +2,7 @@ import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common'
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
 import {FileInterceptor} from '@nestjs/platform-express'
 import { PhotoService } from './photo.service';
-import { multerOptions } from 'src/config/multer';
+import { multerOptions } from '../config/multer';
 
 @ApiTags('photos')
 @Controller('photos')
