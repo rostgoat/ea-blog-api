@@ -13,7 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "prestart:prod": "yarn tsc",
     "build": "tsc -p tsconfig.build.json",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist && npm install tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
