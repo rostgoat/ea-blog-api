@@ -8,8 +8,8 @@ import {
     ManyToOne,
   } from 'typeorm';
   import { v4 as uuid } from 'uuid';
-import { Post } from 'src/post/post.entity';
-import { User } from 'src/user/user.entity';
+import { Post } from '../post/post.entity';
+import { User } from '../user/user.entity';
   
   /**
    * Like Entity
