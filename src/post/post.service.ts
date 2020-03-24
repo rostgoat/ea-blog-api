@@ -13,11 +13,11 @@ import { Post } from './post.entity';
 import { PostDTO } from './post.dto';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
-import { toPostDto } from 'src/shared/mapper';
-import { User } from 'src/user/user.entity';
-import { PhotoService } from 'src/photo/photo.service';
-import { LikeService } from 'src/like/like.service';
-import { Like } from 'src/like/like.entity';
+import { toPostDto } from '../shared/mapper';
+import { User } from '../user/user.entity';
+import { PhotoService } from '../photo/photo.service';
+import { LikeService } from '../like/like.service';
+import { Like } from '../like/like.entity';
 
 @Injectable()
 export class PostService {
