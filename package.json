@@ -8,23 +8,17 @@
     "node": "13.10.x"
   },
   "scripts": {
-    "install:server": "npm install",
-    
-    "build": "tsc -p tsconfig.build.json",
-    "prebuild": "rimraf dist",
-
+    "start": "node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start": "node dist/main.js",
-
+    "build": "tsc -p tsconfig.build.json",
+    "prebuild": "rimraf dist",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    
     "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    
     "docker:build-image": "docker build -t ea-blog:latest .",
     "docker:start": "docker run -it ea-blog",
     "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog",
