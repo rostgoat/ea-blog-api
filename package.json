@@ -8,22 +8,13 @@
     "node": "13.10.x"
   },
   "scripts": {
-    "install": "npm run install:client && npm run install:server",
-    "install:client": "cd ../ea-blog-ui && npm install",
     "install:server": "npm install",
     
     "postinstall":"nest build",
     "prebuild": "rimraf dist",
-    "build": "npm run build:client",
-    "build:client": "(cd ../ea-blog-ui && npm run build)",
 
-    "start:client": "cd ../ea-blog-ui && npm run serve",
-    "start:server": "npm run start:dev",
-    "start:both": "npm run start:client & npm run start:server",
-    "start": "npm run start:prod",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "./node_modules/.bin/ts-node ./src/main.ts",
     
     "test": "jest",
     "test:watch": "jest --watch",
