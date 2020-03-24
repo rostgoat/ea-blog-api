@@ -10,12 +10,14 @@
   "scripts": {
     "install:server": "npm install",
     
+    "build": "tsc -p tsconfig.build.json",
     "postinstall":"nest build",
     "prebuild": "rimraf dist",
 
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    
+    "start:prod": "node dist/main.js",
+
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
