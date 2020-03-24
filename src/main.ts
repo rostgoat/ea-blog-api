@@ -50,6 +50,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/comments', app, commentDocument);
 
   if (process.env.NODE_ENV === 'production') {
+    console.log('this is production')
     app.use(express.static(CLENT_FILES))
   }
   app.enableCors();
