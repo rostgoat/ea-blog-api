@@ -11,7 +11,7 @@ import { Post } from '../post/post.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
-import { Like } from 'src/like/like.entity';
+import { Like } from '../like/like.entity';
 
 /**
  * User Entity
