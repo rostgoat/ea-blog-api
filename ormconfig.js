@@ -1,14 +1,10 @@
 const env = require('dotenv')
 env.config()
 
-exports.config = {
+module.exports = {
   name: 'default',
-  type: process.env.DATABASE_TYPE,
-  host: process.env.DATABASE_HOST,
+  url: process.env.DATABASE_URL,
   port: 5432,
-  username: process.env.DATABASE_USERNAME,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
   synchronize: true,
   dropSchema: false,
   logging: true,
@@ -17,3 +13,5 @@ exports.config = {
     ssl: true,
   },
 };
+
+
