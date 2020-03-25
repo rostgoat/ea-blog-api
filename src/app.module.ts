@@ -23,7 +23,7 @@ const production = process.env.NODE_ENV === 'production';
     TypeOrmModule.forRoot({
       name: 'default',
       url: production ? process.env.EA_PROD_DATABASE_URL : '',
-      type: production ? process.env.EA_PROD_DATABASE_TYPE : process.env.EA_DATABASE_TYPE,
+      type: 'postgres',
       host: production ? process.env.EA_PROD_DATABASE_HOST : process.env.EA_DATABASE_HOST,
       port: 5432,
       username: production ? process.env.EA_PROD_DATABASE_USERNAME : process.env.EA_DATABASE_USERNAME,
