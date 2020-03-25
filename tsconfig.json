@@ -12,7 +12,8 @@
     "incremental": true
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["./src/**/*", "ormconfig.js"],
+  // "include": ["./src/**/*", "ormconfig.js"],
+  "include": ["./src/**/*"],
   "moduleNameMapper": {
     "src/(.*)": "<rootDir>/src/$1"
   }

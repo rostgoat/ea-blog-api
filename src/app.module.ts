@@ -10,13 +10,34 @@ import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { LikeModule } from './like/like.module';
+const parse = require('pg-connection-string').parse;
+const env = require('dotenv')
+env.config()
+
+ 
+const config = parse(process.env.DATABASE_URL)
+console.log('config', config)
 
 /**
  * Root Module
  */
+
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+      host: config.host,
+      port: config.port,
+      username: config.user,
+      password: config.password,
+      database: config.database,
+      synchronize: true,
+      dropSchema: false,
+      logging: true,
+      entities: ['/src/**/*.entity.ts', 'dist/**/*.entity.js'],
+      extra: {
+        ssl: true,
+      },
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
     CommentModule,
