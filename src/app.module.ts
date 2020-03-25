@@ -10,33 +10,13 @@ import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { LikeModule } from './like/like.module';
-const env = require('dotenv')
-env.config()
-
-const production = process.env.NODE_ENV === 'production';
 
 /**
  * Root Module
  */
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      name: 'default',
-      url: process.env.EA_PROD_DATABASE_URL,
-      type: 'postgres',
-      host: process.env.EA_PROD_DATABASE_HOST,
-      port: 5432,
-      username: process.env.EA_PROD_DATABASE_USERNAME,
-      password: process.env.EA_PROD_DATABASE_PASSWORD,
-      database: process.env.EA_PROD_DATABASE_NAME,
-      synchronize: true,
-      dropSchema: false,
-      logging: true,
-      entities: ['/src/**/*.entity.ts', 'dist/**/*.entity.js'],
-      extra: {
-        ssl: true
-      }
-    }),
+    TypeOrmModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
     CommentModule,
