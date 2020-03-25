@@ -1,13 +1,14 @@
 const env = require('dotenv')
 env.config()
-module.exports = {
+
+const config = {
   name: 'default',
-  type: process.env.EA_PROD_DATABASE_TYPE,
-  host: process.env.EA_PROD_DATABASE_HOST,
+  type: process.env.DATABASE_TYPE,
+  host: process.env.DATABASE_HOST,
   port: 5432,
-  username: process.env.EA_PROD_DATABASE_USERNAME,
-  password: process.env.EA_PROD_DATABASE_PASSWORD,
-  database: process.env.EA_PROD_DATABASE_NAME,
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
   synchronize: true,
   dropSchema: false,
   logging: true,
@@ -16,3 +17,5 @@ module.exports = {
     ssl: true,
   },
 };
+
+export default config;
