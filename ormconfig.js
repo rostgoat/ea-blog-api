@@ -1,11 +1,10 @@
-import { ConnectionOptions } from 'typeorm';
 const parse = require('pg-connection-string').parse;
 const env = require('dotenv')
 env.config()
 
 const config = parse(process.env.DATABASE_URL)
 
-const pgConnection: ConnectionOptions = {
+const pgConnection  = {
   type: "postgres",
   host: config.host,
   port: config.port,
@@ -22,4 +21,4 @@ const pgConnection: ConnectionOptions = {
 }
 console.log('pgConnection', pgConnection)
 
-export = pgConnection;
+module.exports = pgConnection;
