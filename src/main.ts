@@ -49,10 +49,10 @@ async function bootstrap() {
   SwaggerModule.setup('api/posts', app, postDocument);
   SwaggerModule.setup('api/comments', app, commentDocument);
 
-  if (process.env.NODE_ENV === 'production') {
-    console.log('this is production')
-    app.use(express.static(CLENT_FILES))
-  }
+  // if (process.env.NODE_ENV === 'production') {
+  //   console.log('this is production')
+  //   app.use(express.static(CLENT_FILES))
+  // }
   app.enableCors();
   await app.listen(port);
   Logger.log(`Server running on port http://localhost:${port}`, 'Bootstrap');

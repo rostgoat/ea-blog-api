@@ -27,8 +27,11 @@ import { LikeModule } from './like/like.module';
     MulterModule.register({
       dest: './uploads/'
     }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'uploads'),
+    // }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
+      rootPath: join(__dirname, '..', 'public'),
     }),
     LikeModule,
   ],
