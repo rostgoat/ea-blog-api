@@ -12,7 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "prestart:prod": "yarn tsc",
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build": "rimraf dist && npm run rebuild && tsc -p tsconfig.build.json",
     "rebuild": "nest build",
     "deploy": "git push heroku master",
     "postinstall": "tsc",
