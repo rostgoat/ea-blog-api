@@ -1,7 +1,7 @@
 const env = require('dotenv')
 env.config()
 
-const config = {
+exports.config = {
   name: 'default',
   type: process.env.DATABASE_TYPE,
   host: process.env.DATABASE_HOST,
@@ -17,5 +17,3 @@ const config = {
     ssl: true,
   },
 };
-
-export default config;
