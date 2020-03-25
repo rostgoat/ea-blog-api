@@ -22,13 +22,13 @@ const production = process.env.NODE_ENV === 'production';
   imports: [
     TypeOrmModule.forRoot({
       name: 'default',
-      url: process.env.NODE_ENV === 'production' ? process.env.EA_PROD_DATABASE_URL : '',
+      url: process.env.EA_PROD_DATABASE_URL,
       type: 'postgres',
-      host: process.env.NODE_ENV === 'production' ? process.env.EA_PROD_DATABASE_HOST : process.env.EA_DATABASE_HOST,
+      host: process.env.EA_PROD_DATABASE_HOST,
       port: 5432,
-      username: process.env.NODE_ENV === 'production' ? process.env.EA_PROD_DATABASE_USERNAME : process.env.EA_DATABASE_USERNAME,
-      password: process.env.NODE_ENV === 'production' ? process.env.EA_PROD_DATABASE_PASSWORD : process.env.EA_DATABASE_PASSWORD,
-      database: process.env.NODE_ENV === 'production' ? process.env.EA_PROD_DATABASE_NAME : process.env.EA_DATABASE_NAME,
+      username: process.env.EA_PROD_DATABASE_USERNAME,
+      password: process.env.EA_PROD_DATABASE_PASSWORD,
+      database: process.env.EA_PROD_DATABASE_NAME,
       synchronize: true,
       dropSchema: false,
       logging: true,
