@@ -39,6 +39,6 @@ lerna-debug.log*
 # images
 uploads/
 .tmp/
-public/
+# public/
 
 .env.*

@@ -19,6 +19,5 @@ const pgConnection  = {
     ssl: true,
   }
 }
-console.log('pgConnection', pgConnection)
 
 module.exports = pgConnection;
