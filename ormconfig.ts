@@ -1,7 +1,7 @@
 const env = require('dotenv')
 env.config()
 
-export default {
+const ORMConfig = {
   name: 'default',
   type: process.env.EA_PROD_DATABASE_TYPE,
   host: process.env.EA_PROD_DATABASE_HOST,
@@ -17,3 +17,4 @@ export default {
     ssl: true,
   },
 };
+export = ORMConfig
