@@ -16,7 +16,22 @@ env.config()
 
  
 const config = parse(process.env.DATABASE_URL)
-console.log('config', config)
+const connection = {
+  type: "postgres",
+  host: config.host,
+  port: config.port,
+  username: config.user,
+  password: config.password,
+  database: config.database,
+  synchronize: true,
+  dropSchema: false,
+  logging: true,
+  entities: ['/src/**/*.entity.ts', 'dist/**/*.entity.js'],
+  extra: {
+    ssl: true,
+  }
+}
+console.log('connection', connection)
 
 /**
  * Root Module
@@ -25,6 +40,7 @@ console.log('config', config)
 @Module({
   imports: [
     TypeOrmModule.forRoot({
+      type: "postgres",
       host: config.host,
       port: config.port,
       username: config.user,
@@ -36,7 +52,7 @@ console.log('config', config)
       entities: ['/src/**/*.entity.ts', 'dist/**/*.entity.js'],
       extra: {
         ssl: true,
-      },
+      }
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
