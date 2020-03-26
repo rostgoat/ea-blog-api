@@ -1,5 +1,5 @@
 # compiled output
-# /dist
+/dist
 /node_modules
 
 # Logs
@@ -39,6 +39,6 @@ lerna-debug.log*
 # images
 uploads/
 .tmp/
-# public/
+public/
 
 .env.*
