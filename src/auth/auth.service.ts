@@ -29,6 +29,8 @@ export class AuthService {
   }
 
   async login(loginUserDto: UserLoginDTO): Promise<LoginStatus> {
+    console.log('authService - login - loginUserDto', loginUserDto)
+    console.log('authService - login - loginUserDto', JSON.stringify(loginUserDto))
     // find user in db
     const user = await this.usersService.findByLogin(loginUserDto);
     console.log('user', user)
