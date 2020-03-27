@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { initDocumentation } from './config/swagger';
 import 'reflect-metadata';
+require('dotenv').config()
 
 // local dev port
 const port = process.env.PORT;
