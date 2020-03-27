@@ -6,7 +6,7 @@ import { stat, mkdir, promises } from 'fs';
  */
 export const createDir = async (directory) => {
     try {
-      return await promises.mkdir(directory);
+      return await promises.mkdir(directory, { recursive: true });
     } catch (error) {
       if (error.code != 'EEXIST') {
         throw error;
