@@ -6,7 +6,7 @@ import { LikeDTO } from './like.dto';
 import { Promise } from 'bluebird';
 import { PostService } from '../post/post.service';
 import { UserService } from '../user/user.service';
-import { toLikeDto } from '../shared/mapper';
+import { toLikeDto } from '../utils/mapper';
 
 @Injectable()
 export class LikeService {

@@ -2,7 +2,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
-import { initDocumentation } from './config/swagger/swagger';
+import { initDocumentation } from './config/swagger';
 import 'reflect-metadata';
 
 // local dev port
