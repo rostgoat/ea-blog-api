@@ -4,8 +4,6 @@ import {
   Body,
   HttpException,
   HttpStatus,
-  Res,
-  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserCreateDTO } from '../user/user.create.dto';
@@ -21,6 +19,8 @@ export class AuthController {
   public async register(
     @Body() createUserDto: UserCreateDTO,
   ): Promise<RegistrationStatus> {
+    console.log('auth controller: register', JSON.stringify(createUserDto))
+
     const result: RegistrationStatus = await this.authService.register(
       createUserDto,
     );
@@ -31,9 +31,8 @@ export class AuthController {
   }
 
   @Post('login') 
-  public async login(@Body() loginUserDto: UserLoginDTO, @Req() req): Promise<LoginStatus> {
-    console.log('req', req)
-    console.log('auth controller: login', await JSON.stringify(loginUserDto))
+  public async login(@Body() loginUserDto: UserLoginDTO): Promise<LoginStatus> {
+    console.log('auth controller: login', JSON.stringify(loginUserDto))
     return await this.authService.login(loginUserDto);
   }
 }
