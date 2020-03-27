@@ -7,6 +7,7 @@ import { toPhotoDto, toDTO } from '../shared/mapper';
 import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { resolve } from 'path';
+import { createDir } from '../shared/fileService'
 
 @Injectable()
 export class PhotoService {
@@ -42,6 +43,9 @@ export class PhotoService {
    * @param filename String
    */
   private async resizeImage(path: string, filename: string) {
+    // create uploads directory if one does not exist
+    await createDir("./uploads")
+    
     // resize image
     await sharp(path)
       .resize(300, 200, {
