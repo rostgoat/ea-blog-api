@@ -15,8 +15,8 @@ import { JwtStrategy } from './jwt.strategy';
       session: false,
     }),
     JwtModule.register({
-      secret: process.env.EA_SECRETKEY,
-      signOptions: { expiresIn: process.env.EA_EXPIRESIN },
+      secret: process.env.SECRETKEY,
+      signOptions: { expiresIn: process.env.EXPIRESIN },
     }),
   ],
   controllers: [AuthController],

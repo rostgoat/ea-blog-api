@@ -6,7 +6,7 @@ import { initDocumentation } from './config/swagger/swagger';
 import 'reflect-metadata';
 
 // local dev port
-const port = process.env.PORT || process.env.EA_API_PORT;
+const port = process.env.PORT;
 
 /**
  * API entry point
@@ -24,9 +24,8 @@ async function bootstrap() {
   initDocumentation('api/comments', app, 'comments');
 
   app.enableCors();
-
   await app.listen(port);
 
-  Logger.log(`Server running on port http://localhost:${port}`, 'Bootstrap');
+  if (process.env.NODE_ENV !== 'production') Logger.log(`Server running on http://localhost:${port}`, 'Bootstrap');
 }
 bootstrap();

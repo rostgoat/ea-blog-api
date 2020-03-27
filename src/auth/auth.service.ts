@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   private _createToken({ username }: UserDTO): any {
-    const expiresIn = process.env.EA_EXPIRESIN;
+    const expiresIn = process.env.EXPIRESIN;
 
     const user: Partial<JwtPayload> = { username };
     const accessToken = this.jwtService.sign(user);

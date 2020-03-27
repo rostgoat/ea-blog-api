@@ -1,4 +1,3 @@
-import { stat, mkdir, promises } from 'fs';
 import * as mkdirp from 'mkdirp';
 import { join } from 'path';
 

@@ -41,4 +41,5 @@ uploads/
 .tmp/
 public/
 
-.env.*
+# env
+.env*
