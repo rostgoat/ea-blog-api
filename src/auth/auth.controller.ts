@@ -19,8 +19,6 @@ export class AuthController {
   public async register(
     @Body() createUserDto: UserCreateDTO,
   ): Promise<RegistrationStatus> {
-    console.log('auth controller: register', JSON.stringify(createUserDto))
-
     const result: RegistrationStatus = await this.authService.register(
       createUserDto,
     );
@@ -30,11 +28,8 @@ export class AuthController {
     return result;
   }
 
-  @Post('login') 
+  @Post('login')
   public async login(@Body() loginUserDto: UserLoginDTO): Promise<LoginStatus> {
-    console.log('auth controller: login', JSON.stringify(loginUserDto))
-    const loggedIn = await this.authService.login(loginUserDto)
-    console.log('loggedIn', loggedIn)
-    return loggedIn;
+    return await this.authService.login(loginUserDto);
   }
 }
