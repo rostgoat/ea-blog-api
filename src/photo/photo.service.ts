@@ -44,8 +44,8 @@ export class PhotoService {
    */
   private async resizeImage(path: string, filename: string) {
     // create uploads directory if one does not exist
-    await createDir("./uploads")
-    
+    await createDir(`${__dirname}/uploads`)
+
     // resize image
     await sharp(path)
       .resize(300, 200, {
