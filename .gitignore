@@ -1,5 +1,5 @@
 # compiled output
-# /dist
+/dist
 /node_modules
 
 # Logs
@@ -37,8 +37,8 @@ lerna-debug.log*
 *.sqlite
 
 # images
-# uploads/
+uploads/
 .tmp/
-# public/
+public/
 
 .env.*
