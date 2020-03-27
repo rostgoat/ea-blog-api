@@ -1,4 +1,5 @@
 import { stat, mkdir, promises } from 'fs';
+import mkdirp from 'mkdirp'
 
 /**
  * Create new directory if one does not exist in the file system
@@ -6,7 +7,7 @@ import { stat, mkdir, promises } from 'fs';
  */
 export const createDir = async (directory) => {
     try {
-      return await promises.mkdir(directory, { recursive: true });
+      return await mkdirp(directory);
     } catch (error) {
       if (error.code != 'EEXIST') {
         throw error;
