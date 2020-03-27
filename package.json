@@ -44,6 +44,7 @@
     "@nestjs/websockets": "^6.11.8",
     "@types/bcrypt": "^3.0.0",
     "@types/jest": "^24.0.25",
+    "@types/mkdirp": "^1.0.0",
     "@types/node": "^13.7.0",
     "@types/passport": "^1.0.2",
     "@types/passport-jwt": "^3.0.3",

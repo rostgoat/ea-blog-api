@@ -1,5 +1,5 @@
 import { stat, mkdir, promises } from 'fs';
-import mkdirp from 'mkdirp'
+import * as mkdirp from 'mkdirp'
 
 /**
  * Create new directory if one does not exist in the file system
