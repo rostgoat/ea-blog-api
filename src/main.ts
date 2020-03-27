@@ -53,7 +53,7 @@ async function bootstrap() {
   //   console.log('this is production')
   //   app.use(express.static(CLENT_FILES))
   // }
-  // app.enableCors();
+  app.enableCors();
   await app.listen(port);
   Logger.log(`Server running on port http://localhost:${port}`, 'Bootstrap');
 }
