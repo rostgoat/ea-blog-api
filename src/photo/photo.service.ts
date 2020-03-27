@@ -7,6 +7,7 @@ import { toPhotoDto, toDTO } from '../shared/mapper';
 import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { resolve } from 'path';
+import { createDir } from '../shared/fileService'
 
 @Injectable()
 export class PhotoService {
@@ -42,13 +43,20 @@ export class PhotoService {
    * @param filename String
    */
   private async resizeImage(path: string, filename: string) {
+    const dirName = "./uploads"
+
+    // create uploads directory if one does not exist (locally only)
+    const createdDir = await createDir(dirName)
+    console.log('createdDir', createdDir)
+    console.log('__dirname', __dirname)
+
     // resize image
     await sharp(path)
       .resize(300, 200, {
         fit: 'contain',
         background: 'white'
       })
-      .toFile(`./uploads/${filename}`);
+      .toFile(`${dirName}/${filename}`);
     // delete temp file after sharp resizes the image
     fs.unlink(path, err => {
       if (err) {

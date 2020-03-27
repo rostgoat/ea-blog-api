@@ -111,7 +111,9 @@ export class PostController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async find() {
     try {
-      return this.postService.findAll();
+      const posts = await this.postService.findAll();
+      console.log('posts', posts)
+      return posts;
     } catch (error) {
       throw new Error(error);
     }

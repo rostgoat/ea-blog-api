@@ -31,10 +31,8 @@ export class AuthService {
   async login(loginUserDto: UserLoginDTO): Promise<LoginStatus> {
     // find user in db
     const user = await this.usersService.findByLogin(loginUserDto);
-    console.log('user', user)
     // generate and sign token
     const token = this._createToken(user);
-    console.log('token', token)
     const { name, username, uid } = user;
     const { expiresIn, accessToken } = token;
     return { username, name, expiresIn, accessToken, uid };
