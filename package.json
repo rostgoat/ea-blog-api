@@ -1,15 +1,16 @@
 {
   "name": "ea-blog-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Game Bible API",
+  "author": "Rost Myshkin",
   "license": "MIT",
   "engines": {
     "node": "13.10.x"
   },
   "scripts": {
-    "start": "node dist/main.js",
+    "start": "nest start",
     "start:dev": "nest start --watch",
+    "start:heroku": "node dist/main.js",
     "start:debug": "nest start --debug --watch",
     "prestart:prod": "yarn tsc",
     "build": "rimraf dist && npm run rebuild && tsc -p tsconfig.build.json",
@@ -55,6 +56,7 @@
     "@types/uuid": "^7.0.0",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
+    "aws-sdk": "^2.648.0",
     "bcrypt": "^4.0.1",
     "bluebird": "^3.7.2",
     "class-validator": "^0.11.0",

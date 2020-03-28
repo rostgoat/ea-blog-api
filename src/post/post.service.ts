@@ -13,7 +13,7 @@ import { Post } from './post.entity';
 import { PostDTO } from './post.dto';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
-import { toPostDto } from '../shared/mapper';
+import { toPostDto } from '../utils/mapper';
 import { PhotoService } from '../photo/photo.service';
 import { LikeService } from '../like/like.service';
 

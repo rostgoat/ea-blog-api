@@ -4,6 +4,9 @@ env.config()
 
 const config = parse(process.env.DATABASE_URL)
 
+/**
+ * Postgres connection settings
+ */
 const pgConnection  = {
   type: "postgres",
   host: config.host,

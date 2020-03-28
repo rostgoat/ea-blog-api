@@ -3,11 +3,11 @@ import { PhotoDTO } from './photo.dto';
 import { Photo } from './photo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { toPhotoDto, toDTO } from '../shared/mapper';
+import { toPhotoDto, toDTO } from '../utils/mapper';
 import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { resolve } from 'path';
-import { createDir } from '../shared/fileService'
+import { createDir } from '../utils/file'
 
 @Injectable()
 export class PhotoService {

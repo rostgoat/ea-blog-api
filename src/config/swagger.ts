@@ -1,11 +1,11 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
-import { CommentModule } from 'src/comment/comment.module';
-import { PostModule } from 'src/post/post.module';
-import { UserModule } from 'src/user/user.module';
-import { AuthModule } from 'src/auth/auth.module';
-import { LikeModule } from 'src/like/like.module';
-import { PhotoModule } from 'src/photo/photo.module';
+import { CommentModule } from '../comment/comment.module';
+import { PostModule } from '../post/post.module';
+import { UserModule } from '../user/user.module';
+import { AuthModule } from '../auth/auth.module';
+import { LikeModule } from '../like/like.module';
+import { PhotoModule } from '../photo/photo.module';
 
 /**
  * This file contains all the Swagger API docs for every schema type
