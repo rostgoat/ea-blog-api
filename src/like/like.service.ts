@@ -26,10 +26,8 @@ export class LikeService {
   async add(data: Partial<LikeDTO>): Promise<Like> {
     // extract data from request
     const { user_uid, post_uid } = data;
-
     // grab user by passed uid
     const user = await this.userService.findOneByUID(user_uid);
-
     // grab post by passed uid
     const post = await this.postService.findOne(post_uid);
 
@@ -57,7 +55,7 @@ export class LikeService {
 
     // save changes
     const { uid } = await this.likesRepository.save(newLike);
-
+    console.log('post', post)
     // assign like to a post
     post.likes.push(uid);
 
