@@ -8,13 +8,17 @@ import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { resolve } from 'path';
 import { createDir } from '../utils/file'
+import Storage from '../utils/s3';
 
 @Injectable()
 export class PhotoService {
+  private storage: Storage;
   constructor(
     @InjectRepository(Photo)
     private photoRepository: Repository<Photo>,
-  ) {}
+  ) {
+    this.storage = new Storage();
+  }
 
   /**
    * Create a new photo and associate user to the photo
@@ -49,6 +53,8 @@ export class PhotoService {
     const createdDir = await createDir(dirName)
     console.log('createdDir', createdDir)
     console.log('__dirname', __dirname)
+
+    await this.storage.createBucket("testbucket", {})
 
     // resize image
     await sharp(path)
