@@ -15,7 +15,7 @@ export const generateFilename = (file) => {
  * Multer file system storage destination
  */
 export const multerConfig = {
-    dest: process.env. API_UPLOAD_LOCATION || './.tmp',
+    dest: process.env.API_UPLOAD_LOCATION || './.tmp',
 };
 
 /**
@@ -24,7 +24,7 @@ export const multerConfig = {
 export const multerOptions = {
     // limit image upload size to 1mb
     limits: {
-        fileSize: +process.env. API_MAX_UPLOAD_FILE_SIZE || 1000000,
+        fileSize: +process.env.API_MAX_UPLOAD_FILE_SIZE || 1000000,
     },
     // Check the mimetypes to allow for upload
     fileFilter: (req: any, file: any, cb: any) => {

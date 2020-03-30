@@ -70,34 +70,18 @@ export default class Storage {
   }
 
   async putFile(bucket, infile, outfile, options) {
-    let result;
-    if (typeof infile === 'string') {
-      const exists = await existsAsync(infile);
-
-      if (!exists) {
-        throw new Error(`${infile} does not exist`);
-      }
-      return createReadStream(infile);
-    } else if (
-      typeof infile === 'object' &&
-      infile.constructor.name === 'ReadStream'
-    ) {
-      result = await Promise.resolve(infile);
-    }
-
     return new Promise((resolve, reject) => {
-      if (result) infile = result;
-      infile.on('error', err => {
-        reject(err);
-      });
       const params = options || {};
       params.Bucket = bucket;
       params.Body = infile;
       params.Key = outfile;
+      console.log('s3 putfile - params', params)
       this.s3.upload(params, (err, data) => {
         if (err) {
+          console.log('err', err)
           reject(err);
         } else {
+          console.log('data', data)
           resolve(data);
         }
       });
@@ -110,5 +94,29 @@ export default class Storage {
       Key: key,
     };
     return this.s3.getSignedUrl('getObject', params);
+  }
+
+  /**
+   * Get a specific object from provided Bucket.
+   *
+   * @param {String} bucket
+   * @param {String} file
+   */
+  async getObject(bucket, file) {
+    return this.s3.getObject({
+      Bucket: bucket,
+      Key: file,
+    }).promise()
+  }
+
+  listObjects(bucket) {
+    return new Promise((resolve, reject) => {
+      this.s3.listObjectsV2({ Bucket: bucket }, function(err, data) {
+        if (err)
+          reject(err) 
+        else
+          resolve(data) 
+      })
+    })
   }
 }

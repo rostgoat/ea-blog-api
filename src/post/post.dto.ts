@@ -41,10 +41,10 @@ export class PostDTO {
   user_uid: string;
 
   @ApiProperty({
-    description: 'Post Image uid',
+    description: 'Post Image bucket key',
     type: String,
   })
-  post_image_uid: string;
+  post_image_bucket_key: string;
 
   @ApiProperty({
     description: 'User Foreign Key',

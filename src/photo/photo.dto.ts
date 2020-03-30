@@ -5,12 +5,6 @@ import { ApiProperty } from '@nestjs/swagger';
  */
 export class PhotoDTO {
   @ApiProperty({
-    description: 'Primary Key',
-    type: String,
-  })
-  photo_id: string;
-
-  @ApiProperty({
     description: 'Photo UID',
     type: String,
   })

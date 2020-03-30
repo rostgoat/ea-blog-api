@@ -11,7 +11,6 @@ import {
 import { User } from '../user/user.entity';
 import { Comment } from '../comment/comment.entity';
 import { v4 as uuid } from 'uuid';
-import { Photo } from '../photo/photo.entity';
 import { Like } from '../like/like.entity';
 
 /**
@@ -25,6 +24,8 @@ export class Post {
   @Column('text') sub_title: string;
   @Column('text') content: string;
   @Column({ type: "date" }) created_at: Date;
+  @Column({ type: "text" }) post_image_bucket_key: string;
+
 
   @ManyToOne(
     type => User,
@@ -45,12 +46,6 @@ export class Post {
   )
   @JoinColumn({ name: 'comment_id'})
   comments: Comment[];
-
-  @OneToOne(type => Photo, {
-    cascade: true,
-  })
-  @JoinColumn({ name: 'photo_id'})
-  photo: Photo
 
   @OneToMany(
     type => Like,

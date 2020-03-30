@@ -14,9 +14,10 @@ import { PostDTO } from './post.dto';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
 import { toPostDto } from '../utils/mapper';
-import { PhotoService } from '../photo/photo.service';
 import { LikeService } from '../like/like.service';
 import Storage from '../utils/s3';
+import { resolve, join } from 'path';
+
 
 @Injectable()
 export class PostService {
@@ -29,8 +30,6 @@ export class PostService {
     private readonly userService: UserService,
     @Inject(forwardRef(() => CommentService))
     private readonly commentService: CommentService,
-    @Inject(forwardRef(() => PhotoService))
-    private readonly photoService: PhotoService,
     @Inject(forwardRef(() => LikeService))
     private readonly likeService: LikeService,
   ) {
@@ -45,18 +44,11 @@ export class PostService {
     // add new date property
     data = Object.assign(data, { created_at: Date.now() });
 
-    console.log('data', data)
     // destructure args
-    const { user_uid, post_image_uid } = data;
+    const { user_uid } = data;
 
     // grab user by passed uid
     const user = await this.userService.findOneByUID(user_uid);
-
-    // grab photo by uid
-    const photo = await this.photoService.findOneByUID(post_image_uid);
-    console.log('photo', photo)
-    // store post photo in bucket
-    await this.storage.putFile(user.bucket, photo.path, post_image_uid, {});
 
     // create object with new post props
     const newPost = await this.postRepository.create(data);
@@ -67,12 +59,6 @@ export class PostService {
       newPost.user = user;
     } else {
       throw new Error('Invalid user!');
-    }
-
-    // assign photo to post
-    if (photo.uid === post_image_uid) {
-      // grab related user and assign to user object of post
-      newPost.photo = photo;
     }
 
     // save changes
@@ -130,12 +116,11 @@ export class PostService {
       .addSelect('p.title', 'post_title')
       .addSelect('p.sub_title', 'post_subtitle')
       .addSelect('p.content', 'post_content')
+      .addSelect('p.post_image_bucket_key', 'post_image_bucket_key')
       .addSelect('p.created_at', 'post_created_at')
       .addSelect('u.name', 'post_author')
-      .addSelect('ph.title', 'photo_title')
-      .addSelect('ph.path', 'path')
+      .addSelect('u.bucket', 'bucket')
       .leftJoin('p.likes', 'l')
-      .innerJoin('p.photo', 'ph')
       .innerJoin('p.user', 'u')
       .getRawMany();
 
@@ -157,7 +142,7 @@ export class PostService {
   async findOne(uid: string): Promise<Post> {
     return await this.postRepository.findOne({
       select: ['post_id', 'uid', 'content', 'created_at', 'sub_title', 'title'],
-      relations: ['comments', 'user', 'photo'],
+      relations: ['comments', 'user'],
       where: {
         uid,
       },
