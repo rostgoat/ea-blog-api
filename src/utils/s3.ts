@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
 import { S3, config } from 'aws-sdk';
 import { Logger } from '@nestjs/common';
-
+import { existsAsync, createReadStream } from './file';
 export default class Storage {
   private logger: Logger;
   private s3;
-  private bucketPrefix;
+  private bucketSuffix;
 
   constructor() {
     // production configs
@@ -15,6 +15,7 @@ export default class Storage {
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
         region: process.env.AWS_REGION,
         apiVersion: '2006-03-01',
+        s3ForcePathStyle: true
       });
     } else {
       // local configs with localstack
@@ -23,24 +24,15 @@ export default class Storage {
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
         region: process.env.AWS_REGION,
         apiVersion: '2006-03-01',
-        endpoint: process.env.LOCALSTACK_S3_ENDPOINT
+        endpoint: process.env.LOCALSTACK_S3_ENDPOINT,
+        s3ForcePathStyle: true
       });
     }
-    console.log('this.s3', this.s3)
     this.logger = new Logger('S3');
-    this.bucketPrefix = `${process.env.AWS_BUCKET_PREFIX}-${uuid()}`
+    this.bucketSuffix = `${uuid()}`;
 
     config.region = process.env.AWS_REGION;
     config.setPromisesDependency(require('bluebird').Promise);
-
-    config.getCredentials(function(err) {
-      if (err) console.log(err.stack);
-      // credentials not loaded
-      else {
-        console.log('Access key:', config.credentials.accessKeyId);
-        console.log('Secret access key:', config.credentials.secretAccessKey);
-      }
-    });
   }
 
   /**
@@ -51,9 +43,15 @@ export default class Storage {
    *
    * @returns {Object} - object containing location/name of S3 Bucket created.
    */
-  createBucket(bucket) {
+  createBucket(bucket, options) {
+    let params = options || {
+      CreateBucketConfiguration: {
+        LocationConstraint: process.env.AWS_REGION,
+      },
+    }
+    params.Bucket = bucket
     return new Promise((resolve, reject) => {
-      this.s3.createBucket((err, data) => {
+      this.s3.createBucket(params, (err, data) => {
         if (err) {
           if (
             err.code === 'BucketAlreadyOwnedByYou' ||
@@ -61,10 +59,10 @@ export default class Storage {
           ) {
             this.logger.warn(
               `S3 : createBucket : Bucket already exists :
-                ${this.bucketPrefix}-${bucket}`,
+                ${bucket}-${this.bucketSuffix}`,
             );
             // Mock result
-            resolve({ Location: `/${this.bucketPrefix}${bucket}` });
+            resolve({ Location: `/${bucket}-${this.bucketSuffix}` });
           } else {
             reject(err);
           }
@@ -73,5 +71,48 @@ export default class Storage {
         }
       });
     });
+  }
+
+  async putFile(bucket, infile, outfile, options) {
+    let result;
+    if (typeof infile === 'string') {
+      const exists = await existsAsync(infile);
+
+      if (!exists) {
+        throw new Error(`${infile} does not exist`);
+      }
+      return createReadStream(infile);
+    } else if (
+      typeof infile === 'object' &&
+      infile.constructor.name === 'ReadStream'
+    ) {
+      result = await Promise.resolve(infile);
+    }
+
+    return new Promise((resolve, reject) => {
+      if (result) infile = result;
+      infile.on('error', err => {
+        reject(err);
+      });
+      const params = options || {};
+      params.Bucket = bucket;
+      params.Body = infile;
+      params.Key = outfile;
+      this.s3.upload(params, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
+
+  getSignedUrl(bucket, key) {
+    let params = {
+      Bucket: bucket,
+      Key: key,
+    };
+    return this.s3.getSignedUrl('getObject', params);
   }
 }

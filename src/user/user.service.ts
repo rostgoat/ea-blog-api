@@ -61,8 +61,14 @@ export class UserService {
       email
     });
 
+    // create DNS friendly bucket name 
+    const bucketName = name.replace(/\s+/g, '-').toLowerCase();
+    console.log('bucketName', bucketName)
     // create user bucket on S3 for future image storage
-    await this.storage.createBucket(name.toLowerCase());
+    const bucket = await this.storage.createBucket(bucketName, {});
+
+    console.log('bucket', bucket)
+
 
     // save changes to database
     await this.userRepository.save(user);
