@@ -7,18 +7,14 @@ import { toPhotoDto, toDTO } from '../utils/mapper';
 import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { resolve } from 'path';
-import { createDir } from '../utils/file'
-import Storage from '../utils/s3';
+import { createDir } from '../utils/file';
 
 @Injectable()
 export class PhotoService {
-  private storage: Storage;
   constructor(
     @InjectRepository(Photo)
     private photoRepository: Repository<Photo>,
-  ) {
-    this.storage = new Storage();
-  }
+  ) {}
 
   /**
    * Create a new photo and associate user to the photo
@@ -47,20 +43,18 @@ export class PhotoService {
    * @param filename String
    */
   private async resizeImage(path: string, filename: string) {
-    const dirName = "./uploads"
+    const dirName = './uploads';
 
     // create uploads directory if one does not exist (locally only)
-    const createdDir = await createDir(dirName)
-    console.log('createdDir', createdDir)
-    console.log('__dirname', __dirname)
-
-    await this.storage.createBucket("testbucket", {})
+    const createdDir = await createDir(dirName);
+    console.log('createdDir', createdDir);
+    console.log('__dirname', __dirname);
 
     // resize image
     await sharp(path)
       .resize(300, 200, {
         fit: 'contain',
-        background: 'white'
+        background: 'white',
       })
       .toFile(`${dirName}/${filename}`);
     // delete temp file after sharp resizes the image

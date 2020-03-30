@@ -17,39 +17,57 @@ import { toUserDto } from '../utils/mapper';
 import { UserLoginDTO } from './user.login.dto';
 import { UserCreateDTO } from './user.create.dto';
 const bcrypt = require('bcrypt');
+import Storage from '../utils/s3';
+
 
 /**
  * User Model Class
  */
 @Injectable()
 export class UserService {
+  private storage: Storage;
+
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
     @Inject(forwardRef(() => PostService))
     private postService: PostService,
-  ) {}
+  ) {
+    this.storage = new Storage();
+  }
 
   /**
    * Create a new user
    * @param data Object
    */
   async add(userDto: UserCreateDTO): Promise<UserDTO> {
+    // get data from args
     const { name, password, username, email } = userDto;
+
     // check if the user exists in the db
     const userInDb = await this.userRepository.findOne({
       where: { username },
     });
+
     if (userInDb) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
+
+    // create new user 
     const user: User = await this.userRepository.create({
       name,
       password,
       username,
       email
     });
+
+    // create user bucket on S3 for future image storage
+    await this.storage.createBucket(name.toLowerCase());
+
+    // save changes to database
     await this.userRepository.save(user);
+
+    // return user object
     return toUserDto(user);
   }
 
