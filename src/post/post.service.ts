@@ -16,9 +16,12 @@ import { CommentService } from '../comment/comment.service';
 import { toPostDto } from '../utils/mapper';
 import { PhotoService } from '../photo/photo.service';
 import { LikeService } from '../like/like.service';
+import Storage from '../utils/s3';
 
 @Injectable()
 export class PostService {
+  private storage: Storage;
+
   constructor(
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
@@ -30,7 +33,9 @@ export class PostService {
     private readonly photoService: PhotoService,
     @Inject(forwardRef(() => LikeService))
     private readonly likeService: LikeService,
-  ) {}
+  ) {
+    this.storage = new Storage();
+  }
 
   /**
    * Create a new post and associate user to the post
@@ -40,26 +45,39 @@ export class PostService {
     // add new date property
     data = Object.assign(data, { created_at: Date.now() });
 
+    console.log('data', data)
+    // destructure args
+    const { user_uid, post_image_uid } = data;
+
+    // grab user by passed uid
+    const user = await this.userService.findOneByUID(user_uid);
+
+    // grab photo by uid
+    const photo = await this.photoService.findOneByUID(post_image_uid);
+    console.log('photo', photo)
+    // store post photo in bucket
+    await this.storage.putFile(user.bucket, photo.path, post_image_uid, {});
+
     // create object with new post props
     const newPost = await this.postRepository.create(data);
 
-    // grab user by passed uid
-    const user = await this.userService.findOneByUID(data.user_uid);
-
-    if (user.uid === data.user_uid) {
+    // assign user to post
+    if (user.uid === user_uid) {
       // grab related user and assign to user object of post
       newPost.user = user;
     } else {
       throw new Error('Invalid user!');
     }
 
-    const photo = await this.photoService.findOneByUID(data.post_image_uid);
-    if (photo.uid === data.post_image_uid) {
+    // assign photo to post
+    if (photo.uid === post_image_uid) {
       // grab related user and assign to user object of post
       newPost.photo = photo;
     }
+
     // save changes
     await this.postRepository.save(newPost);
+
     // return new post
     return toPostDto(newPost);
   }

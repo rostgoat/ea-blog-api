@@ -18,6 +18,8 @@ import { UserLoginDTO } from './user.login.dto';
 import { UserCreateDTO } from './user.create.dto';
 const bcrypt = require('bcrypt');
 import Storage from '../utils/s3';
+import { v4 as uuid } from 'uuid';
+
 
 
 /**
@@ -53,21 +55,20 @@ export class UserService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
+    // create DNS friendly bucket name 
+    const bucket = `${name.replace(/\s+/g, '-').toLowerCase()}-${uuid()}`;
+
+    // create user bucket on S3 for future image storage
+    await this.storage.createBucket(bucket, {});
+
     // create new user 
     const user: User = await this.userRepository.create({
       name,
       password,
       username,
-      email
+      email,
+      bucket
     });
-
-    // create DNS friendly bucket name 
-    const bucketName = name.replace(/\s+/g, '-').toLowerCase();
-    console.log('bucketName', bucketName)
-    // create user bucket on S3 for future image storage
-    const bucket = await this.storage.createBucket(bucketName, {});
-
-    console.log('bucket', bucket)
 
 
     // save changes to database

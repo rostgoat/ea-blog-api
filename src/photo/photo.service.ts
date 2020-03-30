@@ -8,17 +8,14 @@ import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { resolve } from 'path';
 import { createDir } from '../utils/file';
-import Storage from '../utils/s3';
 
 @Injectable()
 export class PhotoService {
-  private storage: Storage;
 
   constructor(
     @InjectRepository(Photo)
     private photoRepository: Repository<Photo>,
   ) {
-    this.storage = new Storage();
   }
 
   /**
@@ -30,7 +27,7 @@ export class PhotoService {
     const title = filename;
 
     const newImageFilePath = await this.resizeImage(path, filename);
-
+    console.log('newImageFilePath', newImageFilePath)
     // create object with new photo props
     const newPhoto = await this.photoRepository.create({
       title,
@@ -52,11 +49,7 @@ export class PhotoService {
 
     // create uploads directory if one does not exist (locally only)
     const createdDir = await createDir(dirName);
-    console.log('createdDir', createdDir);
-    console.log('__dirname', __dirname);
-
-    // await this.storage.putFile();
-
+    console.log('__dirname', resolve(__dirname, '..'))
     // resize image
     await sharp(path)
       .resize(300, 200, {
@@ -70,7 +63,7 @@ export class PhotoService {
         throw new Error('Could not delete image from .tmp directory!');
       }
     });
-
+    console.log('resolve(__dirname, `uploads/${filename}`)', resolve(__dirname, `uploads/${filename}`))
     // return new image path
     return resolve(__dirname, `uploads/${filename}`);
   }

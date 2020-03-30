@@ -5,7 +5,6 @@ import { existsAsync, createReadStream } from './file';
 export default class Storage {
   private logger: Logger;
   private s3;
-  private bucketSuffix;
 
   constructor() {
     // production configs
@@ -29,8 +28,6 @@ export default class Storage {
       });
     }
     this.logger = new Logger('S3');
-    this.bucketSuffix = `${uuid()}`;
-
     config.region = process.env.AWS_REGION;
     config.setPromisesDependency(require('bluebird').Promise);
   }
@@ -59,10 +56,9 @@ export default class Storage {
           ) {
             this.logger.warn(
               `S3 : createBucket : Bucket already exists :
-                ${bucket}-${this.bucketSuffix}`,
+                ${bucket}`,
             );
-            // Mock result
-            resolve({ Location: `/${bucket}-${this.bucketSuffix}` });
+            resolve({ Location: `/${bucket}` });
           } else {
             reject(err);
           }
