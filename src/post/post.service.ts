@@ -1,11 +1,8 @@
-import { Injectable, forwardRef, Inject, Logger } from '@nestjs/common';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   Repository,
-  getConnection,
   getRepository,
-  getManager,
-  createQueryBuilder,
 } from 'typeorm';
 import { Promise } from 'bluebird';
 
@@ -15,13 +12,10 @@ import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
 import { toPostDto } from '../utils/mapper';
 import { LikeService } from '../like/like.service';
-import Storage from '../utils/s3';
-import { resolve, join } from 'path';
 
 
 @Injectable()
 export class PostService {
-  private storage: Storage;
 
   constructor(
     @InjectRepository(Post)
@@ -33,7 +27,6 @@ export class PostService {
     @Inject(forwardRef(() => LikeService))
     private readonly likeService: LikeService,
   ) {
-    this.storage = new Storage();
   }
 
   /**

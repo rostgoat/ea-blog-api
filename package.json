@@ -69,6 +69,8 @@
     "mkdirp": "^1.0.3",
     "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
+    "nestjs-config": "^1.4.5",
+    "nestjs-multer-extended": "^1.1.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

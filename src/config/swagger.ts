@@ -5,7 +5,6 @@ import { PostModule } from '../post/post.module';
 import { UserModule } from '../user/user.module';
 import { AuthModule } from '../auth/auth.module';
 import { LikeModule } from '../like/like.module';
-import { PhotoModule } from '../photo/photo.module';
 
 /**
  * This file contains all the Swagger API docs for every schema type
@@ -48,13 +47,6 @@ const likesOptions = new DocumentBuilder()
   .setVersion(VERSION)
   .build();
 
-// Photos API methods
-const photosOptions = new DocumentBuilder()
-  .setTitle('Photos')
-  .setDescription(DESCRIPTION)
-  .setVersion(VERSION)
-  .build();
-
 // Authentication API methods
 const authOptions = new DocumentBuilder()
   .setTitle('Authentication')
@@ -80,8 +72,6 @@ const getModuleAndOptions = (route: string) => {
       return { options: authOptions, mod: AuthModule };
     case 'likes':
       return { options: likesOptions, mod: LikeModule };
-    case 'photos':
-      return { options: photosOptions, mod: PhotoModule };
   }
 };
 

@@ -21,7 +21,6 @@ async function bootstrap() {
   initDocumentation('api/posts', app, 'posts');
   initDocumentation('api/likes', app, 'likes');
   initDocumentation('api/auth', app, 'auth');
-  initDocumentation('api/photos', app, 'photos');
   initDocumentation('api/comments', app, 'comments');
 
   app.enableCors();

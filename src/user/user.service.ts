@@ -5,7 +5,6 @@ import {
   HttpException,
   HttpStatus,
   UnauthorizedException,
-  Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Promise } from 'bluebird';
@@ -16,9 +15,8 @@ import { PostService } from '../post/post.service';
 import { toUserDto } from '../utils/mapper';
 import { UserLoginDTO } from './user.login.dto';
 import { UserCreateDTO } from './user.create.dto';
-const bcrypt = require('bcrypt');
-import Storage from '../utils/s3';
 import { v4 as uuid } from 'uuid';
+const bcrypt = require('bcrypt');
 
 
 
@@ -27,7 +25,6 @@ import { v4 as uuid } from 'uuid';
  */
 @Injectable()
 export class UserService {
-  private storage: Storage;
 
   constructor(
     @InjectRepository(User)
@@ -35,7 +32,6 @@ export class UserService {
     @Inject(forwardRef(() => PostService))
     private postService: PostService,
   ) {
-    this.storage = new Storage();
   }
 
   /**
@@ -55,19 +51,12 @@ export class UserService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
-    // create DNS friendly bucket name 
-    const bucket = `${name.replace(/\s+/g, '-').toLowerCase()}-${uuid()}`;
-
-    // create user bucket on S3 for future image storage
-    await this.storage.createBucket(bucket, {});
-
     // create new user 
     const user: User = await this.userRepository.create({
       name,
       password,
       username,
       email,
-      bucket
     });
 
 

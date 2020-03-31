@@ -1,45 +1,31 @@
-import { Req, Res, Injectable } from '@nestjs/common';
-import * as multer from 'multer';
-import * as AWS from 'aws-sdk';
-import * as multerS3 from 'multer-s3';
+import { Injectable } from '@nestjs/common';
+import { S3, config } from 'aws-sdk';
 
-const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
-const s3 = new AWS.S3();
-AWS.config.update({
+let s3;
+s3 = new S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+  apiVersion: '2006-03-01',
+  s3ForcePathStyle: true,
 });
+config.region = process.env.AWS_REGION;
+config.setPromisesDependency(require('bluebird').Promise);
 
 @Injectable()
 export class StorageService {
   constructor() {}
 
-  async fileupload(@Req() req, @Res() res) {
-      console.log('req', req)
-      console.log('res', res)
-    try {
-      this.upload(req, res, function(error) {
-        if (error) {
-          console.log(error);
-          return res.status(404).json(`Failed to upload image file: ${error}`);
-        }
-        return res.status(201).json(req.files[0].location);
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json(`Failed to upload image file: ${error}`);
-    }
+  /**
+   * Get signed url of image based on bucket and key provided
+   * @param bucket S3 bucket
+   * @param key S3 bucket key
+   */
+  getSignedUrl(bucket, key) {
+    let params = {
+      Bucket: bucket,
+      Key: key,
+    };
+    return s3.getSignedUrl('getObject', params);
   }
-
-  upload = multer({
-    storage: multerS3({
-      s3: s3,
-      bucket: "rost-myshkin-b425ff41-145d-42a3-ac2a-52d12a2e2516",
-      acl: 'public-read',
-      key: function(request, file, cb) {
-          console.log('file', file)
-        cb(null, `${Date.now().toString()} - ${file.originalname}`);
-      },
-    }),
-  }).single('image')
 }
