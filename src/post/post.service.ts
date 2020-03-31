@@ -112,7 +112,6 @@ export class PostService {
       .addSelect('p.post_image_bucket_key', 'post_image_bucket_key')
       .addSelect('p.created_at', 'post_created_at')
       .addSelect('u.name', 'post_author')
-      .addSelect('u.bucket', 'bucket')
       .leftJoin('p.likes', 'l')
       .innerJoin('p.user', 'u')
       .getRawMany();
@@ -134,7 +133,7 @@ export class PostService {
    */
   async findOne(uid: string): Promise<Post> {
     return await this.postRepository.findOne({
-      select: ['post_id', 'uid', 'content', 'created_at', 'sub_title', 'title'],
+      select: ['post_id', 'uid', 'content', 'created_at', 'sub_title', 'title', 'post_image_bucket_key'],
       relations: ['comments', 'user'],
       where: {
         uid,
