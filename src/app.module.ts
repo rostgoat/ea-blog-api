@@ -7,7 +7,8 @@ import { PostModule } from './post/post.module';
 import { AuthModule } from './auth/auth.module';
 import { LikeModule } from './like/like.module';
 import { StorageModule } from './storage/storage.module';
-
+import { ServeStaticModule } from '@nestjs/serve-static';	
+import { join } from 'path'
 /**
  * Root Module
  */
@@ -20,8 +21,10 @@ import { StorageModule } from './storage/storage.module';
     PostModule,
     AuthModule,
     LikeModule,
-    
     StorageModule,
+    ServeStaticModule.forRoot({	
+      rootPath: join(__dirname, '..', 'public'),	
+    }),
   ],
   exports: [UserModule, CommentModule, PostModule],
   providers: [],
