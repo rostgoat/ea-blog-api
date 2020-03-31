@@ -11,6 +11,8 @@ import { PostModule } from './post/post.module';
 import { AuthModule } from './auth/auth.module';
 import { PhotoModule } from './photo/photo.module';
 import { LikeModule } from './like/like.module';
+import { StorageService } from './storage/storage.service';
+import { StorageModule } from './storage/storage.module';
 
 
 /**
@@ -35,8 +37,9 @@ import { LikeModule } from './like/like.module';
       rootPath: join(__dirname, '..', 'public'),
     }),
     LikeModule,
+    StorageModule,
   ],
   exports: [UserModule, CommentModule, PostModule],
-  providers: [],
+  providers: [StorageService],
 })
 export class AppModule {}

@@ -8,8 +8,8 @@ const fs = require('bluebird').promisifyAll(require('fs'))
  */
 export const createDir = async directory => {
   try {
-    const dirPath = join(__dirname, '..', '..', directory);
-    return await mkdirp(dirPath);
+    // const dirPath = join(__dirname, '..', '..', directory);
+    return await mkdirp(directory);
   } catch (error) {
     if (error.code != 'EEXIST') {
       throw error;
