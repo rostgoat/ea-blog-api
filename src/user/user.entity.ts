@@ -45,9 +45,12 @@ export class User {
   @JoinColumn({ name: 'like_id'})
   likes: Like[]
 
-  constructor(name?: string, posts?: []);
-  constructor(name?: string) {
+  constructor(name?: string, email?: string, username?: string, password?: string, posts?: []);
+  constructor(name?: string, email?: string, username?: string, password?: string) {
     this.name = name || '';
+    this.email = email || '';
+    this.username = username || '';
+    this.password = password || '';
   }
 
   @BeforeInsert() async hashPassword() {

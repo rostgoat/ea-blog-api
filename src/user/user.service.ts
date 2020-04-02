@@ -38,15 +38,16 @@ export class UserService {
    * Create a new user
    * @param data Object
    */
-  async add(userDto: UserCreateDTO): Promise<UserDTO> {
+  async add(userDto: Partial<UserCreateDTO>): Promise<UserDTO> {
     // get data from args
     const { name, password, username, email } = userDto;
-
+   
     // check if the user exists in the db
     const userInDb = await this.userRepository.findOne({
       where: { username },
     });
-
+    console.log('username', username)
+    console.log('userInDb', userInDb)
     if (userInDb) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
