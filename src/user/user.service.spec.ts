@@ -28,6 +28,13 @@ const testUser2 = new User(testUserName2);
 // users test array
 const testUsers = [testUser, testUser2];
 
+const tempUser = {
+  name: testUserName1,
+  email: testUserEmail1,
+  username: testUserUsername1,
+  password: testUserPassword1,
+};
+
 /**
  * User Model Unit Test
  */
@@ -76,14 +83,8 @@ describe('UserService', () => {
   });
 
   // Add tests and cases
-  describe('add', () => {
+  describe('Add', () => {
     it("should be able to create a user where the user currently doesn't exist", async () => {
-      const tempUser = {
-        name: testUserName1,
-        email: testUserEmail1,
-        username: testUserUsername1,
-        password: testUserPassword1,
-      };
       // findOne mock that expects to return null becase we assume the user doesn't exists in the "db"
       userRepository.findOne = jest.fn(() => null);
 
@@ -94,17 +95,6 @@ describe('UserService', () => {
     });
 
     it('should throw an error when creating a new user where the username has previously been used', async () => {
-      const tempUser = {
-        name: testUserName1,
-        email: testUserEmail1,
-        username: testUserUsername1,
-        password: testUserPassword1,
-      };
-
-      const httpExceptionError = () => {
-        throw new TypeError('User already exists');
-      };
-
       // findOne mock that expects to return an error becase we assume the user with those credentials exists in the "db"
       userRepository.findOne = jest.fn(() => tempUser.username);
       const errorCreateNewUser = Promise.reject(new HttpException('User already exists', HttpStatus.BAD_REQUEST))
@@ -112,21 +102,22 @@ describe('UserService', () => {
     });
   });
 
-  // it('should be able to find and return all users', async () => {
-  //   const foundUsers = await userService.findAll();
-  //   expect(foundUsers).toEqual(testUsers);
-  //   expect(foundUsers.length).toEqual(testUsers.length);
-  // });
+  describe('findAll', () => {
+    it('should be able to find and return all users', async () => {
+      const foundUsers = await userService.findAll();
+      expect(foundUsers).toEqual(testUsers);
+      expect(foundUsers.length).toEqual(testUsers.length);
+    });
+  })
 
-  // it('should be able to find and return a user', async () => {
-  //   const newUser = await userService.add({
-  //     user_id: 'uid',
-  //     name: testUserName1,
-  //   });
-
-  //   const foundUser = await userService.findOne(newUser.user_id);
-  //   expect(foundUser).toEqual(testUser);
-  // });
+  describe('findOne', () => {
+    it('should be able to find and return a user', async () => {
+      // mock findOne that returns a user uid
+      userRepository.findOne = jest.fn(() => tempUser.username);
+      const foundUser = await userService.findOne(tempUser.username);
+      expect(foundUser).toEqual(testUser.username);
+    });
+  })
 
   //   it('should be able to update a user', async () => {
   //     const newUser = await userService.add({
