@@ -27,7 +27,7 @@ export class LikeService {
     // extract data from request
     const { user_uid, post_uid } = data;
     // grab user by passed uid
-    const user = await this.userService.findOneByUID(user_uid);
+    const user = await this.userService.findOne(user_uid);
     // grab post by passed uid
     const post = await this.postService.findOne(post_uid);
 

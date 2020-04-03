@@ -41,7 +41,7 @@ export class PostService {
     const { user_uid } = data;
 
     // grab user by passed uid
-    const user = await this.userService.findOneByUID(user_uid);
+    const user = await this.userService.findOne(user_uid);
 
     // create object with new post props
     const newPost = await this.postRepository.create(data);

@@ -83,7 +83,7 @@ describe('UserService', () => {
   });
 
   // Add tests and cases
-  describe('Add', () => {
+  describe('add', () => {
     it("should be able to create a user where the user currently doesn't exist", async () => {
       // findOne mock that expects to return null becase we assume the user doesn't exists in the "db"
       userRepository.findOne = jest.fn(() => null);
@@ -119,18 +119,24 @@ describe('UserService', () => {
     });
   })
 
-  //   it('should be able to update a user', async () => {
-  //     const newUser = await userService.add({
-  //       name: testUserName1,
-  //     });
+  describe('edit', () => {
+    it('should be able to update a user', async () => {
+      // mock findOne that returns a null
+      userRepository.findOne = jest.fn(() => null);
 
-  //     const updatedUserName = `${faker.name.firstName()} ${faker.name.firstName()}`;
-  //     const updatedUser = await userService.edit(newUser.user_id, {
-  //       name: updatedUserName,
-  //     });
+      const newUser = await userService.add(tempUser);
 
-  //     jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(updatedUser);
-  //   });
+      console.log('newUser', newUser)
+
+
+      const updatedUserName = `${faker.name.firstName()} ${faker.name.firstName()}`;
+      const updatedUser = await userService.edit(newUser.uid, {
+        name: updatedUserName,
+      });
+      console.log('updatedUser', updatedUser)
+      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(updatedUser);
+    });
+  })
 
   //   it('should be able to delete a user', async () => {
   //     const newUser = await userService.add({

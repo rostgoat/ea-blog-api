@@ -93,15 +93,6 @@ export class UserService {
     });
   }
 
-  /**
-   * Find user by uid
-   */
-  async findOneByUID(uid: string): Promise<User> {
-    return await this.userRepository.findOne({
-      relations: ['posts'],
-      where: { uid: uid },
-    });
-  }
 
   /**
    * Remove a user related to a user
