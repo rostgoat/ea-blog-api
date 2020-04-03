@@ -18,8 +18,8 @@ const testUserName2 = `${faker.name.firstName()} ${faker.name.lastName()}`;
 const testUser = new User(
   testUserName1,
   testUserEmail1,
-  testUserPassword1,
   testUserUsername1,
+  testUserPassword1,
 );
 const testUser2 = new User(testUserName2);
 
@@ -50,7 +50,7 @@ describe('UserService', () => {
             save: jest.fn(),
             create: jest.fn().mockReturnValue(testUser),
             find: jest.fn().mockResolvedValue(testUsers),
-            findOne: jest.fn().mockResolvedValue(testUser),
+            // findOne: jest.fn().mockResolvedValue(testUser),
             update: jest.fn().mockResolvedValue(testUser),
             delete: jest.fn().mockResolvedValue(true),
           },
@@ -74,25 +74,18 @@ describe('UserService', () => {
   });
 
   it('should be able to create a user', async () => {
-    expect(
-      userService.add({
-        name: testUserName1,
-        email: testUserEmail1,
-        username: testUserUsername1,
-        password: testUserPassword1,
-      }),
-    ).resolves.toEqual(testUser);
+    const tempUser = {
+      name: testUserName1,
+      email: testUserEmail1,
+      username: testUserUsername1,
+      password: testUserPassword1,
+    }
+    userRepository.findOne = jest.fn(() => null);
 
-    expect(userRepository.create).toBeCalledTimes(1);
-    expect(userRepository.create).toBeCalledWith({
-        name: testUserName1,
-        email: testUserEmail1,
-        username: testUserUsername1,
-        password: testUserPassword1,
-    });
+    await userService.add(tempUser)
+    expect(tempUser).toEqual(testUser);
+    expect(userRepository.create).toHaveBeenCalledWith(tempUser)
     expect(userRepository.save).toBeCalledTimes(1);
-    // const newUser = await userService.add(testUser1);
-    // expect(newUser).toEqual(testUser);
   });
 
 //   it('should be able to find and return all users', async () => {

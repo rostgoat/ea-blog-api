@@ -60,7 +60,6 @@ export class UserService {
       email,
     });
 
-
     // save changes to database
     await this.userRepository.save(user);
 
@@ -87,7 +86,7 @@ export class UserService {
   /**
    * Return one user
    */
-  async findOne(uid: string): Promise<User> {
+  async findOne(uid: string): Promise<User | null> {
     return await this.userRepository.findOne({
       relations: ['posts', 'comments'],
       where: { uid },
