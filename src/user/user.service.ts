@@ -46,8 +46,8 @@ export class UserService {
     const userInDb = await this.userRepository.findOne({
       where: { username },
     });
-    console.log('username', username)
-    console.log('userInDb', userInDb)
+
+    // if user exists in db, throw error
     if (userInDb) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }

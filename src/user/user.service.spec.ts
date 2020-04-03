@@ -6,6 +6,8 @@ import { User } from './user.entity';
 import { PostService } from '../post/post.service';
 import * as faker from 'faker';
 import { LikeService } from '../like/like.service';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 
 const testUserUsername1 = faker.internet.userName();
 const testUserEmail1 = faker.internet.email();
@@ -73,58 +75,80 @@ describe('UserService', () => {
     likeService = module.get<LikeService>(LikeService);
   });
 
-  it('should be able to create a user', async () => {
-    const tempUser = {
-      name: testUserName1,
-      email: testUserEmail1,
-      username: testUserUsername1,
-      password: testUserPassword1,
-    }
-    userRepository.findOne = jest.fn(() => null);
+  // Add tests and cases
+  describe('add', () => {
+    it("should be able to create a user where the user currently doesn't exist", async () => {
+      const tempUser = {
+        name: testUserName1,
+        email: testUserEmail1,
+        username: testUserUsername1,
+        password: testUserPassword1,
+      };
+      // findOne mock that expects to return null becase we assume the user doesn't exists in the "db"
+      userRepository.findOne = jest.fn(() => null);
 
-    await userService.add(tempUser)
-    expect(tempUser).toEqual(testUser);
-    expect(userRepository.create).toHaveBeenCalledWith(tempUser)
-    expect(userRepository.save).toBeCalledTimes(1);
+      await userService.add(tempUser);
+      expect(tempUser).toEqual(testUser);
+      expect(userRepository.create).toHaveBeenCalledWith(tempUser);
+      expect(userRepository.save).toBeCalledTimes(1);
+    });
+
+    it('should throw an error when creating a new user where the username has previously been used', async () => {
+      const tempUser = {
+        name: testUserName1,
+        email: testUserEmail1,
+        username: testUserUsername1,
+        password: testUserPassword1,
+      };
+
+      const httpExceptionError = () => {
+        throw new TypeError('User already exists');
+      };
+
+      // findOne mock that expects to return an error becase we assume the user with those credentials exists in the "db"
+      userRepository.findOne = jest.fn(() => tempUser.username);
+      const errorCreateNewUser = Promise.reject(new HttpException('User already exists', HttpStatus.BAD_REQUEST))
+      expect(errorCreateNewUser).rejects.toMatchObject(new HttpException('User already exists', HttpStatus.BAD_REQUEST));
+    });
   });
 
-//   it('should be able to find and return all users', async () => {
-//     const foundUsers = await userService.findAll();
-//     expect(foundUsers).toEqual(testUsers);
-//     expect(foundUsers.length).toEqual(testUsers.length);
-//   });
+  // it('should be able to find and return all users', async () => {
+  //   const foundUsers = await userService.findAll();
+  //   expect(foundUsers).toEqual(testUsers);
+  //   expect(foundUsers.length).toEqual(testUsers.length);
+  // });
 
-//   it('should be able to find and return a user', async () => {
-//     const newUser = await userService.add({
-//       user_id: 'uid',
-//       name: testUserName1,
-//     });
+  // it('should be able to find and return a user', async () => {
+  //   const newUser = await userService.add({
+  //     user_id: 'uid',
+  //     name: testUserName1,
+  //   });
 
-//     const foundUser = await userService.findOne(newUser.user_id);
-//     expect(foundUser).toEqual(testUser);
-//   });
+  //   const foundUser = await userService.findOne(newUser.user_id);
+  //   expect(foundUser).toEqual(testUser);
+  // });
 
-//   it('should be able to update a user', async () => {
-//     const newUser = await userService.add({
-//       name: testUserName1,
-//     });
+  //   it('should be able to update a user', async () => {
+  //     const newUser = await userService.add({
+  //       name: testUserName1,
+  //     });
 
-//     const updatedUserName = `${faker.name.firstName()} ${faker.name.firstName()}`;
-//     const updatedUser = await userService.edit(newUser.user_id, {
-//       name: updatedUserName,
-//     });
+  //     const updatedUserName = `${faker.name.firstName()} ${faker.name.firstName()}`;
+  //     const updatedUser = await userService.edit(newUser.user_id, {
+  //       name: updatedUserName,
+  //     });
 
-//     jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(updatedUser);
-//   });
+  //     jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(updatedUser);
+  //   });
 
-//   it('should be able to delete a user', async () => {
-//     const newUser = await userService.add({
-//       name: testUserName1,
-//     });
+  //   it('should be able to delete a user', async () => {
+  //     const newUser = await userService.add({
+  //       name: testUserName1,
+  //     });
 
-//     const deletedUser = await userService.delete(newUser.user_id);
-//     expect(deletedUser).not.toBe({ deleted: true });
-//   });
+  //     const deletedUser = await userService.delete(newUser.user_id);
+  //     expect(deletedUser).not.toBe({ deleted: true });
+  //   });
 
   afterEach(() => {
     jest.resetAllMocks();
