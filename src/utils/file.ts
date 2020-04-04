@@ -1,5 +1,5 @@
-import * as mkdirp from 'mkdirp';
-import { join } from 'path';
+import * as mkdirp from 'mkdirp'
+import { join } from 'path'
 const fs = require('bluebird').promisifyAll(require('fs'))
 
 /**
@@ -9,37 +9,37 @@ const fs = require('bluebird').promisifyAll(require('fs'))
 export const createDir = async directory => {
   try {
     // const dirPath = join(__dirname, '..', '..', directory);
-    return await mkdirp(directory);
+    return await mkdirp(directory)
   } catch (error) {
     if (error.code != 'EEXIST') {
-      throw error;
+      throw error
     }
   }
-};
+}
 
 //check if a file/directory exists, return Promise
 export const existsAsync = path => {
   return new Promise((resolve, reject) => {
     return fs.accessAsync(path, fs.F_OK, (err, data) => {
       if (err) {
-        resolve(false);
+        resolve(false)
       } else {
-        resolve(true);
+        resolve(true)
       }
-    });
-  });
-};
+    })
+  })
+}
 
 export const createReadStream = filename => {
   return new Promise((resolve, reject) => {
-    let stream = fs.createReadStream(filename);
+    let stream = fs.createReadStream(filename)
 
     stream.on('error', err => {
-      reject(err);
-    });
+      reject(err)
+    })
 
     stream.on('open', () => {
-      resolve(stream);
-    });
-  });
-};
+      resolve(stream)
+    })
+  })
+}

@@ -1,7 +1,7 @@
-import { Controller, Body, Post, Put, Get, Req } from '@nestjs/common';
-import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
-import { LikeDTO } from './like.dto';
-import { LikeService } from './like.service';
+import { Controller, Body, Post, Put, Get, Req } from '@nestjs/common'
+import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
+import { LikeDTO } from './like.dto'
+import { LikeService } from './like.service'
 
 /**
  * Like Controller
@@ -24,9 +24,9 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() data: LikeDTO) {
     try {
-      return this.likesService.add(data);
+      return this.likesService.add(data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -43,9 +43,9 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async unlike(@Body() data: LikeDTO) {
     try {
-      return this.likesService.edit(data);
+      return this.likesService.edit(data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -62,13 +62,13 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async relike(@Body() data: LikeDTO) {
     try {
-      return this.likesService.edit(data);
+      return this.likesService.edit(data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
-    /**
+  /**
    * Get all likes for a post
    */
   @Get('likes')
@@ -80,10 +80,10 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findAndCount(@Req() req) {
     try {
-      const { post_uid } = req.query;
-      return this.likesService.findLikeCount(post_uid);
+      const { post_uid } = req.query
+      return this.likesService.findLikeCount(post_uid)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -99,10 +99,9 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findAllPostLikes() {
     try {
-      return this.likesService.findAllPostLikes();
+      return this.likesService.findAllPostLikes()
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
-
 }
