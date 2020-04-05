@@ -14,7 +14,7 @@ const testPostUid = faker.random.uuid()
 const testPostTitle = faker.lorem.word()
 const testPostSubTitle = faker.lorem.words()
 const testPostContent = faker.lorem.paragraphs()
-const testPostDate = faker.date.recent()
+const testPostDate = new Date()
 const testPostUserUid = faker.random.uuid()
 
 // test post #1
@@ -38,13 +38,12 @@ const testPost2 = new Post(
 const testPosts = [testPost, testPost2]
 
 // post DTO object to call in methods
-const tempPost = {
+let tempPost = {
   uid: testPostUid,
   title: testPostTitle,
   sub_title: testPostSubTitle,
   content: testPostContent,
   created_at: testPostDate,
-  user: faker.random.uuid(),
 }
 
 // must provide all associated classes as mocks
@@ -73,7 +72,7 @@ describe('PostService', () => {
             save: jest.fn(),
             create: jest.fn().mockReturnValue(testPost),
             find: jest.fn().mockResolvedValue(testPosts),
-            // findOne: jest.fn().mockResolvedValue(testPost),
+            findOne: jest.fn().mockResolvedValue(testPost),
             update: jest.fn().mockResolvedValue(testPost),
             delete: jest.fn().mockResolvedValue(true),
           },
@@ -103,15 +102,44 @@ describe('PostService', () => {
 
   describe('add', () => {
     it('should be able to create a post', async () => {
-      const user = { uid: faker.random.uuid() }
+      const user = { uid: testPostUserUid }
 
       postRepo.findOne = jest.fn(() => null)
       userRepo.findOne = jest.fn(() => user.uid)
 
       await postService.add(tempPost)
+      tempPost = Object.assign(tempPost, { user: testPostUserUid })
       expect(tempPost).toEqual(testPost)
       expect(postRepo.save).toBeCalledTimes(1)
     })
     it('should throw an error if a post is created with wrong user', async () => {})
   })
+
+  // describe('edit', () => {
+
+  // })
+
+  describe('findOne', () => {
+    it('should be able to get one post back', async () => {
+      const repoSpy = jest.spyOn(postRepo, 'findOne')
+      expect(postService.findOne(tempPost.uid)).resolves.toEqual(testPost)
+      expect(repoSpy).toBeCalledWith({
+        relations: ['comments', 'user'],
+        select: [
+          'post_id',
+          'uid',
+          'content',
+          'created_at',
+          'sub_title',
+          'title',
+          'post_image_bucket_key',
+        ],
+        where: { uid: tempPost.uid },
+      })
+    })
+  })
+
+  // describe('find', () => {
+
+  // })
 })

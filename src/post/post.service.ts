@@ -28,9 +28,6 @@ export class PostService {
    * @param data Object
    */
   async add(data: Partial<PostDTO>): Promise<Post> {
-    // add new date property
-    data = Object.assign(data, { created_at: Date.now() })
-
     // destructure args
     const { user_uid } = data
 
