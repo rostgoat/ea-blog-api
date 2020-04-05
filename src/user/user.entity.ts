@@ -46,6 +46,7 @@ export class User {
   likes: Like[]
 
   constructor(
+    uid?: string,
     name?: string,
     email?: string,
     username?: string,
@@ -53,11 +54,13 @@ export class User {
     posts?: [],
   )
   constructor(
+    uid?: string,
     name?: string,
     email?: string,
     username?: string,
     password?: string,
   ) {
+    this.uid = uid || ''
     this.name = name || ''
     this.email = email || ''
     this.username = username || ''

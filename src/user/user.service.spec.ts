@@ -7,8 +7,8 @@ import { PostService } from '../post/post.service'
 import * as faker from 'faker'
 import { LikeService } from '../like/like.service'
 import { HttpException, HttpStatus } from '@nestjs/common'
-import { BadRequestException } from '@nestjs/common'
 
+const testUserUid = faker.random.uuid()
 const testUserUsername1 = faker.internet.userName()
 const testUserEmail1 = faker.internet.email()
 const testUserPassword1 = faker.internet.password()
@@ -18,6 +18,7 @@ const testUserName2 = `${faker.name.firstName()} ${faker.name.lastName()}`
 
 // user test object
 const testUser = new User(
+  testUserUid,
   testUserName1,
   testUserEmail1,
   testUserUsername1,
@@ -29,6 +30,7 @@ const testUser2 = new User(testUserName2)
 const testUsers = [testUser, testUser2]
 
 const tempUser = {
+  uid: testUserUid,
   name: testUserName1,
   email: testUserEmail1,
   username: testUserUsername1,
@@ -90,7 +92,6 @@ describe('UserService', () => {
 
       await userService.add(tempUser)
       expect(tempUser).toEqual(testUser)
-      expect(userRepository.create).toHaveBeenCalledWith(tempUser)
       expect(userRepository.save).toBeCalledTimes(1)
     })
 
@@ -125,30 +126,25 @@ describe('UserService', () => {
 
   describe('edit', () => {
     it('should be able to update a user', async () => {
-      // mock findOne that returns a null
-      userRepository.findOne = jest.fn(() => null)
-
-      const newUser = await userService.add(tempUser)
-
-      console.log('newUser', newUser)
-
       const updatedUserName = `${faker.name.firstName()} ${faker.name.firstName()}`
-      const updatedUser = await userService.edit(newUser.uid, {
+      userRepository.findOne = jest
+        .fn()
+        .mockReturnValue({ name: updatedUserName })
+
+      await userService.edit(tempUser.uid, {
         name: updatedUserName,
       })
-      console.log('updatedUser', updatedUser)
-      jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(updatedUser)
+
+      expect(tempUser.name).not.toEqual(updatedUserName)
     })
   })
 
-  //   it('should be able to delete a user', async () => {
-  //     const newUser = await userService.add({
-  //       name: testUserName1,
-  //     });
-
-  //     const deletedUser = await userService.delete(newUser.user_id);
-  //     expect(deletedUser).not.toBe({ deleted: true });
-  //   });
+  describe('delete', () => {
+    it('should be able to delete a user', async () => {
+      const deletedUser = await userService.delete(testUser.uid)
+      expect(deletedUser).not.toBe({ deleted: true })
+    })
+  })
 
   afterEach(() => {
     jest.resetAllMocks()
