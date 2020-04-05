@@ -56,9 +56,18 @@ export class Post {
   @JoinColumn({ name: 'like_id' })
   likes: Like[]
 
-  constructor(title?: string, content?: string) {
+  constructor(
+    uid?: string,
+    title?: string,
+    sub_title?: string,
+    content?: string,
+    created_at?: Date,
+  ) {
+    this.uid = uid || ''
     this.title = title || ''
+    this.sub_title = sub_title || ''
     this.content = content || ''
+    this.created_at = created_at
   }
 
   @BeforeInsert() async generateUID() {

@@ -31,7 +31,7 @@ const testUser2 = new User(testUserName2)
 // users test array
 const testUsers = [testUser, testUser2]
 
-// temp user object
+// user DTO object to call in methods
 const tempUser = {
   uid: testUserUid,
   name: testUserName1,
@@ -64,7 +64,6 @@ describe('UserService', () => {
             save: jest.fn(),
             create: jest.fn().mockReturnValue(testUser),
             find: jest.fn().mockResolvedValue(testUsers),
-            // findOne: jest.fn().mockResolvedValue(testUser),
             update: jest.fn().mockResolvedValue(testUser),
             delete: jest.fn().mockResolvedValue(true),
           },
