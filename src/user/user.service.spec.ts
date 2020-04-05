@@ -24,11 +24,14 @@ const testUser = new User(
   testUserUsername1,
   testUserPassword1,
 )
+
+// user test object 2
 const testUser2 = new User(testUserName2)
 
 // users test array
 const testUsers = [testUser, testUser2]
 
+// temp user object
 const tempUser = {
   uid: testUserUid,
   name: testUserName1,

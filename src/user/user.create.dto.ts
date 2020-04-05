@@ -47,10 +47,4 @@ export class UserCreateDTO {
   })
   @IsNotEmpty()
   password: string
-
-  @ApiProperty({
-    description: 'Blog Post Foreign Key',
-    type: String,
-  })
-  post_id: string
 }
