@@ -53,35 +53,43 @@ describe('User Controller', () => {
     userController = module.get<UserController>(UserController)
   })
 
-  it('should be able to create a user', async () => {
-    userController.create(testUser)
-    expect(userService.add).toHaveBeenCalledWith(testUser)
+  describe('add', () => {
+    it('should be able to create a user', async () => {
+      userController.create(testUser)
+      expect(userService.add).toHaveBeenCalledWith(testUser)
+    })
   })
-
-  it('should be able to update a user', async () => {
-    userController.update(testUser.user_id, testUser)
-    expect(userService.edit).toHaveBeenCalledWith(testUser.user_id, testUser)
+  describe('edit', () => {
+    it('should be able to update a user', async () => {
+      userController.update(testUser.user_id, testUser)
+      expect(userService.edit).toHaveBeenCalledWith(testUser.user_id, testUser)
+    })
   })
-
-  it('should be able to delete a user', async () => {
-    userController.delete(testUser.user_id)
-    expect(userService.delete).toHaveBeenCalledWith(testUser.user_id)
-    expect(await userController.delete(testUser.user_id)).toBe(true)
+  describe('delete', () => {
+    it('should be able to delete a user', async () => {
+      userController.delete(testUser.user_id)
+      expect(userService.delete).toHaveBeenCalledWith(testUser.user_id)
+      expect(await userController.delete(testUser.user_id)).toBe(true)
+    })
   })
+  describe('find', () => {
+    it('should be able to return an array of users', async () => {
+      const result: User[] = [testUser]
 
-  it('should be able to return a user', async () => {
-    userController.findOne(testUser.user_id)
-    expect(userService.findOne).toHaveBeenCalledWith(testUser.user_id)
+      jest
+        .spyOn(userService, 'findAll')
+        .mockImplementation(
+          async (): Promise<User[]> => Promise.resolve(result),
+        )
+
+      expect(await userController.find()).toBe(result)
+    })
   })
-
-  it('should be able to return an array of users', async () => {
-    const result: User[] = [testUser]
-
-    jest
-      .spyOn(userService, 'findAll')
-      .mockImplementation(async (): Promise<User[]> => Promise.resolve(result))
-
-    expect(await userController.find()).toBe(result)
+  describe('findOne', () => {
+    it('should be able to return a user', async () => {
+      userController.findOne(testUser.user_id)
+      expect(userService.findOne).toHaveBeenCalledWith(testUser.user_id)
+    })
   })
 
   afterEach(() => {

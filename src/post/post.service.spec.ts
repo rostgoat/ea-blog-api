@@ -115,10 +115,6 @@ describe('PostService', () => {
     it('should throw an error if a post is created with wrong user', async () => {})
   })
 
-  // describe('edit', () => {
-
-  // })
-
   describe('findOne', () => {
     it('should be able to get one post back', async () => {
       const repoSpy = jest.spyOn(postRepo, 'findOne')
@@ -138,8 +134,4 @@ describe('PostService', () => {
       })
     })
   })
-
-  // describe('find', () => {
-
-  // })
 })

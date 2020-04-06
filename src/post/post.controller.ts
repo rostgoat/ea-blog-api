@@ -33,7 +33,7 @@ export class PostController {
     type: PostDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() data: PostDTO) {
+  async create(@Body() data: Partial<PostDTO>) {
     try {
       return this.postService.add(data)
     } catch (error) {
