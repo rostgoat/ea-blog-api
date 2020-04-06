@@ -1,12 +1,12 @@
-import { Injectable, Inject, forwardRef, Logger } from '@nestjs/common';
-import { Like } from './like.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, getRepository } from 'typeorm';
-import { LikeDTO } from './like.dto';
-import { Promise } from 'bluebird';
-import { PostService } from '../post/post.service';
-import { UserService } from '../user/user.service';
-import { toLikeDto } from '../utils/mapper';
+import { Injectable, Inject, forwardRef, Logger } from '@nestjs/common'
+import { Like } from './like.entity'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, getRepository } from 'typeorm'
+import { LikeDTO } from './like.dto'
+import { Promise } from 'bluebird'
+import { PostService } from '../post/post.service'
+import { UserService } from '../user/user.service'
+import { toLikeDto } from '../utils/mapper'
 
 @Injectable()
 export class LikeService {
@@ -25,59 +25,59 @@ export class LikeService {
    */
   async add(data: Partial<LikeDTO>): Promise<Like> {
     // extract data from request
-    const { user_uid, post_uid } = data;
+    const { user_uid, post_uid } = data
     // grab user by passed uid
-    const user = await this.userService.findOneByUID(user_uid);
+    const user = await this.userService.findOne(user_uid)
     // grab post by passed uid
-    const post = await this.postService.findOne(post_uid);
+    const post = await this.postService.findOne(post_uid)
 
     // data to save to db for new like
     const likeArgs = {
       post_liked: true,
       liked_at: Date.now(),
-    };
+    }
     // create object with new like props
-    let newLike = await this.likesRepository.create(likeArgs);
+    let newLike = await this.likesRepository.create(likeArgs)
 
     // verify user is valid
     if (user.uid === user_uid) {
       // grab related user and assign to user object of like
-      newLike.user = user;
+      newLike.user = user
     } else {
-      throw new Error('Invalid user!');
+      throw new Error('Invalid user!')
     }
 
     // verify post is valid
     if (post.uid === post_uid) {
       // grab related user and assign to user object of like
-      newLike.post = post;
+      newLike.post = post
     }
 
     // save changes
-    const { uid } = await this.likesRepository.save(newLike);
+    const { uid } = await this.likesRepository.save(newLike)
     console.log('post', post)
     // assign like to a post
-    post.likes.push(uid);
+    post.likes.push(uid)
 
     // return new like
-    return toLikeDto(newLike);
+    return toLikeDto(newLike)
   }
 
   async edit(data: Partial<LikeDTO>): Promise<Like> {
-    const { uid, post_liked } = data;
+    const { uid, post_liked } = data
 
     // check status of like/dislike
-    let updatedLikeStatus = !post_liked;
+    let updatedLikeStatus = !post_liked
 
     // update like status in db
     await this.likesRepository.update(
       { uid },
       { post_liked: updatedLikeStatus },
-    );
+    )
 
     // return status and uid of like
-    const updatedLike = await this.likesRepository.findOne({ uid });
-    return toLikeDto(updatedLike);
+    const updatedLike = await this.likesRepository.findOne({ uid })
+    return toLikeDto(updatedLike)
   }
 
   /**
@@ -89,21 +89,21 @@ export class LikeService {
       where: {
         uid,
       },
-    });
+    })
   }
 
   /**
    * Find and count the number of times a post was liked by all users
    */
   async findLikeCount(post_uid: string): Promise<Number> {
-    const { post_id } = await this.postService.findOne(post_uid);
+    const { post_id } = await this.postService.findOne(post_uid)
 
     return await getRepository(Like)
       .createQueryBuilder('l')
       .select('DISTINCT(`like_id`)')
       .innerJoin('l.post', 'p')
       .where('l.post_liked = true AND l.post_id = :post_id', { post_id })
-      .getCount();
+      .getCount()
   }
 
   async findAllPostLikes(): Promise<Number> {
@@ -117,15 +117,12 @@ export class LikeService {
       .innerJoin('l.user', 'user')
       .getRawMany()
 
-      let out = {}
+    let out = {}
 
-      likes.forEach(like => {
-        out[like.post_uid] = like
-      })
+    likes.forEach(like => {
+      out[like.post_uid] = like
+    })
 
-      return out;
+    return out
   }
-
-    
-
 }

@@ -7,11 +7,11 @@ import {
   Body,
   Param,
   Response,
-} from '@nestjs/common';
+} from '@nestjs/common'
 
-import { CommentService } from './comment.service';
-import { CommentDTO } from './comment.dto';
-import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
+import { CommentService } from './comment.service'
+import { CommentDTO } from './comment.dto'
+import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
 
 @ApiTags('comments')
 @Controller('comments')
@@ -31,9 +31,9 @@ export class CommentController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() data: CommentDTO) {
     try {
-      return this.commentService.add(data);
+      return this.commentService.add(data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -49,14 +49,11 @@ export class CommentController {
     type: CommentDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async update(
-    @Param('uid') uid: string,
-    @Body() data: Partial<CommentDTO>,
-  ) {
+  async update(@Param('uid') uid: string, @Body() data: Partial<CommentDTO>) {
     try {
-      return this.commentService.edit(uid, data);
+      return this.commentService.edit(uid, data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -73,9 +70,9 @@ export class CommentController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async delete(@Param('uid') uid: string) {
     try {
-      return this.commentService.delete(uid);
+      return this.commentService.delete(uid)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -92,9 +89,9 @@ export class CommentController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findAllByPost(@Param('uid') post_id: string, @Response() res: any) {
     try {
-      return this.commentService.findAllByPostID(post_id);
+      return this.commentService.findAllByPostID(post_id)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -111,9 +108,9 @@ export class CommentController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findOne(@Param('uid') uid: string) {
     try {
-      return this.commentService.findOne(uid);
+      return this.commentService.findOne(uid)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 }

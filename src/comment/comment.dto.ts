@@ -1,42 +1,42 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 /**
- * Comment data transfer object  
+ * Comment data transfer object
  */
 export class CommentDTO {
   @ApiProperty({
     description: 'Primary Key',
     type: String,
   })
-  comment_id: string;
+  comment_id: string
 
   @ApiProperty({
     description: 'Comment UID',
     type: String,
   })
-  uid: string;
+  uid: string
 
   @ApiProperty({
     description: 'Comment Title',
     type: String,
   })
-  title: string;
+  title: string
 
   @ApiProperty({
     description: 'Post UID',
     type: String,
   })
-  post_uid: string;
+  post_uid: string
 
   @ApiProperty({
     description: 'Post Foreign Key',
     type: String,
   })
-  post_id: string;
+  post_id: string
 
   @ApiProperty({
     description: 'User Foreign Key',
     type: String,
   })
-  user_id: string;
+  user_id: string
 }

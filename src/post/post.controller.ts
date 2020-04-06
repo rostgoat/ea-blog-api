@@ -8,11 +8,11 @@ import {
   Param,
   Response,
   Req,
-} from '@nestjs/common';
+} from '@nestjs/common'
 
-import { PostService } from './post.service';
-import { PostDTO } from './post.dto';
-import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
+import { PostService } from './post.service'
+import { PostDTO } from './post.dto'
+import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
 
 /**
  * Post Controller
@@ -33,11 +33,11 @@ export class PostController {
     type: PostDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() data: PostDTO) {
+  async create(@Body() data: Partial<PostDTO>) {
     try {
-      return this.postService.add(data);
+      return this.postService.add(data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -55,9 +55,9 @@ export class PostController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async update(@Param('uid') uid: string, @Body() data: Partial<PostDTO>) {
     try {
-      return this.postService.edit(uid, data);
+      return this.postService.edit(uid, data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -74,9 +74,9 @@ export class PostController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async delete(@Param('uid') uid: string) {
     try {
-      return this.postService.delete(uid);
+      return this.postService.delete(uid)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -93,9 +93,9 @@ export class PostController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findAllByPost(@Param('id') user_id: string, @Response() res: any) {
     try {
-      return this.postService.findAllByPostID(user_id);
+      return this.postService.findAllByPostID(user_id)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -111,11 +111,11 @@ export class PostController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async find() {
     try {
-      const posts = await this.postService.findAll();
+      const posts = await this.postService.findAll()
       console.log('posts', posts)
-      return posts;
+      return posts
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -132,10 +132,10 @@ export class PostController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findOne(@Req() req) {
     try {
-      const { uid } = req.query;
-      return this.postService.findOne(uid);
+      const { uid } = req.query
+      return this.postService.findOne(uid)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 }

@@ -1,22 +1,17 @@
-import { Injectable, forwardRef, Inject } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import {
-  Repository,
-  getRepository,
-} from 'typeorm';
-import { Promise } from 'bluebird';
+import { Injectable, forwardRef, Inject } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, getRepository } from 'typeorm'
+import { Promise } from 'bluebird'
 
-import { Post } from './post.entity';
-import { PostDTO } from './post.dto';
-import { UserService } from '../user/user.service';
-import { CommentService } from '../comment/comment.service';
-import { toPostDto } from '../utils/mapper';
-import { LikeService } from '../like/like.service';
-
+import { Post } from './post.entity'
+import { PostDTO } from './post.dto'
+import { UserService } from '../user/user.service'
+import { CommentService } from '../comment/comment.service'
+import { toPostDto } from '../utils/mapper'
+import { LikeService } from '../like/like.service'
 
 @Injectable()
 export class PostService {
-
   constructor(
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
@@ -26,39 +21,35 @@ export class PostService {
     private readonly commentService: CommentService,
     @Inject(forwardRef(() => LikeService))
     private readonly likeService: LikeService,
-  ) {
-  }
+  ) {}
 
   /**
    * Create a new post and associate user to the post
    * @param data Object
    */
   async add(data: Partial<PostDTO>): Promise<Post> {
-    // add new date property
-    data = Object.assign(data, { created_at: Date.now() });
-
     // destructure args
-    const { user_uid } = data;
+    const { user_uid } = data
 
     // grab user by passed uid
-    const user = await this.userService.findOneByUID(user_uid);
+    const user = await this.userService.findOne(user_uid)
 
     // create object with new post props
-    const newPost = await this.postRepository.create(data);
+    const newPost = await this.postRepository.create(data)
 
     // assign user to post
     if (user.uid === user_uid) {
       // grab related user and assign to user object of post
-      newPost.user = user;
+      newPost.user = user
     } else {
-      throw new Error('Invalid user!');
+      throw new Error('Invalid user!')
     }
 
     // save changes
-    await this.postRepository.save(newPost);
+    await this.postRepository.save(newPost)
 
     // return new post
-    return toPostDto(newPost);
+    return toPostDto(newPost)
   }
 
   /**
@@ -67,8 +58,8 @@ export class PostService {
    * @param data Object
    */
   async edit(uid: string, data: Partial<PostDTO>) {
-    await this.postRepository.update({ uid }, data);
-    return await this.postRepository.findOne({ uid });
+    await this.postRepository.update({ uid }, data)
+    return await this.postRepository.findOne({ uid })
   }
 
   /**
@@ -77,16 +68,16 @@ export class PostService {
    */
   async delete(uid: string) {
     // get all comments related to post
-    const comments = await this.commentService.findAllByPostID(uid);
+    const comments = await this.commentService.findAllByPostID(uid)
 
     // remove all comments related to post
     await Promise.each(comments, async comment => {
-      await this.commentService.delete(comment.comment_id);
-    });
+      await this.commentService.delete(comment.comment_id)
+    })
 
     // delete post
-    await this.postRepository.delete(uid);
-    return { deleted: true };
+    await this.postRepository.delete(uid)
+    return { deleted: true }
   }
 
   /**
@@ -96,7 +87,7 @@ export class PostService {
   async findAllByPostID(uid: string): Promise<Post[]> {
     return await this.postRepository.find({
       where: { uid },
-    });
+    })
   }
 
   /**
@@ -114,17 +105,17 @@ export class PostService {
       .addSelect('u.name', 'post_author')
       .leftJoin('p.likes', 'l')
       .innerJoin('p.user', 'u')
-      .getRawMany();
+      .getRawMany()
 
-    const likes = await this.likeService.findAllPostLikes();
+    const likes = await this.likeService.findAllPostLikes()
 
     posts.forEach(post => {
       if (likes[post.p_uid]) {
-        post.likes = [likes[post.p_uid]];
+        post.likes = [likes[post.p_uid]]
       }
-    });
+    })
 
-    return posts;
+    return posts
   }
 
   /**
@@ -133,11 +124,19 @@ export class PostService {
    */
   async findOne(uid: string): Promise<Post> {
     return await this.postRepository.findOne({
-      select: ['post_id', 'uid', 'content', 'created_at', 'sub_title', 'title', 'post_image_bucket_key'],
+      select: [
+        'post_id',
+        'uid',
+        'content',
+        'created_at',
+        'sub_title',
+        'title',
+        'post_image_bucket_key',
+      ],
       relations: ['comments', 'user'],
       where: {
         uid,
       },
-    });
+    })
   }
 }

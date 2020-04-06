@@ -1,21 +1,21 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CommentController } from './comment.controller';
-import { UserService } from '../user/user.service';
-import { PostService } from '../post/post.service';
-import { Repository } from 'typeorm';
-import { User } from '../user/user.entity';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Comment } from './comment.entity';
-import { CommentService } from './comment.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { CommentController } from './comment.controller'
+import { UserService } from '../user/user.service'
+import { PostService } from '../post/post.service'
+import { Repository } from 'typeorm'
+import { User } from '../user/user.entity'
+import { getRepositoryToken } from '@nestjs/typeorm'
+import { Comment } from './comment.entity'
+import { CommentService } from './comment.service'
 
 class UserServiceMock extends UserService {}
 class PostServiceMock extends PostService {}
 class CommentServiceMock extends CommentService {}
 
 describe('Comment Controller', () => {
-  let commentController: CommentController;
-  let commentService: CommentService;
-  let repo: Repository<Comment>;
+  let commentController: CommentController
+  let commentService: CommentService
+  let repo: Repository<Comment>
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -39,14 +39,14 @@ describe('Comment Controller', () => {
           useClass: Repository,
         },
       ],
-    }).compile();
+    }).compile()
 
-    commentService = module.get<CommentService>(CommentService);
-    repo = module.get<Repository<Comment>>(getRepositoryToken(Comment));
-    commentController = module.get<CommentController>(CommentController);
-  });
+    commentService = module.get<CommentService>(CommentService)
+    repo = module.get<Repository<Comment>>(getRepositoryToken(Comment))
+    commentController = module.get<CommentController>(CommentController)
+  })
 
   it('should be defined', () => {
-    expect(commentController).toBeDefined();
-  });
-});
+    expect(commentController).toBeDefined()
+  })
+})

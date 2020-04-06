@@ -5,10 +5,10 @@ import {
   UploadedFile,
   Get,
   Req,
-} from '@nestjs/common';
-import { AmazonS3FileInterceptor } from 'nestjs-multer-extended';
-import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
-import { StorageService } from './storage.service';
+} from '@nestjs/common'
+import { AmazonS3FileInterceptor } from 'nestjs-multer-extended'
+import { ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
+import { StorageService } from './storage.service'
 
 @Controller('storage')
 export class StorageController {
@@ -26,7 +26,7 @@ export class StorageController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @UseInterceptors(AmazonS3FileInterceptor('post_photo'))
   uploadFile(@UploadedFile() file) {
-    return file.key;
+    return file.key
   }
 
   /**
@@ -41,10 +41,10 @@ export class StorageController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signedUrl(@Req() req) {
     try {
-      const { bucket, key } = req.query;
-      return await this.storageService.getSignedUrl(bucket, key);
+      const { bucket, key } = req.query
+      return await this.storageService.getSignedUrl(bucket, key)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 }

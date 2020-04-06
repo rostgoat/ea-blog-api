@@ -8,13 +8,13 @@ import {
   Param,
   Res,
   HttpStatus,
-} from '@nestjs/common';
-import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger';
-import { Response } from 'express';
+} from '@nestjs/common'
+import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger'
+import { Response } from 'express'
 
-import { UserService } from './user.service';
-import { UserDTO } from './user.dto';
-import { UserCreateDTO } from './user.create.dto';
+import { UserService } from './user.service'
+import { UserDTO } from './user.dto'
+import { UserCreateDTO } from './user.create.dto'
 
 /**
  * User Controller
@@ -37,9 +37,9 @@ export class UserController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() data: UserCreateDTO) {
     try {
-      return this.userService.add(data);
+      return this.userService.add(data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -57,9 +57,9 @@ export class UserController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async update(@Param('uid') uid: string, @Body() data: Partial<UserDTO>) {
     try {
-      return this.userService.edit(uid, data);
+      return this.userService.edit(uid, data)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -75,9 +75,9 @@ export class UserController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async find() {
     try {
-      return await this.userService.findAll();
+      return await this.userService.findAll()
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
@@ -93,7 +93,7 @@ export class UserController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findOne(@Param('uid') uid: string) {
-    return this.userService.findOne(uid);
+    return this.userService.findOne(uid)
   }
 
   /**
@@ -109,13 +109,13 @@ export class UserController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async delete(@Param('uid') uid: string) {
     try {
-      return this.userService.delete(uid);
+      return this.userService.delete(uid)
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 
-   /**
+  /**
    * Get a user's post likes count
    * @param uid String
    */
@@ -128,9 +128,9 @@ export class UserController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findUserLikes() {
     try {
-      return await this.userService.usersPostLikes();
+      return await this.userService.usersPostLikes()
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     }
   }
 }
