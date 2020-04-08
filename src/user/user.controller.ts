@@ -35,7 +35,7 @@ export class UserController {
     type: UserCreateDTO,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() data: UserCreateDTO) {
+  async create(@Body() data: Partial<UserCreateDTO>) {
     try {
       return this.userService.add(data)
     } catch (error) {

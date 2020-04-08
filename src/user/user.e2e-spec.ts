@@ -9,9 +9,9 @@ import supertest = require('supertest')
 import { UserService } from './user.service'
 import { UserController } from './user.controller'
 import { UserCreateDTO } from './user.create.dto'
+import { join } from 'path'
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication
+describe('User Integration', () => {
   let repository: Repository<User>
   let service: UserService
 
@@ -19,7 +19,6 @@ describe('AppController (e2e)', () => {
     const module = await Test.createTestingModule({
       imports: [
         UserModule,
-        // Use the e2e_test database to run the tests
         TypeOrmModule.forRoot({
           type: 'postgres',
           host: 'localhost',
@@ -27,9 +26,10 @@ describe('AppController (e2e)', () => {
           username: 'rm',
           password: 'root',
           database: 'ea_games_blog_test',
-          entities: ['./**/*.entity.ts'],
-          synchronize: false,
+          entities: [join(__dirname, '../**/*.entity.ts')],
+          synchronize: true,
         }),
+        TypeOrmModule.forFeature([User]),
       ],
       providers: [UserService],
       controllers: [UserController],
@@ -38,7 +38,7 @@ describe('AppController (e2e)', () => {
     service = module.get<UserService>(UserService)
   })
 
-  describe('GET /users', () => {
+  describe('POST', () => {
     const user: Partial<UserCreateDTO> = {
       name: 'Mike Test User',
       email: 'usertest@gmail.com',
@@ -48,19 +48,19 @@ describe('AppController (e2e)', () => {
       console.log('res', res)
     })
   })
-  afterEach(async () => {
-    await repository.query(`DELETE FROM users;`)
-  })
+  // afterEach(async () => {
+  //   await repository.query(`DELETE FROM users;`)
+  // })
 
-  afterAll(async () => {
-    const connection = getConnection()
+  // afterAll(async () => {
+  //   const connection = getConnection()
 
-    await connection
-      .createQueryBuilder()
-      .delete()
-      .from(User)
-      .execute()
+  //   await connection
+  //     .createQueryBuilder()
+  //     .delete()
+  //     .from(User)
+  //     .execute()
 
-    await connection.close()
-  })
+  //   await connection.close()
+  // })
 })
