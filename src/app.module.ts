@@ -9,6 +9,7 @@ import { LikeModule } from './like/like.module'
 import { StorageModule } from './storage/storage.module'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
+import { ConfigModule } from './config/config.module';
 /**
  * Root Module
  */
@@ -25,6 +26,7 @@ import { join } from 'path'
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
+    ConfigModule,
   ],
   exports: [UserModule, CommentModule, PostModule],
   providers: [],

@@ -1,18 +1,39 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
-import { AppModule } from '../app.module'
-import { UserModule } from './user.module'
-import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm'
-import { Repository, getConnection } from 'typeorm'
-import { User } from './user.entity'
-import supertest = require('supertest')
-import { UserService } from './user.service'
-import { UserController } from './user.controller'
-import { UserCreateDTO } from './user.create.dto'
-import { join } from 'path'
+/**
+ * * Nest Modules
+ */
+import { Test } from '@nestjs/testing'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { getConnection } from 'typeorm'
 
-describe('User Integration', () => {
-  let repository: Repository<User>
+/**
+ * * Modules
+ */
+import { UserModule } from './user.module'
+
+/**
+ * * Entities
+ */
+import { User } from './user.entity'
+
+/**
+ * * Services
+ */
+import { UserService } from './user.service'
+
+/**
+ * * DTOs
+ */
+import { UserCreateDTO } from './user.create.dto'
+
+/**
+ * * Dependencies
+ */
+import * as faker from 'faker'
+
+/**
+ * User Integrations tests
+ */
+describe('User Integration Tests', () => {
   let service: UserService
 
   beforeAll(async () => {
@@ -26,41 +47,48 @@ describe('User Integration', () => {
           username: 'rm',
           password: 'root',
           database: 'ea_games_blog_test',
-          entities: [join(__dirname, '../**/*.entity.ts')],
+          entities: ['../**/*.entity.ts'],
           synchronize: true,
         }),
         TypeOrmModule.forFeature([User]),
       ],
       providers: [UserService],
-      controllers: [UserController],
     }).compile()
 
     service = module.get<UserService>(UserService)
   })
 
-  describe('POST', () => {
+  describe('Add', () => {
+    const testUsername = faker.internet.userName()
+    const testEmail = faker.internet.email()
+    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
     const user: Partial<UserCreateDTO> = {
-      name: 'Mike Test User',
-      email: 'usertest@gmail.com',
+      name: testName,
+      email: testEmail,
+      username: testUsername,
     }
+
     it('should create a user is the DB', async () => {
       const res = await service.add(user)
-      console.log('res', res)
+
+      expect(res).toHaveProperty('user_id')
+      expect(res).toMatchObject({ name: testName })
+      expect(res).toMatchObject({ email: testEmail })
+      expect(res).toMatchObject({ username: testUsername })
+      expect(res).toBeTruthy()
     })
   })
-  // afterEach(async () => {
-  //   await repository.query(`DELETE FROM users;`)
-  // })
 
-  // afterAll(async () => {
-  //   const connection = getConnection()
+  afterAll(async () => {
+    const connection = getConnection()
 
-  //   await connection
-  //     .createQueryBuilder()
-  //     .delete()
-  //     .from(User)
-  //     .execute()
+    await connection
+      .createQueryBuilder()
+      .delete()
+      .from(User)
+      .execute()
 
-  //   await connection.close()
-  // })
+    await connection.close()
+  })
 })
