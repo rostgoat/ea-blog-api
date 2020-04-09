@@ -105,6 +105,28 @@ describe('User Integration Tests', () => {
     })
   })
 
+  describe('Delete', () => {
+    const testUsername = faker.internet.userName()
+    const testEmail = faker.internet.email()
+    const testUserPassword = faker.internet.password()
+    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
+    const user: Partial<UserCreateDTO> = {
+      name: testName,
+      email: testEmail,
+      username: testUsername,
+      password: testUserPassword,
+    }
+
+    it('should delete a user in the DB', async () => {
+      const createdUser = await service.add(user)
+
+      const deletedUser = await service.delete(createdUser.uid)
+      console.log('deletedUser', deletedUser)
+      expect(deletedUser).toMatchObject({ deleted: true })
+    })
+  })
+
   afterAll(async () => {
     const connection = getConnection()
 
