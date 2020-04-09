@@ -1,4 +1,4 @@
-import { UserDTO } from '../user/user.dto'
+import { UserDTO } from '../user/dto/user.dto'
 import { User } from '../user/user.entity'
 import { Post } from '../post/post.entity'
 import { PostDTO } from '../post/post.dto'

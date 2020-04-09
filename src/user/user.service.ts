@@ -10,11 +10,11 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Promise } from 'bluebird'
 import { Repository, getRepository } from 'typeorm'
 import { User } from './user.entity'
-import { UserDTO } from './user.dto'
+import { UserDTO } from './dto/user.dto'
 import { PostService } from '../post/post.service'
 import { toUserDto } from '../utils/mapper'
-import { UserLoginDTO } from './user.login.dto'
-import { UserCreateDTO } from './user.create.dto'
+import { UserLoginDTO } from './dto/user.login.dto'
+import { UserCreateDTO } from './dto/user.create.dto'
 import { v4 as uuid } from 'uuid'
 const bcrypt = require('bcrypt')
 
@@ -73,6 +73,26 @@ export class UserService {
   }
 
   /**
+   * Remove a user related to a user
+   * @param data Object
+   */
+  async delete(uid: string) {
+    // get all posts related to user
+    const posts = await this.postService.findAllByPostID(uid)
+
+    if (posts.length > 0) {
+      // remove all posts related to user
+      await Promise.each(posts, async post => {
+        await this.postService.delete(post.post_id)
+      })
+    }
+
+    // delete user
+    await this.userRepository.delete(uid)
+    return { deleted: true }
+  }
+
+  /**
    * Return all users
    */
   async findAll(): Promise<User[]> {
@@ -84,27 +104,9 @@ export class UserService {
    */
   async findOne(uid: string): Promise<User | null> {
     return await this.userRepository.findOne({
-      relations: ['posts', 'comments'],
+      relations: ['posts'],
       where: { uid },
     })
-  }
-
-  /**
-   * Remove a user related to a user
-   * @param data Object
-   */
-  async delete(uid: string) {
-    // // get all posts related to user
-    // const posts = await this.postService.findAllByPostID(uid);
-
-    // // remove all posts related to user
-    // await Promise.each(posts, async post => {
-    //   await this.postService.delete(post.post_id);
-    // });
-
-    // delete user
-    await this.userRepository.delete(uid)
-    return { deleted: true }
   }
 
   /**
@@ -128,10 +130,17 @@ export class UserService {
     return toUserDto(user)
   }
 
+  /**
+   * Find user by username
+   * @param username String
+   */
   async findByPayload({ username }: UserLoginDTO): Promise<UserDTO> {
     return await this.userRepository.findOne({ where: { username } })
   }
 
+  /**
+   * Return the number of likes from all users on a particular post
+   */
   async usersPostLikes() {
     return await getRepository(User)
       .createQueryBuilder('u')

@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserController } from './user.controller'
+import { UserController } from '../../user.controller'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User } from './user.entity'
+import { User } from '../../user.entity'
 import * as faker from 'faker'
-import { UserService } from './user.service'
+import { UserService } from '../../user.service'
 
 const testUserUid = faker.random.uuid()
 const testUserUsername1 = faker.internet.userName()
