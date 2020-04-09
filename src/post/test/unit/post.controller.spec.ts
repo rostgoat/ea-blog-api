@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { PostController } from './post.controller'
-import { PostService } from './post.service'
+import { PostController } from '../../post.controller'
+import { PostService } from '../../post.service'
 import { Repository } from 'typeorm'
-import { Post } from './post.entity'
+import { Post } from '../../post.entity'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import * as faker from 'faker'
 

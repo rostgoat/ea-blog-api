@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { CommentController } from './comment.controller'
-import { UserService } from '../user/user.service'
-import { PostService } from '../post/post.service'
+import { CommentController } from '../../comment.controller'
+import { UserService } from '../../../user/user.service'
+import { PostService } from '../../../post/post.service'
 import { Repository } from 'typeorm'
-import { User } from '../user/user.entity'
+import { User } from '../../../user/user.entity'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { Comment } from './comment.entity'
-import { CommentService } from './comment.service'
+import { Comment } from '../../comment.entity'
+import { CommentService } from '../../comment.service'
 
 class UserServiceMock extends UserService {}
 class PostServiceMock extends PostService {}

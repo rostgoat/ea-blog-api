@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { StorageController } from './storage.controller'
+import { StorageController } from '../../storage.controller'
 
 describe('Storage Controller', () => {
   let controller: StorageController
