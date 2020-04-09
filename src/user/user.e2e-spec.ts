@@ -9,6 +9,7 @@ import { getConnection } from 'typeorm'
  * * Modules
  */
 import { UserModule } from './user.module'
+import { DatabaseModule } from '../database/database.module'
 
 /**
  * * Entities
@@ -38,20 +39,7 @@ describe('User Integration Tests', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [
-        UserModule,
-        TypeOrmModule.forRoot({
-          type: 'postgres',
-          host: 'localhost',
-          port: 5432,
-          username: 'rm',
-          password: 'root',
-          database: 'ea_games_blog_test',
-          entities: ['../**/*.entity.ts'],
-          synchronize: true,
-        }),
-        TypeOrmModule.forFeature([User]),
-      ],
+      imports: [UserModule, DatabaseModule, TypeOrmModule.forFeature([User])],
       providers: [UserService],
     }).compile()
 
@@ -61,12 +49,14 @@ describe('User Integration Tests', () => {
   describe('Add', () => {
     const testUsername = faker.internet.userName()
     const testEmail = faker.internet.email()
+    const testUserPassword = faker.internet.password()
     const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
 
     const user: Partial<UserCreateDTO> = {
       name: testName,
       email: testEmail,
       username: testUsername,
+      password: testUserPassword,
     }
 
     it('should create a user is the DB', async () => {

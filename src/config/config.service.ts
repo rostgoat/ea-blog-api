@@ -19,9 +19,6 @@ export class ConfigService {
       case 'test':
         this.envPath = resolve(__dirname, '../../.env.test')
         break
-      //   case 'production':
-      //     this.envPath = resolve(__dirname, '../../.env.production');
-      //     break;
       case 'development':
         this.envPath = resolve(__dirname, '../../.env.development')
         break
