@@ -1,15 +1,44 @@
+/**
+ * * Nest Modules
+ */
 import { Injectable, forwardRef, Inject } from '@nestjs/common'
+
+/**
+ * * TypeORM Modules
+ */
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, getRepository } from 'typeorm'
+
+/**
+ * * Dependencies
+ */
 import { Promise } from 'bluebird'
 
-import { Post } from './post.entity'
+/**
+ * * DTOs
+ */
 import { PostDTO } from './dto/post.dto'
+
+/**
+ * * Entities
+ */
+import { Post } from './post.entity'
+
+/**
+ * * Services
+ */
 import { UserService } from '../user/user.service'
 import { CommentService } from '../comment/comment.service'
-import { toPostDto } from '../utils/mapper'
 import { LikeService } from '../like/like.service'
 
+/**
+ * * Utils
+ */
+import { toPostDto } from '../utils/mapper'
+
+/**
+ * Post Service class
+ */
 @Injectable()
 export class PostService {
   constructor(

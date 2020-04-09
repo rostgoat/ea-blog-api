@@ -78,7 +78,7 @@ describe('User Integration Tests', () => {
   })
 
   describe('Add', () => {
-    it('should create a user is the DB', async () => {
+    it('should create a user in the DB', async () => {
       // create new user
       const res = await service.add(user)
 
@@ -117,7 +117,10 @@ describe('User Integration Tests', () => {
 
   describe('Delete', () => {
     it('should delete a user in the DB', async () => {
+      // add new user
       const createdUser = await service.add(user)
+
+      // delete user
       const deletedUser = await service.delete(createdUser.uid)
 
       expect(deletedUser).toMatchObject({ deleted: true })
@@ -126,7 +129,10 @@ describe('User Integration Tests', () => {
 
   describe('Find', () => {
     it('should be able to get all users in the DB', async () => {
+      // add first user
       await service.add(user)
+
+      // add second user
       await service.add(user2)
 
       const users = await service.findAll()
@@ -138,13 +144,17 @@ describe('User Integration Tests', () => {
 
   describe('Find One', () => {
     it('should be able to get a user by UID', async () => {
+      // add new user
       const newUser = await service.add(user)
+
+      // return found user
       const foundUser = await service.findOne(newUser.uid)
 
       expect(foundUser.uid).toEqual(newUser.uid)
     })
 
     it('should be able to get a user by username and password', async () => {
+      // add new user
       const newUser = await service.add(user)
 
       const loginUserDto: UserLoginDTO = {
@@ -153,6 +163,7 @@ describe('User Integration Tests', () => {
         password: testUserPassword,
       }
 
+      // return found user
       const foundUser = await service.findByLogin(loginUserDto)
 
       expect(foundUser.uid).toEqual(newUser.uid)

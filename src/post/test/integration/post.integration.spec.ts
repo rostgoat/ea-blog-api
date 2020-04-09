@@ -100,7 +100,7 @@ describe('Post Integration Tests', () => {
   })
 
   describe('Add', () => {
-    it('should create a user is the DB', async () => {
+    it('should create a post in the DB', async () => {
       // create user
       const newUser = await userService.add(user)
 
@@ -152,6 +152,27 @@ describe('Post Integration Tests', () => {
       expect(editedPost).not.toMatchObject({ sub_title: testSubTitle })
       expect(editedPost).not.toMatchObject({ content: testContent })
       expect(editedPost).toBeTruthy()
+    })
+  })
+
+  describe('Delete', () => {
+    it('should delete a post from DB', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      // delete post
+      const deletedPost = await postService.delete(newPost.uid)
+
+      expect(deletedPost).toMatchObject({ deleted: true })
     })
   })
 
