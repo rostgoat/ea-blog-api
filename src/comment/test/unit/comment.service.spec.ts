@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { CommentService } from './comment.service'
-import { PostService } from '../post/post.service'
+import { CommentService } from '../../comment.service'
+import { PostService } from '../../../post/post.service'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { Comment } from './comment.entity'
+import { Comment } from '../../comment.entity'
 import { Repository } from 'typeorm'
 
 class PostServiceMock extends PostService {}

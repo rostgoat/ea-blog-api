@@ -1,9 +1,9 @@
 import { UserDTO } from '../user/dto/user.dto'
 import { User } from '../user/user.entity'
 import { Post } from '../post/post.entity'
-import { PostDTO } from '../post/post.dto'
+import { PostDTO } from '../post/dto/post.dto'
 import { Like } from '../like/like.entity'
-import { LikeDTO } from '../like/like.dto'
+import { LikeDTO } from '../like/dto/like.dto'
 
 export const toUserDto = (data: User): Partial<UserDTO> => {
   const { user_id, name, username, uid, email } = data

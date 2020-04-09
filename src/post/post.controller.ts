@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 
 import { PostService } from './post.service'
-import { PostDTO } from './post.dto'
+import { PostDTO } from './dto/post.dto'
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
 
 /**

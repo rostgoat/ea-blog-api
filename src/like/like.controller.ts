@@ -1,6 +1,6 @@
 import { Controller, Body, Post, Put, Get, Req } from '@nestjs/common'
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
-import { LikeDTO } from './like.dto'
+import { LikeDTO } from './dto/like.dto'
 import { LikeService } from './like.service'
 
 /**

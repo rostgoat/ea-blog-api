@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { PostService } from './post.service'
+import { PostService } from '../../post.service'
 import { Repository } from 'typeorm'
-import { Post } from './post.entity'
+import { Post } from '../../post.entity'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import * as faker from 'faker'
-import { UserService } from '../user/user.service'
-import { CommentService } from '../comment/comment.service'
-import { LikeService } from '../like/like.service'
-import { User } from '../user/user.entity'
+import { UserService } from '../../../user/user.service'
+import { CommentService } from '../../../comment/comment.service'
+import { LikeService } from '../../../like/like.service'
+import { User } from '../../../user/user.entity'
 
 // test data
 const testPostUid = faker.random.uuid()

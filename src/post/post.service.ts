@@ -4,7 +4,7 @@ import { Repository, getRepository } from 'typeorm'
 import { Promise } from 'bluebird'
 
 import { Post } from './post.entity'
-import { PostDTO } from './post.dto'
+import { PostDTO } from './dto/post.dto'
 import { UserService } from '../user/user.service'
 import { CommentService } from '../comment/comment.service'
 import { toPostDto } from '../utils/mapper'

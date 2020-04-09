@@ -3,6 +3,10 @@ import { ConfigModule } from '../config/config.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigService } from '../config/config.service'
 
+/**
+ * This module is currently only used for integration tests, allowing the tests
+ * to write data to an actual instance of postgres
+ */
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

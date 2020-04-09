@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { Comment } from './comment.entity'
-import { CommentDTO } from './comment.dto'
+import { CommentDTO } from './dto/comment.dto'
 import { PostService } from '../post/post.service'
 import { UserService } from '../user/user.service'
 @Injectable()
