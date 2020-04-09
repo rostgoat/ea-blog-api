@@ -1,3 +1,6 @@
+/**
+ * * Nest Modules
+ */
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,13 +8,19 @@ import {
   OneToMany,
   BeforeInsert,
   JoinColumn,
-  OneToOne,
 } from 'typeorm'
+
+/**
+ * * Entities
+ */
 import { Post } from '../post/post.entity'
-import { Comment } from '../comment/comment.entity'
+import { Like } from '../like/like.entity'
+
+/**
+ * * Dependencies
+ */
 import { v4 as uuid } from 'uuid'
 import * as bcrypt from 'bcrypt'
-import { Like } from '../like/like.entity'
 
 /**
  * User Entity

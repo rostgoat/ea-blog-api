@@ -1,11 +1,33 @@
+/**
+ * * Nest Modules
+ */
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserController } from '../../user.controller'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+/**
+ * * Controllers
+ */
+import { UserController } from '../../user.controller'
+
+/**
+ * * Entities
+ */
 import { User } from '../../user.entity'
+
+/**
+ * * Dependencies
+ */
 import * as faker from 'faker'
+
+/**
+ * * Services
+ */
 import { UserService } from '../../user.service'
 
+/**
+ * test user data
+ */
 const testUserUid = faker.random.uuid()
 const testUserUsername1 = faker.internet.userName()
 const testUserEmail1 = faker.internet.email()
