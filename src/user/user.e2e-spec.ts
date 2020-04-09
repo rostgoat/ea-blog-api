@@ -70,6 +70,41 @@ describe('User Integration Tests', () => {
     })
   })
 
+  describe('Edit', () => {
+    const testUsername = faker.internet.userName()
+    const testEmail = faker.internet.email()
+    const testUserPassword = faker.internet.password()
+    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
+    const user: Partial<UserCreateDTO> = {
+      name: testName,
+      email: testEmail,
+      username: testUsername,
+      password: testUserPassword,
+    }
+
+    it('should update a user in the DB', async () => {
+      const createdUser = await service.add(user)
+
+      const testNewUsername = faker.internet.userName()
+      const testNewEmail = faker.internet.email()
+      const testNewName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
+      const userDataToUpdate = {
+        username: testNewUsername,
+        name: testNewName,
+        email: testNewEmail,
+      }
+
+      const updatedUser = await service.edit(createdUser.uid, userDataToUpdate)
+
+      expect(updatedUser).not.toMatchObject({ name: testName })
+      expect(updatedUser).not.toMatchObject({ email: testEmail })
+      expect(updatedUser).not.toMatchObject({ username: testUsername })
+      expect(updatedUser).toBeTruthy()
+    })
+  })
+
   afterAll(async () => {
     const connection = getConnection()
 

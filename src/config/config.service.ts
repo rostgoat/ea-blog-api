@@ -19,9 +19,6 @@ export class ConfigService {
       case 'test':
         this.envPath = resolve(__dirname, '../../.env.test')
         break
-      case 'development':
-        this.envPath = resolve(__dirname, '../../.env.development')
-        break
       default:
         throw new Error('Specify the NODE_ENV variable')
     }
