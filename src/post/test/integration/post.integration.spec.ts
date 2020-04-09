@@ -37,10 +37,6 @@ import { UserCreateDTO } from '../../../user/dto/user.create.dto'
 import * as faker from 'faker'
 
 /**
- * Post Integrations tests
- */
-
-/**
  * Test User Data
  */
 const testUsername = faker.internet.userName()
@@ -117,12 +113,45 @@ describe('Post Integration Tests', () => {
       // create post
       const newPost = await postService.add(post)
 
-      console.log('newPost', newPost)
       expect(newPost).toHaveProperty('uid')
       expect(newPost).toMatchObject({ title: testTitle })
       expect(newPost).toMatchObject({ sub_title: testSubTitle })
       expect(newPost).toMatchObject({ content: testContent })
       expect(newPost).toBeTruthy()
+    })
+  })
+
+  describe('Edit', () => {
+    const testNewTitle = faker.lorem.words()
+    const testNewSubTitle = faker.lorem.sentence()
+    const testNewContent = faker.lorem.paragraphs()
+
+    const updatedPost = {
+      title: testNewTitle,
+      sub_title: testNewSubTitle,
+      content: testNewContent,
+    }
+
+    it('should be able to edit post props in the DB', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      // update post
+      const editedPost = await postService.edit(newPost.uid, updatedPost)
+
+      expect(editedPost).not.toMatchObject({ title: testTitle })
+      expect(editedPost).not.toMatchObject({ sub_title: testSubTitle })
+      expect(editedPost).not.toMatchObject({ content: testContent })
+      expect(editedPost).toBeTruthy()
     })
   })
 

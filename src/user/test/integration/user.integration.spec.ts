@@ -33,6 +33,34 @@ import { UserLoginDTO } from '../../dto/user.login.dto'
 import * as faker from 'faker'
 
 /**
+ * Test User Data
+ */
+const testUsername = faker.internet.userName()
+const testEmail = faker.internet.email()
+const testUserPassword = faker.internet.password()
+const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
+/**
+ * Test user object
+ */
+const user: Partial<UserCreateDTO> = {
+  name: testName,
+  email: testEmail,
+  username: testUsername,
+  password: testUserPassword,
+}
+
+/**
+ * Second test user object
+ */
+const user2: Partial<UserCreateDTO> = {
+  name: testName,
+  email: `user2_${testEmail}`,
+  username: `user2_${testUsername}`,
+  password: testUserPassword,
+}
+
+/**
  * User Integrations tests
  */
 describe('User Integration Tests', () => {
@@ -50,19 +78,8 @@ describe('User Integration Tests', () => {
   })
 
   describe('Add', () => {
-    const testUsername = faker.internet.userName()
-    const testEmail = faker.internet.email()
-    const testUserPassword = faker.internet.password()
-    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
-
-    const user: Partial<UserCreateDTO> = {
-      name: testName,
-      email: testEmail,
-      username: testUsername,
-      password: testUserPassword,
-    }
-
     it('should create a user is the DB', async () => {
+      // create new user
       const res = await service.add(user)
 
       expect(res).toHaveProperty('user_id')
@@ -74,31 +91,21 @@ describe('User Integration Tests', () => {
   })
 
   describe('Edit', () => {
-    const testUsername = faker.internet.userName()
-    const testEmail = faker.internet.email()
-    const testUserPassword = faker.internet.password()
-    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+    const testNewUsername = faker.internet.userName()
+    const testNewEmail = faker.internet.email()
+    const testNewName = `${faker.name.firstName()} ${faker.name.lastName()}`
 
-    const user: Partial<UserCreateDTO> = {
-      name: testName,
-      email: testEmail,
-      username: testUsername,
-      password: testUserPassword,
+    const userDataToUpdate = {
+      username: testNewUsername,
+      name: testNewName,
+      email: testNewEmail,
     }
 
     it('should update a user in the DB', async () => {
+      // create new user
       const createdUser = await service.add(user)
 
-      const testNewUsername = faker.internet.userName()
-      const testNewEmail = faker.internet.email()
-      const testNewName = `${faker.name.firstName()} ${faker.name.lastName()}`
-
-      const userDataToUpdate = {
-        username: testNewUsername,
-        name: testNewName,
-        email: testNewEmail,
-      }
-
+      // update user
       const updatedUser = await service.edit(createdUser.uid, userDataToUpdate)
 
       expect(updatedUser).not.toMatchObject({ name: testName })
@@ -109,18 +116,6 @@ describe('User Integration Tests', () => {
   })
 
   describe('Delete', () => {
-    const testUsername = faker.internet.userName()
-    const testEmail = faker.internet.email()
-    const testUserPassword = faker.internet.password()
-    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
-
-    const user: Partial<UserCreateDTO> = {
-      name: testName,
-      email: testEmail,
-      username: testUsername,
-      password: testUserPassword,
-    }
-
     it('should delete a user in the DB', async () => {
       const createdUser = await service.add(user)
       const deletedUser = await service.delete(createdUser.uid)
@@ -130,25 +125,6 @@ describe('User Integration Tests', () => {
   })
 
   describe('Find', () => {
-    const testUsername = faker.internet.userName()
-    const testEmail = faker.internet.email()
-    const testUserPassword = faker.internet.password()
-    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
-
-    const user: Partial<UserCreateDTO> = {
-      name: testName,
-      email: testEmail,
-      username: testUsername,
-      password: testUserPassword,
-    }
-
-    const user2: Partial<UserCreateDTO> = {
-      name: testName,
-      email: `user2_${testEmail}`,
-      username: `user2_${testUsername}`,
-      password: testUserPassword,
-    }
-
     it('should be able to get all users in the DB', async () => {
       await service.add(user)
       await service.add(user2)
@@ -161,18 +137,6 @@ describe('User Integration Tests', () => {
   })
 
   describe('Find One', () => {
-    const testUsername = faker.internet.userName()
-    const testEmail = faker.internet.email()
-    const testUserPassword = faker.internet.password()
-    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
-
-    const user: Partial<UserCreateDTO> = {
-      name: testName,
-      email: testEmail,
-      username: testUsername,
-      password: testUserPassword,
-    }
-
     it('should be able to get a user by UID', async () => {
       const newUser = await service.add(user)
       const foundUser = await service.findOne(newUser.uid)
