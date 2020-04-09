@@ -51,3 +51,7 @@ Posts API methods
 Comments API methods
 
 `http://localhost:3000/api/comments`
+
+## Schema
+
+![Alt](schema.png)
