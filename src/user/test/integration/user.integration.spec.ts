@@ -8,24 +8,24 @@ import { getConnection, Repository } from 'typeorm'
 /**
  * * Modules
  */
-import { UserModule } from './user.module'
-import { DatabaseModule } from '../database/database.module'
+import { UserModule } from '../../user.module'
+import { DatabaseModule } from '../../../database/database.module'
 
 /**
  * * Entities
  */
-import { User } from './user.entity'
+import { User } from '../../user.entity'
 
 /**
  * * Services
  */
-import { UserService } from './user.service'
+import { UserService } from '../../user.service'
 
 /**
  * * DTOs
  */
-import { UserCreateDTO } from './user.create.dto'
-import { UserLoginDTO } from './user.login.dto'
+import { UserCreateDTO } from '../../dto/user.create.dto'
+import { UserLoginDTO } from '../../dto/user.login.dto'
 
 /**
  * * Dependencies

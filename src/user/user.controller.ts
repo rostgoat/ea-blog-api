@@ -13,8 +13,8 @@ import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger'
 import { Response } from 'express'
 
 import { UserService } from './user.service'
-import { UserDTO } from './user.dto'
-import { UserCreateDTO } from './user.create.dto'
+import { UserDTO } from './dto/user.dto'
+import { UserCreateDTO } from './dto/user.create.dto'
 
 /**
  * User Controller

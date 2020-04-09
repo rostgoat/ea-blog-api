@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserService } from './user.service'
+import { UserService } from '../../user.service'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User } from './user.entity'
-import { PostService } from '../post/post.service'
+import { User } from '../../user.entity'
+import { PostService } from '../../../post/post.service'
 import * as faker from 'faker'
-import { LikeService } from '../like/like.service'
+import { LikeService } from '../../../like/like.service'
 import { HttpException, HttpStatus } from '@nestjs/common'
 
 const testUserUid = faker.random.uuid()
@@ -143,6 +143,8 @@ describe('UserService', () => {
 
   describe('delete', () => {
     it('should be able to delete a user', async () => {
+      postService.findAllByPostID = jest.fn().mockReturnValue([])
+
       const deletedUser = await userService.delete(testUser.uid)
       expect(deletedUser).not.toBe({ deleted: true })
     })
