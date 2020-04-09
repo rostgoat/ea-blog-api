@@ -1,8 +1,4 @@
-# EA Game Review API
-
-## Schema
-
-![Alt](ea_schema.png)
+# Game Bible API
 
 ## Deployment Guide
 
@@ -11,8 +7,8 @@
 #### Build-time & Run-time
 
 - Docker 19.03.5
-- Node v8.12.0
-- npm 6.8.0
+- Node v13.10.1
+- npm 6.14.3
 
 ### Postgres setup
 
@@ -21,25 +17,22 @@
 3. `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 4. `CREATE EXTENSION "pgcrypto";`
 
+or
+
+`npm run drop-db:local`
+
 ### Running in local machine
 
 1. `npm install`
 2. `npm run start:dev`
 
-### Build and Run Docker Image
-
-1. `npm run docker:build-image`
-2. `npm run docker:start`
-
-(optionally run and expose ports)
-
-2. `npm run docker:start-expose`
-
 ## Testing
+
+To run all tests:
 
 `npm run test`
 
-## API Docs
+## API Docs using Swagger
 
 #### Launch Node Server
 
