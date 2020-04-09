@@ -2,8 +2,8 @@
  * * Nest Modules
  */
 import { Test } from '@nestjs/testing'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { getConnection } from 'typeorm'
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm'
+import { getConnection, Repository } from 'typeorm'
 
 /**
  * * Modules
@@ -30,12 +30,14 @@ import { UserCreateDTO } from './user.create.dto'
  * * Dependencies
  */
 import * as faker from 'faker'
+import { UserLoginDTO } from './user.login.dto'
 
 /**
  * User Integrations tests
  */
 describe('User Integration Tests', () => {
   let service: UserService
+  let repo: Repository<User>
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -44,6 +46,7 @@ describe('User Integration Tests', () => {
     }).compile()
 
     service = module.get<UserService>(UserService)
+    repo = module.get<Repository<User>>(getRepositoryToken(User))
   })
 
   describe('Add', () => {
@@ -120,13 +123,88 @@ describe('User Integration Tests', () => {
 
     it('should delete a user in the DB', async () => {
       const createdUser = await service.add(user)
-
       const deletedUser = await service.delete(createdUser.uid)
-      console.log('deletedUser', deletedUser)
+
       expect(deletedUser).toMatchObject({ deleted: true })
     })
   })
 
+  describe('Find', () => {
+    const testUsername = faker.internet.userName()
+    const testEmail = faker.internet.email()
+    const testUserPassword = faker.internet.password()
+    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
+    const user: Partial<UserCreateDTO> = {
+      name: testName,
+      email: testEmail,
+      username: testUsername,
+      password: testUserPassword,
+    }
+
+    const user2: Partial<UserCreateDTO> = {
+      name: testName,
+      email: `user2_${testEmail}`,
+      username: `user2_${testUsername}`,
+      password: testUserPassword,
+    }
+
+    it('should be able to get all users in the DB', async () => {
+      await service.add(user)
+      await service.add(user2)
+
+      const users = await service.findAll()
+
+      expect(users.length).toEqual(2)
+      expect(users[0].username).not.toEqual(users[1].username)
+    })
+  })
+
+  describe('Find One', () => {
+    const testUsername = faker.internet.userName()
+    const testEmail = faker.internet.email()
+    const testUserPassword = faker.internet.password()
+    const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
+    const user: Partial<UserCreateDTO> = {
+      name: testName,
+      email: testEmail,
+      username: testUsername,
+      password: testUserPassword,
+    }
+
+    it('should be able to get a user by UID', async () => {
+      const newUser = await service.add(user)
+      const foundUser = await service.findOne(newUser.uid)
+
+      expect(foundUser.uid).toEqual(newUser.uid)
+    })
+
+    it('should be able to get a user by username and password', async () => {
+      const newUser = await service.add(user)
+
+      const loginUserDto: UserLoginDTO = {
+        uid: newUser.uid,
+        username: newUser.username,
+        password: testUserPassword,
+      }
+
+      const foundUser = await service.findByLogin(loginUserDto)
+      console.log('foundUser', foundUser)
+      expect(foundUser.uid).toEqual(newUser.uid)
+    })
+  })
+
+  /**
+   * after each test, delete everything from users table
+   */
+  afterEach(async () => {
+    await repo.query(`DELETE FROM users`)
+  })
+
+  /**
+   * after all tests are done, delete everything from users table
+   */
   afterAll(async () => {
     const connection = getConnection()
 
