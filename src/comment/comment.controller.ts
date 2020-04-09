@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common'
 
 import { CommentService } from './comment.service'
-import { CommentDTO } from './comment.dto'
+import { CommentDTO } from './dto/comment.dto'
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
 
 @ApiTags('comments')
