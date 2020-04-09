@@ -210,6 +210,40 @@ describe('Post Integration Tests', () => {
       const posts = await postService.findAll()
 
       expect(posts.length).toEqual(2)
+      posts.forEach(post => {
+        expect(post).toHaveProperty('p_uid')
+        expect(post).toHaveProperty('post_title')
+        expect(post).toHaveProperty('post_subtitle')
+        expect(post).toHaveProperty('post_content')
+        expect(post).toHaveProperty('post_created_at')
+        expect(post).toHaveProperty('post_image_bucket_key')
+        expect(post).toHaveProperty('post_author')
+        expect(post).toHaveProperty('p_user_id')
+      })
+    })
+  })
+
+  describe('Find One', () => {
+    it('should be able to retreive a single post from DB', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create first post
+      const newPost = await postService.add(post)
+
+      // get all posts
+      const foundPost = await postService.findOne(newPost.uid)
+
+      expect(foundPost.uid).toEqual(newPost.uid)
+      expect(foundPost).toHaveProperty('user')
+      expect(foundPost).toHaveProperty('comments')
+      expect(foundPost).toHaveProperty('created_at')
     })
   })
 
