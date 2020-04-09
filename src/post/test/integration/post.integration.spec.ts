@@ -73,6 +73,16 @@ let post: Partial<PostDTO> = {
 }
 
 /**
+ * Test Post object 2
+ */
+let post2: Partial<PostDTO> = {
+  title: testTitle,
+  sub_title: testSubTitle,
+  content: testContent,
+  post_image_bucket_key: testPostImageBucketKey,
+}
+
+/**
  * Posts integration tests
  */
 describe('Post Integration Tests', () => {
@@ -173,6 +183,33 @@ describe('Post Integration Tests', () => {
       const deletedPost = await postService.delete(newPost.uid)
 
       expect(deletedPost).toMatchObject({ deleted: true })
+    })
+  })
+
+  describe('Find', () => {
+    it('should be able to retreive several posts from DB', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // assign new user's uid to second post data object
+      post2 = { ...post2, ...{ user_uid: uid } }
+
+      // create first post
+      await postService.add(post)
+
+      // create second post
+      await postService.add(post2)
+
+      // get all posts
+      const posts = await postService.findAll()
+
+      expect(posts.length).toEqual(2)
     })
   })
 
