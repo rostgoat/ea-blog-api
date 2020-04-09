@@ -25,12 +25,12 @@ import { UserService } from './user.service'
  * * DTOs
  */
 import { UserCreateDTO } from './user.create.dto'
+import { UserLoginDTO } from './user.login.dto'
 
 /**
  * * Dependencies
  */
 import * as faker from 'faker'
-import { UserLoginDTO } from './user.login.dto'
 
 /**
  * User Integrations tests
@@ -190,7 +190,7 @@ describe('User Integration Tests', () => {
       }
 
       const foundUser = await service.findByLogin(loginUserDto)
-      console.log('foundUser', foundUser)
+
       expect(foundUser.uid).toEqual(newUser.uid)
     })
   })

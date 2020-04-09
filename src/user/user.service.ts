@@ -73,6 +73,26 @@ export class UserService {
   }
 
   /**
+   * Remove a user related to a user
+   * @param data Object
+   */
+  async delete(uid: string) {
+    // get all posts related to user
+    const posts = await this.postService.findAllByPostID(uid)
+
+    if (posts.length > 0) {
+      // remove all posts related to user
+      await Promise.each(posts, async post => {
+        await this.postService.delete(post.post_id)
+      })
+    }
+
+    // delete user
+    await this.userRepository.delete(uid)
+    return { deleted: true }
+  }
+
+  /**
    * Return all users
    */
   async findAll(): Promise<User[]> {
@@ -87,24 +107,6 @@ export class UserService {
       relations: ['posts'],
       where: { uid },
     })
-  }
-
-  /**
-   * Remove a user related to a user
-   * @param data Object
-   */
-  async delete(uid: string) {
-    // // get all posts related to user
-    // const posts = await this.postService.findAllByPostID(uid);
-
-    // // remove all posts related to user
-    // await Promise.each(posts, async post => {
-    //   await this.postService.delete(post.post_id);
-    // });
-
-    // delete user
-    await this.userRepository.delete(uid)
-    return { deleted: true }
   }
 
   /**
@@ -128,10 +130,17 @@ export class UserService {
     return toUserDto(user)
   }
 
+  /**
+   * Find user by username
+   * @param username String
+   */
   async findByPayload({ username }: UserLoginDTO): Promise<UserDTO> {
     return await this.userRepository.findOne({ where: { username } })
   }
 
+  /**
+   * Return the number of likes from all users on a particular post
+   */
   async usersPostLikes() {
     return await getRepository(User)
       .createQueryBuilder('u')
