@@ -1,13 +1,28 @@
+/**
+ * * Nest Modules
+ */
 import { Test, TestingModule } from '@nestjs/testing'
-import { PostService } from '../../post.service'
-import { Repository } from 'typeorm'
-import { Post } from '../../post.entity'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import * as faker from 'faker'
+import { Repository } from 'typeorm'
+
+/**
+ * * Services
+ */
+import { PostService } from '../../post.service'
 import { UserService } from '../../../user/user.service'
 import { CommentService } from '../../../comment/comment.service'
 import { LikeService } from '../../../like/like.service'
+
+/**
+ * * Entities
+ */
+import { Post } from '../../post.entity'
 import { User } from '../../../user/user.entity'
+
+/**
+ * * Dependencies
+ */
+import * as faker from 'faker'
 
 // test data
 const testPostUid = faker.random.uuid()

@@ -1,3 +1,6 @@
+/**
+ * * Nest Modules
+ */
 import {
   Controller,
   Get,
@@ -10,9 +13,20 @@ import {
   Req,
 } from '@nestjs/common'
 
-import { PostService } from './post.service'
-import { PostDTO } from './dto/post.dto'
+/**
+ * * Swagger
+ */
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
+
+/**
+ * * Services
+ */
+import { PostService } from './post.service'
+
+/**
+ * * DTO
+ */
+import { PostDTO } from './dto/post.dto'
 
 /**
  * Post Controller
