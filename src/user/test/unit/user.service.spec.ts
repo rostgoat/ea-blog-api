@@ -1,19 +1,36 @@
+/**
+ * * Nest Modules
+ */
 import { Test, TestingModule } from '@nestjs/testing'
-import { UserService } from '../../user.service'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { User } from '../../user.entity'
-import { PostService } from '../../../post/post.service'
-import * as faker from 'faker'
-import { LikeService } from '../../../like/like.service'
 import { HttpException, HttpStatus } from '@nestjs/common'
+import { Repository } from 'typeorm'
 
+/**
+ * * Services
+ */
+import { UserService } from '../../user.service'
+import { PostService } from '../../../post/post.service'
+import { LikeService } from '../../../like/like.service'
+
+/**
+ * * Entities
+ */
+import { User } from '../../user.entity'
+
+/**
+ * * Dependencies
+ */
+import * as faker from 'faker'
+
+/**
+ * test user data
+ */
 const testUserUid = faker.random.uuid()
 const testUserUsername1 = faker.internet.userName()
 const testUserEmail1 = faker.internet.email()
 const testUserPassword1 = faker.internet.password()
 const testUserName1 = `${faker.name.firstName()} ${faker.name.lastName()}`
-
 const testUserName2 = `${faker.name.firstName()} ${faker.name.lastName()}`
 
 // user test object

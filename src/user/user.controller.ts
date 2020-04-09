@@ -1,18 +1,21 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-  Res,
-  HttpStatus,
-} from '@nestjs/common'
-import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger'
-import { Response } from 'express'
+/**
+ * * Nest Modules
+ */
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common'
 
+/**
+ * * Swagger
+ */
+import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger'
+
+/**
+ * * Services
+ */
 import { UserService } from './user.service'
+
+/**
+ * * DTOs
+ */
 import { UserDTO } from './dto/user.dto'
 import { UserCreateDTO } from './dto/user.create.dto'
 

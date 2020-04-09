@@ -1,3 +1,6 @@
+/**
+ * * Nest Modules
+ */
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,12 +9,19 @@ import {
   ManyToOne,
   BeforeInsert,
   JoinColumn,
-  OneToOne,
 } from 'typeorm'
+
+/**
+ * * Entities
+ */
 import { User } from '../user/user.entity'
 import { Comment } from '../comment/comment.entity'
-import { v4 as uuid } from 'uuid'
 import { Like } from '../like/like.entity'
+
+/**
+ * * Dependencies
+ */
+import { v4 as uuid } from 'uuid'
 
 /**
  * Post Entity

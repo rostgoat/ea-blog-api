@@ -1,3 +1,6 @@
+/**
+ * * Nest Modules
+ */
 import {
   Injectable,
   Inject,
@@ -7,15 +10,30 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Promise } from 'bluebird'
 import { Repository, getRepository } from 'typeorm'
+
+/**
+ * * Entities
+ */
 import { User } from './user.entity'
 import { UserDTO } from './dto/user.dto'
-import { PostService } from '../post/post.service'
-import { toUserDto } from '../utils/mapper'
 import { UserLoginDTO } from './dto/user.login.dto'
 import { UserCreateDTO } from './dto/user.create.dto'
-import { v4 as uuid } from 'uuid'
+
+/**
+ * * Services
+ */
+import { PostService } from '../post/post.service'
+
+/**
+ * * Utils
+ */
+import { toUserDto } from '../utils/mapper'
+
+/**
+ * * Dependencies
+ */
+import { Promise } from 'bluebird'
 const bcrypt = require('bcrypt')
 
 /**
