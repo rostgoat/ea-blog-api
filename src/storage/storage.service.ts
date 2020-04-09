@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { S3, config } from 'aws-sdk'
 
-let s3
-s3 = new S3({
+let s3 = new S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
@@ -12,6 +11,10 @@ s3 = new S3({
 config.region = process.env.AWS_REGION
 config.setPromisesDependency(require('bluebird').Promise)
 
+/**
+ * AWS S3 service class to manipulate buckets data in the cloud.
+ * Mainly used for storing images related to posts.
+ */
 @Injectable()
 export class StorageService {
   constructor() {}

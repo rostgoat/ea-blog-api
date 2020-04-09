@@ -1,7 +1,5 @@
 # Game Bible API
 
-## Deployment Guide
-
 ### Requirements
 
 #### Build-time & Run-time
