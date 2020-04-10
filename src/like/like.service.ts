@@ -55,7 +55,7 @@ export class LikeService {
 
     // save changes
     const { uid } = await this.likesRepository.save(newLike)
-    console.log('post', post)
+
     // assign like to a post
     post.likes.push(uid)
 

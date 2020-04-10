@@ -162,7 +162,7 @@ export class PostService {
         'title',
         'post_image_bucket_key',
       ],
-      relations: ['comments', 'user'],
+      relations: ['comments', 'user', 'likes'],
       where: {
         uid,
       },

@@ -74,7 +74,7 @@ const user: Partial<UserCreateDTO> = {
  * Test like object
  */
 
-const like: Partial<LikeDTO> = {
+let like: Partial<LikeDTO> = {
   post_liked: testPostLiked,
 }
 
@@ -134,11 +134,46 @@ describe('Like Integration Tests', () => {
       // create post
       const newPost = await postService.add(post)
 
-      //   expect(res).toHaveProperty('user_id')
-      //   expect(res).toMatchObject({ name: testName })
-      //   expect(res).toMatchObject({ email: testEmail })
-      //   expect(res).toMatchObject({ username: testUsername })
-      //   expect(res).toBeTruthy()
+      // assign new user's uid and post's uid to like data object
+      like = { ...like, ...{ user_uid: uid } }
+      like = { ...like, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      const newLike = await likeService.add(like)
+
+      expect(newLike).toHaveProperty('user')
+      expect(newLike.user.uid).toEqual(newUser.uid)
+      expect(newLike.post_liked).toBe(true)
+      expect(newLike).toBeTruthy()
+    })
+
+    it('should be able to like a post and verify that post was liked', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      // assign new user's uid and post's uid to like data object
+      like = { ...like, ...{ user_uid: uid } }
+      like = { ...like, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      const newLike = await likeService.add(like)
+
+      // get post that has been liked
+      const likedPost = await postService.findOne(newPost.uid)
+
+      expect(likedPost.likes.length).toBe(1)
+      expect(likedPost.likes[0].uid).toBe(newLike.uid)
+      expect(likedPost.likes[0].liked_at).toBeTruthy()
+      expect(likedPost.likes[0].post_liked).toBe(true)
     })
   })
 
