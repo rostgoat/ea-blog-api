@@ -1,0 +1,170 @@
+/**
+ * * Nest Modules
+ */
+import { Test } from '@nestjs/testing'
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm'
+import { getConnection, Repository } from 'typeorm'
+
+/**
+ * * Modules
+ */
+import { LikeModule } from '../../like.module'
+import { UserModule } from '../../../user/user.module'
+import { DatabaseModule } from '../../../database/database.module'
+import { PostModule } from '../../../post/post.module'
+
+/**
+ * * Entities
+ */
+import { Like } from '../../like.entity'
+import { User } from '../../../user/user.entity'
+import { Post } from '../../../post/post.entity'
+
+/**
+ * * Services
+ */
+import { LikeService } from '../../like.service'
+import { UserService } from '../../../user/user.service'
+import { PostService } from '../../../post/post.service'
+
+/**
+ * * DTOs
+ */
+import { LikeDTO } from '../../dto/like.dto'
+import { PostDTO } from '../../../post/dto/post.dto'
+import { UserCreateDTO } from '../../../user/dto/user.create.dto'
+
+/**
+ * * Dependencies
+ */
+import * as faker from 'faker'
+
+/**
+ * Test User Data
+ */
+const testUsername = faker.internet.userName()
+const testEmail = faker.internet.email()
+const testUserPassword = faker.internet.password()
+const testName = `${faker.name.firstName()} ${faker.name.lastName()}`
+
+/**
+ * Test Post data
+ */
+const testTitle = faker.lorem.words()
+const testSubTitle = faker.lorem.sentence()
+const testContent = faker.lorem.paragraphs()
+const testPostImageBucketKey = faker.random.uuid()
+
+/**
+ * Test Like Data
+ */
+const testPostLiked = false
+
+/**
+ * Test user object
+ */
+const user: Partial<UserCreateDTO> = {
+  name: testName,
+  email: testEmail,
+  username: testUsername,
+  password: testUserPassword,
+}
+
+/**
+ * Test like object
+ */
+
+const like: Partial<LikeDTO> = {
+  post_liked: testPostLiked,
+}
+
+/**
+ * Test Post object
+ */
+let post: Partial<PostDTO> = {
+  title: testTitle,
+  sub_title: testSubTitle,
+  content: testContent,
+  post_image_bucket_key: testPostImageBucketKey,
+}
+
+/**
+ * Like Integrations tests
+ */
+describe('Like Integration Tests', () => {
+  let userService: UserService
+  let likeService: LikeService
+  let postService: PostService
+  let likeRepo: Repository<Like>
+  let postRepo: Repository<Post>
+  let userRepo: Repository<User>
+
+  beforeAll(async () => {
+    const module = await Test.createTestingModule({
+      imports: [
+        UserModule,
+        PostModule,
+        UserModule,
+        DatabaseModule,
+        TypeOrmModule.forFeature([User, Post, Like]),
+      ],
+      providers: [UserService, PostService, LikeService],
+    }).compile()
+
+    userService = module.get<UserService>(UserService)
+    likeService = module.get<LikeService>(LikeService)
+    postService = module.get<PostService>(PostService)
+
+    likeRepo = module.get<Repository<Like>>(getRepositoryToken(Like))
+    userRepo = module.get<Repository<User>>(getRepositoryToken(User))
+    postRepo = module.get<Repository<Post>>(getRepositoryToken(Post))
+  })
+
+  describe('Add', () => {
+    it('should be able to like a post', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      //   expect(res).toHaveProperty('user_id')
+      //   expect(res).toMatchObject({ name: testName })
+      //   expect(res).toMatchObject({ email: testEmail })
+      //   expect(res).toMatchObject({ username: testUsername })
+      //   expect(res).toBeTruthy()
+    })
+  })
+
+  /**
+   * after each test, delete everything from all tables
+   */
+  afterEach(async () => {
+    await likeRepo.query(`DELETE FROM likes`)
+    await postRepo.query(`DELETE FROM posts`)
+    await userRepo.query(`DELETE FROM users`)
+  })
+
+  /**
+   * after all tests are done, delete everything from all table
+   */
+  afterAll(async () => {
+    const connection = getConnection()
+
+    await connection
+      .createQueryBuilder()
+      .delete()
+      .from(Like)
+      .from(Post)
+      .from(User)
+      .execute()
+
+    await connection.close()
+  })
+})
