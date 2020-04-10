@@ -71,10 +71,28 @@ const user: Partial<UserCreateDTO> = {
 }
 
 /**
+ * Second test user object
+ */
+const user2: Partial<UserCreateDTO> = {
+  name: testName,
+  email: `user2_${testEmail}`,
+  username: `user2_${testUsername}`,
+  password: testUserPassword,
+}
+
+/**
  * Test like object
  */
 
 let like: Partial<LikeDTO> = {
+  post_liked: testPostLiked,
+}
+
+/**
+ * Second Test like object
+ */
+
+let like2: Partial<LikeDTO> = {
   post_liked: testPostLiked,
 }
 
@@ -208,6 +226,106 @@ describe('Like Integration Tests', () => {
       expect(updatedLike.post_liked).toBe(false)
       expect(updatedLike).toBeTruthy()
       expect(updatedPost.likes[0].post_liked).toBe(false)
+    })
+  })
+
+  describe('Find One', () => {
+    it('should be able to get back a like from a post', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      // assign new user's uid and post's uid to like data object
+      like = { ...like, ...{ user_uid: uid } }
+      like = { ...like, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      const newLike = await likeService.add(like)
+
+      // get like
+      const foundLike = await likeService.findOne(newLike.uid)
+
+      expect(foundLike.uid).toEqual(newLike.uid)
+      expect(foundLike).toBeTruthy()
+    })
+  })
+
+  describe('Find', () => {
+    it('should be able to get back like count', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // create second user
+      const newUser2 = await userService.add(user2)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      // assign new user's uid and post's uid to like data object
+      like = { ...like, ...{ user_uid: uid } }
+      like = { ...like, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      await likeService.add(like)
+
+      // assign the second user's uid and post's uid to like data object
+      like2 = { ...like2, ...{ user_uid: newUser2.uid } }
+      like2 = { ...like2, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      await likeService.add(like2)
+
+      const count = await likeService.findLikeCount(newPost.uid)
+
+      expect(count).toBe(2)
+    })
+
+    it('should be able to get back all likes that belong to a post', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // create second user
+      const newUser2 = await userService.add(user2)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      // assign new user's uid and post's uid to like data object
+      like = { ...like, ...{ user_uid: uid } }
+      like = { ...like, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      await likeService.add(like)
+
+      // assign the second user's uid and post's uid to like data object
+      like2 = { ...like2, ...{ user_uid: newUser2.uid } }
+      like2 = { ...like2, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      await likeService.add(like2)
+
+      const allLike = await likeService.findAllPostLikes()
+      console.log('allLike', allLike)
     })
   })
 
