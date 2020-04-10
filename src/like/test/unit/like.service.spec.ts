@@ -1,4 +1,11 @@
+/**
+ * * Nest Modules
+ */
 import { Test, TestingModule } from '@nestjs/testing'
+
+/**
+ * * Services
+ */
 import { LikeService } from '../../like.service'
 
 describe('LikeService', () => {
@@ -10,9 +17,5 @@ describe('LikeService', () => {
     }).compile()
 
     service = module.get<LikeService>(LikeService)
-  })
-
-  it('should be defined', () => {
-    expect(service).toBeDefined()
   })
 })

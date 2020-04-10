@@ -1,11 +1,34 @@
+/**
+ * * Nest Modules
+ */
 import { Injectable, Inject, forwardRef, Logger } from '@nestjs/common'
-import { Like } from './like.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, getRepository } from 'typeorm'
+
+/**
+ * * Entities
+ */
+import { Like } from './like.entity'
+
+/**
+ * * DTOs
+ */
 import { LikeDTO } from './dto/like.dto'
+
+/**
+ * * Dependencies
+ */
 import { Promise } from 'bluebird'
+
+/**
+ * * Services
+ */
 import { PostService } from '../post/post.service'
 import { UserService } from '../user/user.service'
+
+/**
+ * * Utils
+ */
 import { toLikeDto } from '../utils/mapper'
 
 @Injectable()

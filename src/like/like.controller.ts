@@ -1,6 +1,21 @@
+/**
+ * * Nest Modules
+ */
 import { Controller, Body, Post, Put, Get, Req } from '@nestjs/common'
+
+/**
+ * * Swagger
+ */
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
+
+/**
+ * * DTOs
+ */
 import { LikeDTO } from './dto/like.dto'
+
+/**
+ * * Services
+ */
 import { LikeService } from './like.service'
 
 /**
