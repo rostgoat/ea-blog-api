@@ -63,8 +63,8 @@ export class LikeService {
     return toLikeDto(newLike)
   }
 
-  async edit(data: Partial<LikeDTO>): Promise<Like> {
-    const { uid, post_liked } = data
+  async edit(uid: string, data: Partial<LikeDTO>): Promise<Like> {
+    const { post_liked } = data
 
     // check status of like/dislike
     let updatedLikeStatus = !post_liked

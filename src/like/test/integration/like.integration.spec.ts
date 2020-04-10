@@ -177,6 +177,40 @@ describe('Like Integration Tests', () => {
     })
   })
 
+  describe('Edit', () => {
+    it('should be able to unlike a post', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      // assign new user's uid and post's uid to like data object
+      like = { ...like, ...{ user_uid: uid } }
+      like = { ...like, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      const newLike = await likeService.add(like)
+
+      // unlike a post
+      const updatedLike = await likeService.edit(newLike.uid, newLike)
+
+      // get updated post after unliking it
+      const updatedPost = await postService.findOne(newPost.uid)
+
+      expect(updatedLike.uid).toEqual(newLike.uid)
+      expect(updatedLike.post_liked).toBe(false)
+      expect(updatedLike).toBeTruthy()
+      expect(updatedPost.likes[0].post_liked).toBe(false)
+    })
+  })
+
   /**
    * after each test, delete everything from all tables
    */
