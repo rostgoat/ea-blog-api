@@ -21,7 +21,7 @@ export class CommentService {
    * Create a new comment
    * @param data Object
    */
-  async add(data: CommentDTO): Promise<Comment> {
+  async add(data: Partial<CommentDTO>): Promise<Comment> {
     // create object with new comment props
     const newComment = await this.commentRepository.create(data)
     // grab related post and assign to comment object of post
