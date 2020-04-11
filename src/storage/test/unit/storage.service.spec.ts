@@ -11,8 +11,4 @@ describe('StorageService', () => {
 
     service = module.get<StorageService>(StorageService)
   })
-
-  it('should be defined', () => {
-    expect(service).toBeDefined()
-  })
 })

@@ -15,7 +15,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(userDto: UserCreateDTO): Promise<RegistrationStatus> {
+  async register(userDto: Partial<UserCreateDTO>): Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
       success: true,
       message: 'User Registered',
