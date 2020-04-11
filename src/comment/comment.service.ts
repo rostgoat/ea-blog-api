@@ -52,10 +52,11 @@ export class CommentService {
   }
 
   /**
-   *  TODO: get rid of this and pass custom where into regular find
    * Find all comments related to post
    */
-  async findAllByPostID(post_id: string): Promise<Comment[]> {
+  async findAllByPostID(post_uid: string): Promise<Comment[]> {
+    const post = await this.postService.findOne(post_uid)
+    const { post_id } = post
     return await this.commentRepository.find({
       where: { post_id },
     })

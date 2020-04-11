@@ -99,6 +99,13 @@ let comment: Partial<CommentDTO> = {
 }
 
 /**
+ * Test Comment object
+ */
+let comment2: Partial<CommentDTO> = {
+  content: testCommentContent,
+}
+
+/**
  * Posts integration tests
  */
 describe('Post Integration Tests', () => {
@@ -154,6 +161,147 @@ describe('Post Integration Tests', () => {
       expect(newComment).toHaveProperty('comment_id')
       expect(newComment).toMatchObject({ content: testCommentContent })
       expect(newComment).toBeTruthy()
+    })
+  })
+
+  describe('Edit', () => {
+    const newContent = faker.lorem.words()
+    it('should be able to edit a comment on a post', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      comment = { ...comment, ...{ post_uid: newPost.uid } }
+
+      // comment on a post
+      const originalComment = await commentService.add(comment)
+
+      // edit comment
+      const editedComment = await commentService.edit(originalComment.uid, {
+        content: newContent,
+      })
+
+      expect(originalComment.content).not.toBe(editedComment.content)
+      expect(editedComment.content).toBeTruthy()
+    })
+  })
+
+  describe('Delete', () => {
+    it('should be able to delete a comment on a post', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      comment = { ...comment, ...{ post_uid: newPost.uid } }
+
+      // comment on a post
+      const originalComment = await commentService.add(comment)
+
+      // delete comment
+      const deletedComment = await commentService.delete(originalComment.uid)
+
+      expect(deletedComment).toMatchObject({ deleted: true })
+    })
+
+    it('should be able to delete all comments when post is deleted', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      comment = { ...comment, ...{ post_uid: newPost.uid } }
+
+      // comment on a post
+      const originalComment = await commentService.add(comment)
+
+      // delete comment
+      await postService.delete(newPost.uid)
+
+      // find a comment
+      const foundComment = await commentService.findOne(originalComment.uid)
+
+      expect(foundComment).toBeUndefined()
+    })
+  })
+
+  describe('Find', () => {
+    it('should be able to find all comments related to a post', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      comment = { ...comment, ...{ post_uid: newPost.uid } }
+
+      comment2 = { ...comment2, ...{ post_uid: newPost.uid } }
+
+      // comment on a post
+      await commentService.add(comment)
+
+      // comment on a post
+      await commentService.add(comment2)
+
+      // find all comments
+      const allComments = await commentService.findAllByPostID(newPost.uid)
+
+      expect(allComments.length).toBe(2)
+    })
+  })
+
+  describe('Find One', () => {
+    it('should be able to find a specific comment', async () => {
+      // create user
+      const newUser = await userService.add(user)
+
+      // extract uid from new user
+      const { uid } = newUser
+
+      // assign new user's uid to post data object
+      post = { ...post, ...{ user_uid: uid } }
+
+      // create post
+      const newPost = await postService.add(post)
+
+      comment = { ...comment, ...{ post_uid: newPost.uid } }
+
+      // comment on a post
+      const newComment = await commentService.add(comment)
+
+      // find a comment
+      const foundComment = await commentService.findOne(newComment.uid)
+
+      expect(foundComment).toBeTruthy()
+      expect(foundComment.uid).toBe(newComment.uid)
     })
   })
 
