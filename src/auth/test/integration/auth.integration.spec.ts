@@ -27,7 +27,6 @@ import { AuthService } from '../../../auth/auth.service'
  * * DTOs
  */
 import { UserCreateDTO } from '../../../user/dto/user.create.dto'
-import { UserLoginDTO } from '../../../user/dto/user.login.dto'
 
 /**
  * * Dependencies

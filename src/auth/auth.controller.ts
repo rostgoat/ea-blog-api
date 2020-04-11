@@ -1,3 +1,6 @@
+/**
+ * * Nest Modules
+ */
 import {
   Controller,
   Post,
@@ -5,7 +8,15 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common'
+
+/**
+ * * Services
+ */
 import { AuthService } from './auth.service'
+
+/**
+ * * DTOs
+ */
 import { UserCreateDTO } from '../user/dto/user.create.dto'
 import { UserLoginDTO } from '../user/dto/user.login.dto'
 import { LoginStatus } from './dto/login-status.dto'

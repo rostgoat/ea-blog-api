@@ -1,3 +1,6 @@
+/**
+ * * Swagger
+ */
 import { ApiProperty } from '@nestjs/swagger'
 
 /**
