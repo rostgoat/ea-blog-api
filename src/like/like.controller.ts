@@ -58,7 +58,7 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async unlike(@Body() data: LikeDTO) {
     try {
-      return this.likesService.edit(data)
+      return this.likesService.edit(data.uid, data)
     } catch (error) {
       throw new Error(error)
     }
@@ -77,7 +77,7 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async relike(@Body() data: LikeDTO) {
     try {
-      return this.likesService.edit(data)
+      return this.likesService.edit(data.uid, data)
     } catch (error) {
       throw new Error(error)
     }

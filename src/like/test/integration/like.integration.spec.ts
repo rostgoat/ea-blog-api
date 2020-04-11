@@ -107,6 +107,16 @@ let post: Partial<PostDTO> = {
 }
 
 /**
+ * Test Post object
+ */
+let post2: Partial<PostDTO> = {
+  title: testTitle,
+  sub_title: testSubTitle,
+  content: testContent,
+  post_image_bucket_key: testPostImageBucketKey,
+}
+
+/**
  * Like Integrations tests
  */
 describe('Like Integration Tests', () => {
@@ -320,6 +330,26 @@ describe('Like Integration Tests', () => {
       // assign the second user's uid and post's uid to like data object
       like2 = { ...like2, ...{ user_uid: newUser2.uid } }
       like2 = { ...like2, ...{ post_uid: newPost.uid } }
+
+      // like post for the first time
+      await likeService.add(like2)
+
+      // assign new user's uid to post data object
+      post2 = { ...post2, ...{ user_uid: uid } }
+
+      // create another post
+      const newPost2 = await postService.add(post2)
+
+      // assign new user's uid and post's uid to like data object
+      like = { ...like, ...{ user_uid: uid } }
+      like = { ...like, ...{ post_uid: newPost2.uid } }
+
+      // like post for the first time
+      await likeService.add(like)
+
+      // assign the second user's uid and post's uid to like data object
+      like2 = { ...like2, ...{ user_uid: newUser2.uid } }
+      like2 = { ...like2, ...{ post_uid: newPost2.uid } }
 
       // like post for the first time
       await likeService.add(like2)

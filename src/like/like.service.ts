@@ -130,10 +130,10 @@ export class LikeService {
   }
 
   /**
-   * Find all the likes from all the users on a particular post
+   * Find all the likes from all the users for ALL posts
    */
   async findAllPostLikes(): Promise<Number> {
-    const likes = await getRepository(Like)
+    return getRepository(Like)
       .createQueryBuilder('l')
       .select(['l.uid'])
       .addSelect('l.post_liked', 'post_liked')
@@ -142,18 +142,5 @@ export class LikeService {
       .innerJoin('l.post', 'post')
       .innerJoin('l.user', 'user')
       .getRawMany()
-
-    let out = {}
-    console.log('likes', likes)
-    likes.forEach(like => {
-      // there is a problem here - object stores unique keys
-      // if there are 2 likes for the same post than only 1
-      // will get written in because the post_uid is the samew
-      // for both
-      // TODO: STOPPED HERE WITH TESTING AND NEED TO FIX
-      out[like.post_uid] = like
-    })
-
-    return out
   }
 }

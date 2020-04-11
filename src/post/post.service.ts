@@ -123,6 +123,7 @@ export class PostService {
    * Find all posts
    */
   async findAll(): Promise<Post[]> {
+    // get all the posts that currently exists
     let posts = await getRepository(Post)
       .createQueryBuilder('p')
       .distinctOn(['p.uid'])
@@ -136,12 +137,21 @@ export class PostService {
       .innerJoin('p.user', 'u')
       .getRawMany()
 
+    // get all the likes from all posts
     const likes = await this.likeService.findAllPostLikes()
 
+    // loop through all the posts and create a likes array if a post doesnt have one
     posts.forEach(post => {
-      if (likes[post.p_uid]) {
-        post.likes = [likes[post.p_uid]]
-      }
+      if (!post['likes']) post['likes'] = []
+    })
+
+    // if like contains post id, add that like to the post's likes array
+    posts.forEach(post => {
+      likes.forEach(like => {
+        if (like.post_uid === post.p_uid) {
+          post.likes.push(like)
+        }
+      })
     })
 
     return posts
