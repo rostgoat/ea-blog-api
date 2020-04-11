@@ -45,8 +45,4 @@ describe('Comment Controller', () => {
     repo = module.get<Repository<Comment>>(getRepositoryToken(Comment))
     commentController = module.get<CommentController>(CommentController)
   })
-
-  it('should be defined', () => {
-    expect(commentController).toBeDefined()
-  })
 })

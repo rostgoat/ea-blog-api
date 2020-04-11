@@ -29,8 +29,4 @@ describe('CommentService', () => {
     commentService = module.get<CommentService>(CommentService)
     repo = module.get<Repository<Comment>>(getRepositoryToken(Comment))
   })
-
-  it('should be defined', () => {
-    expect(commentService).toBeDefined()
-  })
 })

@@ -11,8 +11,4 @@ describe('Storage Controller', () => {
 
     controller = module.get<StorageController>(StorageController)
   })
-
-  it('should be defined', () => {
-    expect(controller).toBeDefined()
-  })
 })

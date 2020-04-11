@@ -1,6 +1,16 @@
+/**
+ * * Nest Modules
+ */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
-import { UserService } from '../user/user.service'
 import { JwtService } from '@nestjs/jwt'
+/**
+ * * Services
+ */
+import { UserService } from '../user/user.service'
+
+/**
+ * * DTOs
+ */
 import { UserCreateDTO } from '../user/dto/user.create.dto'
 import { UserLoginDTO } from '../user/dto/user.login.dto'
 import { UserDTO } from '../user/dto/user.dto'
@@ -15,7 +25,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(userDto: UserCreateDTO): Promise<RegistrationStatus> {
+  async register(userDto: Partial<UserCreateDTO>): Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
       success: true,
       message: 'User Registered',
