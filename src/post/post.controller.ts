@@ -126,7 +126,6 @@ export class PostController {
   async find() {
     try {
       const posts = await this.postService.findAll()
-      console.log('posts', posts)
       return posts
     } catch (error) {
       throw new Error(error)

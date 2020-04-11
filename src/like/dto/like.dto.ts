@@ -1,4 +1,11 @@
+/**
+ * * Swagger
+ */
 import { ApiProperty } from '@nestjs/swagger'
+
+/**
+ * * Entities
+ */
 import { User } from '../../user/user.entity'
 
 /**

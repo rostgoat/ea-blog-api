@@ -16,7 +16,7 @@ const pgConnection = {
   database: config.database,
   synchronize: true,
   dropSchema: false,
-  logging: true,
+  logging: false,
   entities: ['/src/**/*.entity.ts', 'dist/**/*.entity.js'],
   extra: {
     ssl: true,

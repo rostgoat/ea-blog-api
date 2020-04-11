@@ -1,11 +1,34 @@
+/**
+ * * Nest Modules
+ */
 import { Injectable, Inject, forwardRef, Logger } from '@nestjs/common'
-import { Like } from './like.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, getRepository } from 'typeorm'
+
+/**
+ * * Entities
+ */
+import { Like } from './like.entity'
+
+/**
+ * * DTOs
+ */
 import { LikeDTO } from './dto/like.dto'
+
+/**
+ * * Dependencies
+ */
 import { Promise } from 'bluebird'
+
+/**
+ * * Services
+ */
 import { PostService } from '../post/post.service'
 import { UserService } from '../user/user.service'
+
+/**
+ * * Utils
+ */
 import { toLikeDto } from '../utils/mapper'
 
 @Injectable()
@@ -55,7 +78,7 @@ export class LikeService {
 
     // save changes
     const { uid } = await this.likesRepository.save(newLike)
-    console.log('post', post)
+
     // assign like to a post
     post.likes.push(uid)
 
@@ -63,8 +86,8 @@ export class LikeService {
     return toLikeDto(newLike)
   }
 
-  async edit(data: Partial<LikeDTO>): Promise<Like> {
-    const { uid, post_liked } = data
+  async edit(uid: string, data: Partial<LikeDTO>): Promise<Like> {
+    const { post_liked } = data
 
     // check status of like/dislike
     let updatedLikeStatus = !post_liked
@@ -106,8 +129,11 @@ export class LikeService {
       .getCount()
   }
 
-  async findAllPostLikes(): Promise<Number> {
-    const likes = await getRepository(Like)
+  /**
+   * Find all the likes from all the users for ALL posts
+   */
+  async findAll(): Promise<Number> {
+    return getRepository(Like)
       .createQueryBuilder('l')
       .select(['l.uid'])
       .addSelect('l.post_liked', 'post_liked')
@@ -116,13 +142,5 @@ export class LikeService {
       .innerJoin('l.post', 'post')
       .innerJoin('l.user', 'user')
       .getRawMany()
-
-    let out = {}
-
-    likes.forEach(like => {
-      out[like.post_uid] = like
-    })
-
-    return out
   }
 }

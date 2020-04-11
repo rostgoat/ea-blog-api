@@ -27,6 +27,7 @@
     "docker:start": "docker run -it ea-blog",
     "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog",
     "drop-db:local": "psql -U rm -d postgres -p 5432 -f sql/drop_create_db.sql",
+    "drop-db:test": "psql -U rm -d postgres -p 5432 -f sql/drop_create_db_test.sql",
     "db:diagram": "typeorm-uml ormconfig.js"
   },
   "dependencies": {

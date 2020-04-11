@@ -1,6 +1,21 @@
+/**
+ * * Nest Modules
+ */
 import { Controller, Body, Post, Put, Get, Req } from '@nestjs/common'
+
+/**
+ * * Swagger
+ */
 import { ApiTags, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger'
+
+/**
+ * * DTOs
+ */
 import { LikeDTO } from './dto/like.dto'
+
+/**
+ * * Services
+ */
 import { LikeService } from './like.service'
 
 /**
@@ -43,7 +58,7 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async unlike(@Body() data: LikeDTO) {
     try {
-      return this.likesService.edit(data)
+      return this.likesService.edit(data.uid, data)
     } catch (error) {
       throw new Error(error)
     }
@@ -62,7 +77,7 @@ export class LikeController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async relike(@Body() data: LikeDTO) {
     try {
-      return this.likesService.edit(data)
+      return this.likesService.edit(data.uid, data)
     } catch (error) {
       throw new Error(error)
     }
@@ -97,9 +112,9 @@ export class LikeController {
     type: [LikeDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findAllPostLikes() {
+  async findAll() {
     try {
-      return this.likesService.findAllPostLikes()
+      return this.likesService.findAll()
     } catch (error) {
       throw new Error(error)
     }

@@ -1,4 +1,11 @@
+/**
+ * * Nest Modules
+ */
 import { Test, TestingModule } from '@nestjs/testing'
+
+/**
+ * * Controllers
+ */
 import { LikeController } from '../../like.controller'
 
 describe('Like Controller', () => {
@@ -10,9 +17,5 @@ describe('Like Controller', () => {
     }).compile()
 
     controller = module.get<LikeController>(LikeController)
-  })
-
-  it('should be defined', () => {
-    expect(controller).toBeDefined()
   })
 })
