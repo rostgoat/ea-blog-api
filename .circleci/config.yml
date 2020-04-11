@@ -3,8 +3,14 @@ orbs:
   node: circleci/node@1.1.6
 jobs:
   build-and-test:
-    executor:
-      name: node/default
+    docker:
+      - image: node:13.10.1
+      - image: postgres:12.2
+        environment:
+          POSTGRES_USER: rm
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: ea_games_blog_test
+
     steps:
       - checkout
       - node/with-cache:
@@ -12,6 +18,6 @@ jobs:
             - run: npm install
             - run: npm test
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+  build-and-test:
+    jobs:
+      - build-and-test
