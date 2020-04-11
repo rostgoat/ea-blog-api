@@ -21,7 +21,7 @@ export class CommentService {
    * Create a new comment
    * @param data Object
    */
-  async add(data: CommentDTO): Promise<Comment> {
+  async add(data: Partial<CommentDTO>): Promise<Comment> {
     // create object with new comment props
     const newComment = await this.commentRepository.create(data)
     // grab related post and assign to comment object of post
@@ -52,10 +52,11 @@ export class CommentService {
   }
 
   /**
-   *  TODO: get rid of this and pass custom where into regular find
    * Find all comments related to post
    */
-  async findAllByPostID(post_id: string): Promise<Comment[]> {
+  async findAllByPostID(post_uid: string): Promise<Comment[]> {
+    const post = await this.postService.findOne(post_uid)
+    const { post_id } = post
     return await this.commentRepository.find({
       where: { post_id },
     })

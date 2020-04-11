@@ -77,7 +77,6 @@ export class CommentController {
   }
 
   /**
-   * TODO: get rid of this and pass custom where into regular find
    * Get all comments related to a post
    */
   @Get()
@@ -87,9 +86,9 @@ export class CommentController {
     type: [CommentDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findAllByPost(@Param('uid') post_id: string, @Response() res: any) {
+  async findAllByPost(@Param('uid') post_uid: string, @Response() res: any) {
     try {
-      return this.commentService.findAllByPostID(post_id)
+      return this.commentService.findAllByPostID(post_uid)
     } catch (error) {
       throw new Error(error)
     }
