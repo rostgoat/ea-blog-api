@@ -132,7 +132,7 @@ export class LikeService {
   /**
    * Find all the likes from all the users for ALL posts
    */
-  async findAllPostLikes(): Promise<Number> {
+  async findAll(): Promise<Number> {
     return getRepository(Like)
       .createQueryBuilder('l')
       .select(['l.uid'])

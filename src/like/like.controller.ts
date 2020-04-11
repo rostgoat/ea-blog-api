@@ -112,9 +112,9 @@ export class LikeController {
     type: [LikeDTO],
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findAllPostLikes() {
+  async findAll() {
     try {
-      return this.likesService.findAllPostLikes()
+      return this.likesService.findAll()
     } catch (error) {
       throw new Error(error)
     }

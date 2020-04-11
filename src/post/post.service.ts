@@ -138,7 +138,7 @@ export class PostService {
       .getRawMany()
 
     // get all the likes from all posts
-    const likes = await this.likeService.findAllPostLikes()
+    const likes = await this.likeService.findAll()
 
     // loop through all the posts and create a likes array if a post doesnt have one
     posts.forEach(post => {

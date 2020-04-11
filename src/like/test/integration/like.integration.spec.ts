@@ -354,8 +354,9 @@ describe('Like Integration Tests', () => {
       // like post for the first time
       await likeService.add(like2)
 
-      const allLike = await likeService.findAllPostLikes()
-      console.log('allLike', allLike)
+      // get all likes back
+      const allLike = await likeService.findAll()
+      expect(allLike.length).toBe(4)
     })
   })
 
