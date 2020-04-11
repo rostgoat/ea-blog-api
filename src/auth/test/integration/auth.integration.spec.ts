@@ -80,27 +80,45 @@ describe('Auth Integration Tests', () => {
     it('should be able to register user and return success message', async () => {
       // register new user
       const regStatus = await authService.register(user)
-      console.log('regStatus', regStatus)
 
       expect(regStatus).toMatchObject({ success: true })
       expect(regStatus).toMatchObject({ message: 'User Registered' })
       expect(regStatus).toBeTruthy()
     })
+  })
 
-    it('should be able return error message if something is wrong during registration', async () => {
-      // register new user
-      const faultyUser: Partial<UserCreateDTO> = {
-        // name: testName,
-        // email: 'bademail',
-        // username: testUsername,
-        // password: testUserPassword,
-      }
-      const regStatus = await authService.register(faultyUser)
-      console.log('regStatus', regStatus)
+  describe('Login', () => {
+    it('should be able to login with registered user and return token', async () => {
+      // create new user
+      const createdUser = await userService.add(user)
 
-      expect(regStatus).toMatchObject({ success: true })
-      expect(regStatus).toMatchObject({ message: 'User Registered' })
-      expect(regStatus).toBeTruthy()
+      // assign password to call login function
+      const data = { ...createdUser, ...{ password: testUserPassword } }
+
+      // login with creds
+      const loginStatus = await authService.login(data)
+
+      expect(loginStatus).toHaveProperty('accessToken')
+      expect(loginStatus).toHaveProperty('expiresIn')
+      expect(loginStatus).toBeTruthy()
+    })
+
+    it('should be able to validate logged in user to have token and expiresIn', async () => {
+      // create new user
+      const createdUser = await userService.add(user)
+
+      // assign password to call login function
+      const data = { ...createdUser, ...{ password: testUserPassword } }
+
+      // login with creds
+      await authService.login(data)
+
+      // verify that user has logged in and has access token
+      const validatedUser = await authService.validateUser(data)
+
+      expect(validatedUser).toHaveProperty('uid')
+      expect(validatedUser).toMatchObject({ uid: createdUser.uid })
+      expect(validatedUser).toBeTruthy()
     })
   })
 
