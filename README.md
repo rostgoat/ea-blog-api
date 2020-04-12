@@ -32,8 +32,8 @@ Before the application can be run locally, a working version of PostgreSQL must 
 
 After you have installed PostgreSQL, run the following commands in the pg terminal:
 
-1. `CREATE database IF NOT EXISTS ea_games_blog`
-2. `\c ea_games_blog`
+1. `CREATE database IF NOT EXISTS gamebible_dev`
+2. `\c gamebible_dev`
 3. `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 4. `CREATE EXTENSION "pgcrypto";`
 
