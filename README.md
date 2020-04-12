@@ -1,4 +1,7 @@
-# Game Bible API
+<p align="center">
+  <a href="https://game-bible.herokuapp.com/" target="blank"><img src="https://raw.githubusercontent.com/rostgoat/ea-blog-api/master/logo_gb.png?raw=true" width="120" alt="Game Bible Logo" /></a>
+</p>
+<img  />
 
 ### Requirements
 
