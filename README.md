@@ -1,5 +1,5 @@
 
-<p align="center"><img width=60% src="logo_gb.png"></p>
+<p align="center"><img width=60% src="gamebible_logo.png"></p>
 
 <p align="center">
 <a href="https://img.shields.io/circleci/build/github/rostgoat/ea-blog-api/master" target="_blank"><img src="https://img.shields.io/circleci/build/github/rostgoat/ea-blog-api/master" alt="circleci"/></a>
