@@ -62,9 +62,9 @@ let tempPost = {
 }
 
 // must provide all associated classes as mocks
-class UserServiceMock extends UserService {}
-class CommentServiceMock extends CommentService {}
-class LikeServiceMock extends LikeService {}
+class UserServiceMock extends UserService { }
+class CommentServiceMock extends CommentService { }
+class LikeServiceMock extends LikeService { }
 
 describe('PostService', () => {
   let postService: PostService
@@ -127,7 +127,7 @@ describe('PostService', () => {
       expect(tempPost).toEqual(testPost)
       expect(postRepo.save).toBeCalledTimes(1)
     })
-    it('should throw an error if a post is created with wrong user', async () => {})
+    it('should throw an error if a post is created with wrong user', async () => { })
   })
 
   describe('findOne', () => {
@@ -135,7 +135,7 @@ describe('PostService', () => {
       const repoSpy = jest.spyOn(postRepo, 'findOne')
       expect(postService.findOne(tempPost.uid)).resolves.toEqual(testPost)
       expect(repoSpy).toBeCalledWith({
-        relations: ['comments', 'user'],
+        relations: ['comments', 'user', 'likes'],
         select: [
           'post_id',
           'uid',

@@ -1,4 +1,6 @@
-drop database ea_games_blog_test; 
-create database ea_games_blog_test; 
-\c ea_games_blog_test; 
+drop database gamebible_test;
+create database gamebible_test;
+\c gamebible_test;
+CREATE EXTENSION
+IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION "pgcrypto";
