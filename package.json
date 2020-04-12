@@ -28,7 +28,8 @@
     "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog",
     "drop-db:local": "psql -U rm -d postgres -p 5432 -f sql/drop_create_db.sql",
     "drop-db:test": "psql -U rm -d postgres -p 5432 -f sql/drop_create_db_test.sql",
-    "db:diagram": "typeorm-uml ormconfig.js"
+    "db:diagram": "typeorm-uml ormconfig.js",
+    "ci:test": "NODE_ENV=test jest --ci --runInBand --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "@nestjs/cli": "^6.13.2",
