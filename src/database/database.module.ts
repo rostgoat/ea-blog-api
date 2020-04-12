@@ -20,9 +20,6 @@ import { ConfigService } from '../config/config.service'
       dropSchema: false,
       synchronize: !(process.env.NODE_ENV.trim() === 'production'),
       logging: false,
-      extra: {
-        ssl: true,
-      },
     }),
   ],
 })
