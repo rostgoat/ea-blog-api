@@ -18,8 +18,9 @@
     "deploy": "git push heroku master",
     "postinstall": "tsc",
     "test": "jest",
-    "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
+    "test:watch": "jest --watch --runInBand --detectOpenHandles --forceExit",
+    "test:ci": "NODE_ENV=test jest --ci --runInBand --detectOpenHandles --forceExit",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -27,9 +28,8 @@
     "docker:start": "docker run -it ea-blog",
     "docker:start-expose": "docker run -it -d -p 3000:3000 ea-blog",
     "drop-db:local": "psql -U rm -d postgres -p 5432 -f sql/drop_create_db.sql",
-    "drop-db:test": "psql -U rm -d postgres -p 5432 -f sql/drop_create_db_test.sql",
-    "db:diagram": "typeorm-uml ormconfig.js",
-    "ci:test": "NODE_ENV=test jest --ci --runInBand --detectOpenHandles --forceExit"
+    "drop-db:test": "psql -U rostmyshkin -d postgres -p 5432 -f sql/drop_create_db_test.sql",
+    "db:diagram": "typeorm-uml ormconfig.js"
   },
   "dependencies": {
     "@nestjs/cli": "^6.13.2",
