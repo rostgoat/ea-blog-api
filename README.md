@@ -1,13 +1,12 @@
+
+<p align="center"><img width=60% src="logo_gb.png"></p>
+
 <p align="center">
-  <a href="https://game-bible.herokuapp.com/" target="blank"><img src="https://raw.githubusercontent.com/rostgoat/ea-blog-api/master/logo_gb.png?sanitize=true&raw=true" width="120" alt="Game Bible Logo" /></a>
+<a href="https://img.shields.io/circleci/build/github/rostgoat/ea-blog-api/master" target="_blank"><img src="https://img.shields.io/circleci/build/github/rostgoat/ea-blog-api/master" alt="circleci"/></a>
+<a href="https://img.shields.io/npm/v/npm" target="_blank"><img src="https://img.shields.io/npm/v/npm" alt="npm"/></a>
+<a href="https://img.shields.io/badge/license-MIT-blue.svg" target="_blank"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="npm"/></a>
 </p>
-<p align="center"><img width=60% src="https://github.com/rostgoat/ea-blog-api/blob/master/media/logo_gb.png"></p>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-![CircleCI](https://img.shields.io/circleci/build/github/rostgoat/ea-blog-api/master)
-![npm](https://img.shields.io/npm/v/npm)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 
 # Overview
@@ -57,19 +56,19 @@ To run all tests:
 
 Swagger is the main engine behind our documentation. To view the docs:
 
-#### Launch Node Server
+### Launch Node Server
 
  `npm start`
 
-#### View All
+### View All
 
 `http://localhost:3000/api`
 
-#### View Specific Model
+### View Specific Model
 
 You can view methods individually by appending a parameter to the end url
 
-#### View Users Model
+### View Users Model
 
 `http://localhost:3000/api/users`
 
