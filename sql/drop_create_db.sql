@@ -1,4 +1,4 @@
-drop database ea_games_blog; 
-create database ea_games_blog; 
-\c ea_games_blog; 
+drop database gamebible_dev;
+create database gamebible_dev;
+\c gamebible_dev;
 CREATE EXTENSION "pgcrypto";
