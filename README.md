@@ -26,6 +26,24 @@ Node v13.10.1
 npm 6.14.3
 ```
 
+### Environment Variables
+
+The following environment variables need to be set in you `.rc` file:
+
+```
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=gamebible_dev
+DATABASE_USERNAME=rm
+DATABASE_PASSWORD=root
+
+SECRETKEY=somereallylongtoken
+EXPIRESIN=1d
+```
+
+The above is my `.zshrc` file. The `username` and `password` variables corralate to the postgres user I created locally in my database.
+
+
 ### Database setup
 
 Before the application can be run locally, a working version of PostgreSQL must be installed on your OS.
