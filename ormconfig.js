@@ -3,7 +3,6 @@ const env = require('dotenv')
 env.config()
 
 const config = parse(process.env.DATABASE_URL)
-console.log()
 /**
  * Postgres connection settings
  */
