@@ -781,10 +781,10 @@
       G,
       q,
       B = V,
-      K = function(t) {
+      Y = function(t) {
         return B({ url: '/auth/login', method: 'post', data: t })
       },
-      Y = function(t) {
+      K = function(t) {
         return B({ url: '/auth/register', method: 'post', data: t })
       },
       Z = n('a78e'),
@@ -862,7 +862,7 @@
                       while (1)
                         switch ((t.prev = t.next)) {
                           case 0:
-                            return (t.next = 2), Y(e)
+                            return (t.next = 2), K(e)
                           case 2:
                           case 'end':
                             return t.stop()
@@ -887,7 +887,7 @@
                         while (1)
                           switch ((t.prev = t.next)) {
                             case 0:
-                              return (t.next = 2), K(e)
+                              return (t.next = 2), Y(e)
                             case 2:
                               ;(n = t.sent),
                                 'undefined' !== typeof n &&
@@ -1169,8 +1169,8 @@
       Gt,
       qt,
       Bt,
-      Kt,
-      Yt = n('45eb'),
+      Yt,
+      Kt = n('45eb'),
       Zt = n('8c4f'),
       Jt = function() {
         var t = this,
@@ -1518,7 +1518,7 @@
               })(),
             },
             {
-              key: (Kt = pt),
+              key: (Yt = pt),
               value: (function() {
                 var t = Object(r['a'])(
                   regeneratorRuntime.mark(function t(e) {
@@ -1578,7 +1578,7 @@
       Object(d['a'])(
         [Object(h['a'])({ rawError: !0 })],
         ce.prototype,
-        Kt,
+        Yt,
         null,
       ),
       (ce = Object(d['a'])(
@@ -1796,31 +1796,45 @@
                         while (1)
                           switch ((t.prev = t.next)) {
                             case 0:
+                              if (this.loggedInUser.uid) {
+                                t.next = 2
+                                break
+                              }
+                              return t.abrupt(
+                                'return',
+                                Object(w['Message'])({
+                                  message:
+                                    'You need to be logged in to like this post!',
+                                  type: 'error',
+                                  duration: 5e3,
+                                }),
+                              )
+                            case 2:
                               if (de['has'](this.post, 'likes')) {
-                                t.next = 3
+                                t.next = 5
                                 break
                               }
                               return (
-                                (t.next = 3),
+                                (t.next = 5),
                                 ue.CREATE_LIKES({ post_uid: this.post.p_uid })
                               )
-                            case 3:
+                            case 5:
                               if (0 !== this.post.likes.length) {
-                                t.next = 8
+                                t.next = 10
                                 break
                               }
                               return (
-                                (t.next = 6),
+                                (t.next = 8),
                                 this.postLikeAction('like', {
                                   post_uid: this.post.p_uid,
                                 })
                               )
-                            case 6:
-                              t.next = 26
-                              break
                             case 8:
+                              t.next = 28
+                              break
+                            case 10:
                               if (!(this.post.likes.length > 0)) {
-                                t.next = 26
+                                t.next = 28
                                 break
                               }
                               if (
@@ -1841,39 +1855,39 @@
                                 })),
                                 !e)
                               ) {
-                                t.next = 18
+                                t.next = 20
                                 break
                               }
                               return (
                                 (a = { post_uid: this.post.p_uid }),
-                                (t.next = 16),
+                                (t.next = 18),
                                 this.postLikeAction('like', a)
                               )
-                            case 16:
-                              t.next = 26
-                              break
                             case 18:
+                              t.next = 28
+                              break
+                            case 20:
                               if (!(n.length > 0)) {
-                                t.next = 23
+                                t.next = 25
                                 break
                               }
                               return (
-                                (t.next = 21),
+                                (t.next = 23),
                                 this.postLikeAction('unlike', n[0])
                               )
-                            case 21:
-                              t.next = 26
-                              break
                             case 23:
+                              t.next = 28
+                              break
+                            case 25:
                               if (!(r.length > 0)) {
-                                t.next = 26
+                                t.next = 28
                                 break
                               }
                               return (
-                                (t.next = 26),
+                                (t.next = 28),
                                 this.postLikeAction('relike', r[0])
                               )
-                            case 26:
+                            case 28:
                             case 'end':
                               return t.stop()
                           }
@@ -2360,8 +2374,8 @@
       (Ge = Object(d['a'])([gt['a']], Ge))
     var qe = Ge,
       Be = qe,
-      Ke = (n('206d'), n('ce7e')),
-      Ye = n('4bd4'),
+      Ye = (n('206d'), n('ce7e')),
+      Ke = n('4bd4'),
       Ze = n('8654'),
       Je = Object(_t['a'])(Be, Ve, Me, !1, null, null, null),
       He = Je.exports
@@ -2372,8 +2386,8 @@
       VCardActions: we['a'],
       VCardText: we['c'],
       VCardTitle: we['d'],
-      VDivider: Ke['a'],
-      VForm: Ye['a'],
+      VDivider: Ye['a'],
+      VForm: Ke['a'],
       VSpacer: Ft['a'],
       VTextField: Ze['a'],
     })
@@ -2797,8 +2811,8 @@
       VCardActions: we['a'],
       VCardText: we['c'],
       VCardTitle: we['d'],
-      VDivider: Ke['a'],
-      VForm: Ye['a'],
+      VDivider: Ye['a'],
+      VForm: Ke['a'],
       VSpacer: Ft['a'],
       VTextField: Ze['a'],
     })
@@ -3250,7 +3264,7 @@
       VCardActions: we['a'],
       VCardText: we['c'],
       VCardTitle: we['d'],
-      VForm: Ye['a'],
+      VForm: Ke['a'],
       VSpacer: Ft['a'],
       VTextField: Ze['a'],
       VTextarea: Ln['a'],
@@ -3503,7 +3517,7 @@
       VContainer: ye['a'],
       VImg: Rt['a'],
     })
-    var Kn = [
+    var Yn = [
         { path: '/', name: 'Home', component: Fe },
         { path: '/login', name: 'login', component: He },
         { path: '/register', name: 'register', component: wn },
@@ -3520,13 +3534,13 @@
           meta: { requiresAuth: !0 },
         },
       ],
-      Yn = (function(t) {
+      Kn = (function(t) {
         function e() {
           return (
             Object(o['a'])(this, e),
             Object(u['a'])(
               this,
-              Object(l['a'])(e).call(this, { mode: 'history', routes: Kn }),
+              Object(l['a'])(e).call(this, { mode: 'history', routes: Yn }),
             )
           )
         }
@@ -3568,7 +3582,7 @@
               key: 'push',
               value: function(t) {
                 try {
-                  return Object(Yt['a'])(
+                  return Object(Kt['a'])(
                     Object(l['a'])(e.prototype),
                     'push',
                     this,
@@ -3582,7 +3596,7 @@
               key: 'replace',
               value: function(t) {
                 try {
-                  return Object(Yt['a'])(
+                  return Object(Kt['a'])(
                     Object(l['a'])(e.prototype),
                     'replace',
                     this,
@@ -3617,14 +3631,14 @@
               while (1)
                 switch ((t.prev = t.next)) {
                   case 0:
-                    ;(e = new Yn().initialize()),
+                    ;(e = new Kn().initialize()),
                       (n = 'https://game-bible.herokuapp.com'),
                       (r = tr()(n)),
                       (a['default'].config.productionTip = !1),
                       a['default'].use(Qn['a'], r),
                       a['default'].use(y.a),
                       a['default'].use(Wn.a),
-                      a['default'].use(Yn),
+                      a['default'].use(Kn),
                       a['default'].use(L),
                       new a['default']({
                         sockets: {
@@ -3673,4 +3687,4 @@
   f83f: function(t, e, n) {},
   f8c2: function(t, e, n) {},
 })
-//# sourceMappingURL=app.c84b8320.js.map
+//# sourceMappingURL=app.0d3d0e33.js.map
