@@ -1,0 +1,10 @@
+import { UserDTO } from '../user/dto/user.dto';
+import { User } from '../user/user.entity';
+import { Post } from '../post/post.entity';
+import { PostDTO } from '../post/dto/post.dto';
+import { Like } from '../like/like.entity';
+import { LikeDTO } from '../like/dto/like.dto';
+export declare const toUserDto: (data: User) => Partial<UserDTO>;
+export declare const toPostDto: (data: Post) => Partial<PostDTO>;
+export declare const toLikeDto: (data: Like) => Partial<LikeDTO>;
+export declare const toDTO: (type: string, data: any) => Partial<UserDTO> | Partial<PostDTO> | Partial<LikeDTO>;

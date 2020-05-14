@@ -981,7 +981,7 @@
             name: 'users',
             store: v,
             dynamic: !0,
-            preserveState: !0,
+            preserveState: null !== localStorage.getItem('users'),
           }),
         ],
         mt,
@@ -3673,4 +3673,4 @@
   f83f: function(t, e, n) {},
   f8c2: function(t, e, n) {},
 })
-//# sourceMappingURL=app.79ff2ca9.js.map
+//# sourceMappingURL=app.c84b8320.js.map

@@ -59,7 +59,7 @@ const user2: Partial<UserCreateDTO> = {
   username: `user2_${testUsername}`,
   password: testUserPassword,
 }
-
+console.log('process.env', process.env)
 /**
  * User Integrations tests
  */

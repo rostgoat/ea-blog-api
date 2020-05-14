@@ -1,0 +1,1 @@
+{"version":3,"file":"registration-status.dto.js","sourceRoot":"","sources":["../../../src/auth/dto/registration-status.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAGA,6CAA6C;AAK7C,MAAa,kBAAkB;;;;CAY9B;AAPC;IAJC,qBAAW,CAAC;QACX,WAAW,EAAE,qBAAqB;QAClC,IAAI,EAAE,OAAO;KACd,CAAC;;mDACc;AAMhB;IAJC,qBAAW,CAAC;QACX,WAAW,EAAE,oCAAoC;QACjD,IAAI,EAAE,MAAM;KACb,CAAC;;mDACa;AAXjB,gDAYC"}
