@@ -3527,12 +3527,7 @@
           component: Vn,
           meta: { requiresAuth: !0 },
         },
-        {
-          path: '/view/:id',
-          name: 'view-post',
-          component: Bn,
-          meta: { requiresAuth: !0 },
-        },
+        { path: '/view/:id', name: 'view-post', component: Bn },
       ],
       Kn = (function(t) {
         function e() {
@@ -3687,4 +3682,4 @@
   f83f: function(t, e, n) {},
   f8c2: function(t, e, n) {},
 })
-//# sourceMappingURL=app.07fb70f8.js.map
+//# sourceMappingURL=app.8722ccfe.js.map
