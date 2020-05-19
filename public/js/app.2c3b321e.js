@@ -2883,6 +2883,7 @@
                         }),
                         n(
                           'v-card-actions',
+                          { staticClass: 'create-post-card__buttons' },
                           [
                             n(
                               'v-btn',
@@ -3682,4 +3683,4 @@
   f83f: function(t, e, n) {},
   f8c2: function(t, e, n) {},
 })
-//# sourceMappingURL=app.8722ccfe.js.map
+//# sourceMappingURL=app.2c3b321e.js.map
