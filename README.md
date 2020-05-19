@@ -48,6 +48,15 @@ The above is my `.zshrc` file. The `username` and `password` variables corralate
 
 Before the application can be run locally, a working version of PostgreSQL must be installed on your OS.
 
+Creating a user in PostgreSQL just like the one I have:
+
+```
+CREATE ROLE rm WITH PASSWORD 'root';
+ALTER ROLE rm WITH LOGIN;
+ALTER ROLE rm WITH CREATEDB;
+ALTER ROLE rm WITH SUPERUSER;
+```
+
 After you have installed PostgreSQL, run the following commands in the pg terminal:
 
 1. `CREATE database IF NOT EXISTS gamebible_dev`

@@ -18,9 +18,9 @@ const pgConnection = {
   dropSchema: false,
   logging: false,
   entities: ['/src/**/*.entity.ts', 'dist/**/*.entity.js'],
-  extra: {
-    ssl: true,
-  },
+  // extra: {
+  //   ssl: true,
+  // },
 }
 
 module.exports = pgConnection
